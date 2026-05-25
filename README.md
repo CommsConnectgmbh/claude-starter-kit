@@ -1,30 +1,55 @@
 # claude-starter-kit
 
+A working day-one setup for [Claude Code](https://docs.claude.com/en/docs/claude-code) — two real production agents, one decision-making skill, a sanitizer that scans your `~/.claude/` for the things you'd accidentally leak, and the docs to put it together.
+
 **If you've ever thought about publishing your `~/.claude/` folder, then opened it again and shut your laptop — this is what you should ship instead.**
 
-A small, honest, working setup for [Claude Code](https://docs.claude.com/en/docs/claude-code). Two real production agents. One decision-making skill. A sanitizer that flags what you'd accidentally leak. And five docs explaining the mental model.
+```
+              you ask Claude something
+                       │
+                       ▼
+            ┌──────────────────────┐
+            │     CLAUDE.md        │  project rules · conventions · don'ts
+            └──────────┬───────────┘
+                       │
+            ┌──────────▼───────────┐
+            │    auto-memory       │  who you are · preferences · context
+            │     (MEMORY.md)      │  → persists across conversations
+            └──────────┬───────────┘
+                       │
+            ┌──────────▼───────────┐
+            │       skills         │  reusable workflows · /council · /verify
+            │   (~/.claude/skills) │  → run inline in this turn
+            └──────────┬───────────┘
+                       │
+            ┌──────────▼───────────┐
+            │       agents         │  domain experts · legal-de · tax-de
+            │   (~/.claude/agents) │  → isolated context, return one report
+            └──────────────────────┘
 
-No emojis. No "awesome list" bloat. No client names. Nothing you'd be sued for shipping.
+      this kit ships one of each + the docs to wire them up
+```
 
-[![CI](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/lint.yml/badge.svg)](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/lint.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
----
+[![Release](https://img.shields.io/github/v/release/CommsConnectgmbh/claude-starter-kit)](https://github.com/CommsConnectgmbh/claude-starter-kit/releases)
+[![No emojis](https://img.shields.io/badge/emojis-zero-black.svg)](#)
 
 ## What you get
 
-```
-claude-starter-kit/
-├── skills/council/         # 5-role decision skill ("ship feature or not?")
-├── agents/legal-de.md      # German legal research agent (BGB/DSGVO/UWG/...)
-├── agents/tax-de.md        # German tax research agent (EStG/UStG/KStG/...)
-├── templates/CLAUDE.md     # Project-level CLAUDE.md skeleton
-├── templates/memory/       # Worked example of the auto-memory pattern
-├── scripts/sanitize-…      # Scans your ~/.claude/ and flags personal strings
-└── docs/                   # 5 docs: setup, memory, skills-vs-agents, naming, …
-```
+- **Two production agents** — German legal (`legal-de`) and German tax (`tax-de`), with mandatory source citation, statutory disclaimers (§ 2 RDG / § 2 StBerG), and a hard rule to refuse anything that needs a licensed professional. Survive sanitization without losing value.
+- **One decision skill** — `/council`, five roles (Visionär, Kritiker, Kreativer, Skeptiker, Logiker) that must disagree somewhere, then pick a side. No "it depends".
+- **A sanitizer script** — scans your own `~/.claude/` and flags API keys, personal paths, emails, and any company codenames you add. Caught seven files in the maintainer's own setup that would have shipped without it.
+- **A CLAUDE.md skeleton** — drop into any project, fill the blanks, stop re-explaining your stack every conversation.
+- **A worked memory example** — what `MEMORY.md` actually looks like when you use the auto-memory feature properly, plus what NOT to save.
+- **Five docs** — setup, memory system, skills-vs-agents, recommended third-party skills, naming conventions. 20-minute read.
 
-19 files. ~1300 lines. Read in 20 minutes. Install in 60 seconds.
+## What you provide
+
+- A [Claude Code](https://docs.claude.com/en/docs/claude-code) install.
+- A `~/.claude/` folder (created on first run if it doesn't exist).
+- Two minutes to diff the settings before overwriting yours.
+
+That's it. No subscriptions, no signups, no telemetry. MIT, no strings.
 
 ## 60-second install
 
