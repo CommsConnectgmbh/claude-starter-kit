@@ -1,68 +1,52 @@
-# Getting started
+# Das mentale Modell
 
-If you've never used Claude Code before, do the official setup first: <https://docs.claude.com/en/docs/claude-code>.
+Bevor du tiefer einsteigst, lerne diese 4 Begriffe. Anfänger verwechseln sie ständig.
 
-This doc assumes Claude Code is installed and you've successfully run `claude` in a terminal at least once.
-
-## The mental model
-
-Claude Code has four ways to extend or steer its behavior. Newcomers conflate them constantly. Get this straight first:
-
-| Layer | What it does | Where it lives | When to use |
+| Begriff | Wo es lebt | Was es macht | Wann es greift |
 |---|---|---|---|
-| **CLAUDE.md** | Project-specific instructions Claude reads every turn | Project root | Coding conventions, gotchas, "don't do X" rules |
-| **Memory** | Cross-session facts about you, your projects, your preferences | `~/.claude/projects/.../memory/` | Things that should persist across conversations |
-| **Skills** | Self-contained capability bundles you (or Claude) can invoke | `~/.claude/skills/<name>/SKILL.md` | Reusable workflows: decision-making, design audits, deploy scripts |
-| **Agents** | Specialized sub-Claudes with their own tool access + system prompt | `~/.claude/agents/<name>.md` | Domain experts: legal, tax, code review, security |
+| **CLAUDE.md** | Im Wurzelverzeichnis deines Projekts | Projekt-spezifische Regeln (Stack, Konventionen, "mach nicht X") | Jeder Turn — Claude liest die Datei automatisch |
+| **Auto-Memory** | `~/.claude/projects/.../memory/` | Sachen die zwischen Conversations bestehen sollen (wer du bist, deine Präferenzen) | Claude schreibt + liest automatisch |
+| **Skills** | `~/.claude/skills/<name>/SKILL.md` | Wiederverwendbare Workflows (`/council`, `/verify`, etc.) | Wenn du den Slash-Command tippst oder wenn die Description matched |
+| **Agents** | `~/.claude/agents/<name>.md` | Spezialisierte Sub-Claudes mit eigenem System-Prompt und eigener Tool-Auswahl | Wenn die Description zur Frage passt — Claude delegiert |
 
-Settings (`~/.claude/settings.json`) configure the runtime itself — permissions, theme, plugins, voice — not behavior.
+Plus eine fünfte Sache:
 
-## Day-1 install
+| Begriff | Wo es lebt | Was es macht |
+|---|---|---|
+| **settings.json** | `~/.claude/settings.json` | Konfiguriert die Runtime (Theme, Permission-Mode, Plugins) — nicht das Verhalten |
 
-```bash
-# Clone this repo somewhere
-git clone https://github.com/<your-handle>/claude-starter-kit.git ~/code/claude-starter-kit
-cd ~/code/claude-starter-kit
+## Was wann benutzen
 
-# 1. Settings (diff first, this overwrites)
-diff ~/.claude/settings.json settings.example.json
-# If you're happy with the diff:
-cp settings.example.json ~/.claude/settings.json
+**Du arbeitest neu an einem Projekt** → schreib eine `CLAUDE.md`. Schon nach 5 Minuten Pflege spart sie dir später Stunden.
 
-# 2. Install the council skill (decision-making)
-mkdir -p ~/.claude/skills/council
-cp skills/council/SKILL.md ~/.claude/skills/council/
+**Du erklärst Claude was über dich** → das landet automatisch in Memory. Du musst nichts manuell tun. Wenn du was korrigieren willst: einfach sagen "vergiss X", "X war falsch, richtig ist Y".
 
-# 3. Install the German legal + tax agents (skip if you don't need German law)
-mkdir -p ~/.claude/agents
-cp agents/legal-de.md agents/tax-de.md ~/.claude/agents/
+**Du machst regelmäßig dieselbe Art Aufgabe** → das ist ein Skill-Kandidat. Beispiel: jedes Mal wenn du eine PR review willst, machst du dieselben 4 Schritte. Schreib ein `code-review` Skill.
 
-# 4. Drop a CLAUDE.md skeleton into your first project
-cp templates/CLAUDE.example.md /path/to/your/project/CLAUDE.md
-# Then edit it to fit the project
-```
+**Du brauchst einen Experten für ein Fachgebiet** → das ist ein Agent. Beispiel: Steuerrecht-Recherche braucht andere Tools (WebFetch ja, Bash nein) und einen ganz anderen System-Prompt (Quellenpflicht, Disclaimer). Das gehört nicht in den Haupt-Claude rein.
 
-## Day-2: turn on auto-memory
+## Was NICHT memory ist
 
-Auto-memory is the single biggest lever for making Claude Code feel like it knows you.
+Memory ist nicht für:
+- Code-Konventionen — die gehören in `CLAUDE.md`
+- Bug-Fix-Rezepte — der Fix ist im Code, der Commit-Message hat den Kontext
+- Aktuelle Aufgaben — die sind ephemer
+- Sachen die aus `git log` ablesbar sind
 
-1. Read `docs/02-memory-system.md`.
-2. Copy `templates/memory/` into your project's memory folder (Claude tells you the path the first time it writes a memory).
-3. Start a conversation. Tell Claude a few things about yourself — your role, what you're working on, two or three preferences. Watch the memory files appear.
+Wenn dein Memory-Ordner mit Müll volläuft, hast du wahrscheinlich Sachen drin die in `CLAUDE.md` gehören.
 
-## Day-3: install third-party skills
+## Permission-Modi (settings.json)
 
-Don't reinvent. The community has high-quality skills already.
+| Mode | Was es macht | Wann benutzen |
+|---|---|---|
+| `default` | Fragt bei jedem Shell-Befehl | Anfang — bis du Claude vertraust |
+| `acceptEdits` | Auto-allow für Datei-Edits, fragt bei Shell | Wenn du in einem Repo arbeitest und schnell iterieren willst |
+| `plan` | Read-only, keine Änderungen | Wenn du nur planen oder lesen willst |
+| `bypassPermissions` | Alles auto-allow | Nur in einem Wegwerf-Env oder wenn du wirklich weißt was du tust |
 
-Read `docs/04-recommended-third-party.md` for a curated list. Most install with one git clone + symlink.
+Standard im `settings.example.json` dieses Repos ist `default`. Sicher für den Start.
 
-## What to read next
+## Was als nächstes lesen
 
-- `docs/02-memory-system.md` — how to use auto-memory without polluting it
-- `docs/03-skills-vs-agents.md` — when to write a skill vs an agent
-- `docs/04-recommended-third-party.md` — what to install from elsewhere
-- `docs/05-naming-conventions.md` — naming patterns for memory entries
-
-## When to ask vs do
-
-If you're using `defaultMode: "default"` in settings, Claude asks before every shell command. That's annoying but safe. Once you trust the setup, switch to `acceptEdits` (auto-allow file edits, still asks for shell). `bypassPermissions` is convenient but means Claude can do anything — only use it in a throwaway environment or if you really trust your CLAUDE.md.
+- [`02-memory-system.md`](02-memory-system.md) — Wie Memory wirklich funktioniert, was reinkommen soll und was nicht
+- [`03-skills-vs-agents.md`](03-skills-vs-agents.md) — Die 2-Minuten-Faustregel wann was

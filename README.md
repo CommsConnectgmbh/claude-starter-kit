@@ -1,77 +1,70 @@
 # claude-starter-kit
 
-**Drei Sachen installieren. Fertig. Du hast ein gutes Claude-Code-Setup.**
+**Du hast gerade [Claude Code](https://docs.claude.com/en/docs/claude-code) installiert. Was jetzt?**
 
-Du brauchst: [Claude Code](https://docs.claude.com/en/docs/claude-code) installiert, ein Terminal.
+Mach diese drei Sachen und du hast ein gutes Setup. Zehn Minuten.
+
+---
+
+## 1. Eine CLAUDE.md in dein Projekt legen
+
+`CLAUDE.md` ist eine kleine Datei im Wurzelverzeichnis deines Projekts. Claude liest sie bei jeder Anfrage automatisch. Da rein gehört: was das Projekt ist, welche Befehle es gibt (`npm run dev`, `pytest`, etc.), und was Claude NICHT tun soll.
 
 ```bash
 git clone https://github.com/CommsConnectgmbh/claude-starter-kit.git
-cd claude-starter-kit
+cd dein-projekt
+cp ../claude-starter-kit/templates/CLAUDE.example.md CLAUDE.md
 ```
+
+Dann öffne `CLAUDE.md` und fülle die Lücken (5 Minuten). Spar dir das in Zukunft, in jeder Conversation zu wiederholen.
 
 ---
 
-## 1. Das Entscheidungs-Skill installieren
+## 2. Den Council-Skill installieren
 
-Lass Claude bei strategischen Entscheidungen **5 Perspektiven** durchspielen (Visionär, Kritiker, Kreativer, Skeptiker, Logiker) — und am Ende eine klare Empfehlung geben statt "es kommt drauf an".
+Wenn du eine Entscheidung treffen musst (sollte ich Feature X bauen? Plan A oder B?), bekommst du normal vage "es kommt darauf an"-Antworten.
+
+Mit dem Council-Skill spielt Claude 5 Perspektiven durch (Visionär, Kritiker, Kreativer, Skeptiker, Logiker), benennt wo sie sich widersprechen, und gibt dir am Ende eine klare Empfehlung. Kein Rumdrucksen.
 
 ```bash
 mkdir -p ~/.claude/skills/council
-cp skills/council/SKILL.md ~/.claude/skills/council/
+cp claude-starter-kit/skills/council/SKILL.md ~/.claude/skills/council/
 ```
 
-Benutzung: tippe in Claude Code `/council Soll ich Feature X bauen?`
+Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?`
 
 ---
 
-## 2. Die deutschen Recht- und Steuer-Agenten installieren
+## 3. Auto-Memory verstehen (5 Min lesen, kein Install)
 
-Zwei Recherche-Agenten mit Pflicht-Quellenzitaten (BGB / DSGVO / UWG / EStG / UStG / KStG …) und vorgeschriebenem Disclaimer (§ 2 RDG / § 2 StBerG). Sie schreiben keine Verträge und füllen keine Steuererklärungen aus — sie recherchieren, du gehst zum RA/StB.
+Claude Code merkt sich automatisch Sachen über dich zwischen Conversations — wer du bist, wie du arbeitest, was deine Projekte sind. Das ist die unterschätzte Killer-Funktion.
 
-```bash
-mkdir -p ~/.claude/agents
-cp agents/legal-de.md agents/tax-de.md ~/.claude/agents/
-```
-
-**Skip diesen Schritt** wenn du kein deutsches Recht / Steuern brauchst.
-
-Benutzung: frag einfach was zu DSGVO oder Lohnsteuer — Claude erkennt das Thema und holt sich automatisch den passenden Agenten.
-
----
-
-## 3. Die CLAUDE.md-Vorlage in dein Projekt legen
-
-Jedes Projekt sollte eine `CLAUDE.md` im Root haben — kurze Regeln die Claude bei jedem Turn ließt (Tech-Stack, Konventionen, "mach NICHT X"). Sonst erklärst du das in jeder Conversation neu.
-
-```bash
-cp templates/CLAUDE.example.md /pfad/zu/deinem/projekt/CLAUDE.md
-# dann öffnen und mit deinen Sachen ausfüllen (5 Minuten)
-```
+Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner nächsten Conversation einfach Claude sagen: "Ich bin <Rolle>, arbeite hauptsächlich an <Projekt>, bevorzuge <Stil>." Es legt das automatisch ab und benutzt es ab dann immer.
 
 ---
 
 **Das war's. Du bist startklar.**
 
-Tipp: Erste Conversation in einem neuen Projekt — sag Claude wer du bist, was du machst, wie du arbeiten willst. Es speichert das in `~/.claude/projects/.../memory/` und weiß es ab dann immer. Das ist die unterschätzteste Feature von Claude Code.
-
 ---
 
-## Optional, wenn du tiefer willst
+## Was noch im Repo liegt (optional)
 
-| Was | Wo |
+| Was | Wofür |
 |---|---|
-| Erklärung was Skills / Agents / Memory / CLAUDE.md unterscheidet | [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) |
-| Wie Auto-Memory funktioniert und was du NICHT speichern sollst | [`docs/02-memory-system.md`](docs/02-memory-system.md) |
-| Naming-Konventionen für eigene Skills/Agents/Memory | [`docs/05-naming-conventions.md`](docs/05-naming-conventions.md) |
-| Welche fremden Skills es lohnt zu installieren (obra, Anthropic) | [`docs/04-recommended-third-party.md`](docs/04-recommended-third-party.md) |
-| Beispiel: `/council` in echtem Einsatz | [`examples/council-publish-decision.md`](examples/council-publish-decision.md) |
-| Du willst dein eigenes `~/.claude/` veröffentlichen? Erst diesen Sanitizer drüberlaufen lassen | [`scripts/sanitize-dotclaude.sh`](scripts/sanitize-dotclaude.sh) |
-| Warum dieses Repo überhaupt existiert | [`STORY.md`](STORY.md) |
+| [`docs/01-getting-started.md`](docs/01-getting-started.md) | Das mentale Modell hinter Claude Code (Settings vs CLAUDE.md vs Memory vs Skills vs Agents) |
+| [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | Wann Skills, wann Agents — die häufigste Verwechslung |
+| [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
+| [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
+| [`install.sh`](install.sh) | Interaktiver Installer der alles oben auf einmal macht |
+
+Wenn du die deutschen Agents installieren willst:
+```bash
+mkdir -p ~/.claude/agents
+cp agents/legal-de.md agents/tax-de.md ~/.claude/agents/
+```
 
 ---
 
 ## Lizenz
 
-MIT. Mach damit was du willst. Pull-Requests willkommen.
-
-Wenn dir das Setup eine Stunde gespart hat, gib dem Repo einen Stern.
+MIT. Mach damit was du willst. Bug oder Verbesserung? Issue oder PR.
