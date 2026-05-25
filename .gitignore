@@ -1,0 +1,30 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Local configuration
+*.local
+*.local.json
+.env
+.env.*
+!.env.example
+
+# Personal sanitizer overrides — never commit these
+sanitize-dotclaude.local.sh
+COMPANY_PATTERNS.local
+patterns.local
+
+# Test outputs
+*.scan.txt
+sanitize-output.txt
+
+# Backup files
+*.bak
+*.orig
+
+# Internal build report (not part of the public release)
+REPORT.md

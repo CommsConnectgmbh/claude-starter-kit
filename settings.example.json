@@ -1,0 +1,19 @@
+{
+  "_comment": "Global Claude Code settings. Lives at ~/.claude/settings.json. Keep this lean. Per-machine overrides go in ~/.claude/settings.local.json (gitignored).",
+
+  "permissions": {
+    "_comment_mode": "Options: 'default' (ask every time), 'acceptEdits' (auto-allow file edits), 'plan' (read-only), 'bypassPermissions' (auto-allow everything — convenient but risky outside a trusted environment)",
+    "defaultMode": "default"
+  },
+
+  "theme": "dark",
+
+  "_comment_voice": "Remove this block if you don't use the voice feature.",
+  "voice": {
+    "enabled": false,
+    "mode": "hold"
+  },
+
+  "_comment_plugins": "Enable Anthropic-published plugins by name. See https://docs.claude.com/en/docs/claude-code/plugins for the current list.",
+  "enabledPlugins": {}
+}
