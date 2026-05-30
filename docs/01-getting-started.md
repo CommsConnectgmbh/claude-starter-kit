@@ -50,3 +50,4 @@ Standard im `settings.example.json` dieses Repos ist `default`. Sicher für den 
 
 - [`02-memory-system.md`](02-memory-system.md) — Wie Memory wirklich funktioniert, was reinkommen soll und was nicht
 - [`03-skills-vs-agents.md`](03-skills-vs-agents.md) — Die 2-Minuten-Faustregel wann was
+- [`04-the-daily-loop.md`](04-the-daily-loop.md) — Der tägliche Arbeits-Loop: explore → plan → code → commit, Kontext-Disziplin, Verifizierung

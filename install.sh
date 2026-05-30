@@ -66,5 +66,6 @@ fi
 
 head "Manual steps"
 say "  → Drop templates/CLAUDE.example.md into your project root as CLAUDE.md."
+say "  → Read docs/04-the-daily-loop.md — how to actually drive Claude through a task."
 say "  → Read docs/02-memory-system.md to understand auto-memory."
 say "  → Star the repo if it helped: https://github.com/CommsConnectgmbh/claude-starter-kit"

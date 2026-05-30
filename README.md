@@ -52,6 +52,7 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | Was | Wofür |
 |---|---|
 | [`docs/01-getting-started.md`](docs/01-getting-started.md) | Das mentale Modell hinter Claude Code (Settings vs CLAUDE.md vs Memory vs Skills vs Agents) |
+| [`docs/04-the-daily-loop.md`](docs/04-the-daily-loop.md) | **Wie du Claude durch echte Aufgaben fährst** — explore → plan → code → commit, Kontext-Disziplin, Verifizierung, Session-Übergabe |
 | [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | Wann Skills, wann Agents — die häufigste Verwechslung |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
