@@ -1,71 +1,117 @@
 #!/usr/bin/env bash
 #
-# install.sh — installs the council skill and (optionally) the German legal+tax agents.
+# install.sh — one command to install the core starter kit:
+#   skills: council, scrape, skillify, canary
+#   agents: legal-de, tax-de   (German legal/tax research — opt-out)
+#   settings.json template     (only if you don't have one yet)
 #
 # Run from inside a clone of this repo:
-#   ./install.sh
+#   ./install.sh                 # interactive — diffs before overwriting
+#   ./install.sh --yes           # non-interactive — installs everything, auto-overwrites
+#   ./install.sh --with-pro      # also run pro/skills/install-pro-skills.sh
+#   ./install.sh --no-agents     # skip the German legal/tax agents
 #
-# Nothing is overwritten without showing you a diff first. Nothing in your
-# ~/.claude/ is touched without an explicit y/n prompt.
+# Nothing in your ~/.claude/ is overwritten without a diff (unless --yes).
 
 set -euo pipefail
 
 CLAUDE_DIR="${CLAUDE_DIR:-$HOME/.claude}"
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+ASSUME_YES=""; WITH_PRO=""; NO_AGENTS=""
+for arg in "$@"; do
+  case "$arg" in
+    --yes|-y)    ASSUME_YES=1 ;;
+    --with-pro)  WITH_PRO=1 ;;
+    --no-agents) NO_AGENTS=1 ;;
+  esac
+done
+
 if [[ -t 1 ]]; then
-  GREEN=$'\033[0;32m'; CYAN=$'\033[0;36m'; BOLD=$'\033[1m'; RESET=$'\033[0m'
+  GREEN=$'\033[0;32m'; CYAN=$'\033[0;36m'; YELLOW=$'\033[0;33m'; BOLD=$'\033[1m'; RESET=$'\033[0m'
 else
-  GREEN=""; CYAN=""; BOLD=""; RESET=""
+  GREEN=""; CYAN=""; YELLOW=""; BOLD=""; RESET=""
 fi
 
 say()  { printf "%s\n" "$*"; }
-head() { printf "\n%s%s%s\n" "$BOLD" "$*" "$RESET"; }
+sec()  { printf "\n%s%s%s\n" "$BOLD" "$*" "$RESET"; }
 ok()   { printf "  %s✓%s %s\n" "$GREEN" "$RESET" "$*"; }
-ask()  { printf "%s?%s %s [y/N] " "$CYAN" "$RESET" "$*"; read -r r; [[ "$r" =~ ^[Yy]$ ]]; }
+warn() { printf "  %s!%s %s\n" "$YELLOW" "$RESET" "$*"; }
+ask()  { [[ "$ASSUME_YES" == "1" ]] && return 0; printf "%s?%s %s [y/N] " "$CYAN" "$RESET" "$*"; read -r r; [[ "$r" =~ ^[Yy]$ ]]; }
 
-[[ -d "$CLAUDE_DIR" ]] || mkdir -p "$CLAUDE_DIR"
+mkdir -p "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents"
 
-head "1. Council skill (universal — recommended)"
-say "  Adds /council — 5-perspective decision helper."
-if ask "  Install?"; then
-  mkdir -p "$CLAUDE_DIR/skills/council"
-  if [[ -f "$CLAUDE_DIR/skills/council/SKILL.md" ]]; then
-    diff "$CLAUDE_DIR/skills/council/SKILL.md" "$SRC_DIR/skills/council/SKILL.md" || true
-    ask "  Overwrite existing?" || { say "  Skipped."; SKIP_COUNCIL=1; }
+# install_skill <name> — copies skills/<name>/SKILL.md (+ sibling assets) into ~/.claude
+install_skill() {
+  local name="$1"
+  local src="$SRC_DIR/skills/$name/SKILL.md"
+  local dst_dir="$CLAUDE_DIR/skills/$name"
+  local dst="$dst_dir/SKILL.md"
+  [[ -f "$src" ]] || { warn "Skill '$name' missing from repo — skipping."; return; }
+  if [[ -f "$dst" ]]; then
+    if diff -q "$dst" "$src" >/dev/null 2>&1; then ok "$name already up-to-date."; return; fi
+    say "  Diff for $name:"; diff -u "$dst" "$src" || true
+    ask "  Overwrite $name?" || { warn "Skipped $name."; return; }
   fi
-  if [[ -z "${SKIP_COUNCIL:-}" ]]; then
-    cp "$SRC_DIR/skills/council/SKILL.md" "$CLAUDE_DIR/skills/council/"
-    ok "Installed. Try: /council Should I ship feature X?"
-  fi
-fi
-
-head "2. German legal + tax research agents (only if you need them)"
-say "  Adds legal-de + tax-de agents. Mandatory source citation, statutory disclaimers."
-say "  Skip this if you don't work with German law."
-if ask "  Install?"; then
-  mkdir -p "$CLAUDE_DIR/agents"
-  for a in legal-de tax-de; do
-    if [[ -f "$CLAUDE_DIR/agents/$a.md" ]]; then
-      diff "$CLAUDE_DIR/agents/$a.md" "$SRC_DIR/agents/$a.md" || true
-      ask "  Overwrite $a.md?" || continue
-    fi
-    cp "$SRC_DIR/agents/$a.md" "$CLAUDE_DIR/agents/"
-    ok "Installed agent: $a"
+  mkdir -p "$dst_dir"
+  cp "$src" "$dst"
+  for asset in "$SRC_DIR/skills/$name"/*; do
+    [[ -f "$asset" ]] || continue
+    [[ "$(basename "$asset")" == "SKILL.md" ]] && continue
+    cp "$asset" "$dst_dir/"
   done
+  ok "Installed skill: $name"
+}
+
+install_agent() {
+  local name="$1"
+  local src="$SRC_DIR/agents/$name.md" dst="$CLAUDE_DIR/agents/$name.md"
+  [[ -f "$src" ]] || { warn "Agent '$name' missing from repo — skipping."; return; }
+  if [[ -f "$dst" ]]; then
+    if diff -q "$dst" "$src" >/dev/null 2>&1; then ok "$name already up-to-date."; return; fi
+    say "  Diff for $name:"; diff -u "$dst" "$src" || true
+    ask "  Overwrite $name?" || { warn "Skipped $name."; return; }
+  fi
+  cp "$src" "$dst"
+  ok "Installed agent: $name"
+}
+
+sec "Core skills"
+say "  council  — 5-perspective decision helper"
+say "  scrape   — read-only web data → clean JSON"
+say "  skillify — codify a successful scrape into a reusable script"
+say "  canary   — post-deploy monitoring (alerts on what changed vs a baseline)"
+for s in council scrape skillify canary; do install_skill "$s"; done
+
+if [[ -z "$NO_AGENTS" ]]; then
+  sec "German legal + tax research agents (--no-agents to skip)"
+  say "  legal-de + tax-de — mandatory source citation, statutory disclaimers."
+  if [[ "$ASSUME_YES" == "1" ]] || ask "  Install these?"; then
+    for a in legal-de tax-de; do install_agent "$a"; done
+  fi
 fi
 
-head "3. settings.json template (only if you don't have one yet)"
+sec "settings.json template (only if you don't have one yet)"
 if [[ -f "$CLAUDE_DIR/settings.json" ]]; then
   say "  You already have a settings.json. Not touching it. Diff against template:"
   diff "$CLAUDE_DIR/settings.json" "$SRC_DIR/settings.example.json" || true
-elif ask "  Install fresh settings.json from template?"; then
+elif [[ "$ASSUME_YES" == "1" ]] || ask "  Install fresh settings.json from template?"; then
   cp "$SRC_DIR/settings.example.json" "$CLAUDE_DIR/settings.json"
   ok "Installed settings.json with defaultMode = 'default' (safe choice)."
 fi
 
-head "Manual steps"
+if [[ -n "$WITH_PRO" ]]; then
+  sec "Pro skill layer"
+  if [[ "$ASSUME_YES" == "1" ]]; then
+    bash "$SRC_DIR/pro/skills/install-pro-skills.sh" --yes
+  else
+    bash "$SRC_DIR/pro/skills/install-pro-skills.sh"
+  fi
+fi
+
+sec "Manual steps"
 say "  → Drop templates/CLAUDE.example.md into your project root as CLAUDE.md."
 say "  → Read docs/04-the-daily-loop.md — how to actually drive Claude through a task."
 say "  → Read docs/02-memory-system.md to understand auto-memory."
+say "  → Optional Pro layer (autoplan, spec + obra skills): ./install.sh --with-pro"
 say "  → Star the repo if it helped: https://github.com/CommsConnectgmbh/claude-starter-kit"

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS launchd template for claude-dreaming.
+
+  Replace the four __PLACEHOLDER__ tokens before installing:
+    __DREAMING_DIR__   absolute path to pro/dreaming inside your starter-kit clone
+    __MEMORY_DIR__     absolute path to your auto-memory folder
+    __HOME__           your $HOME (e.g. /Users/yourname)
+    __PATH__           shell PATH that includes `node` and `claude`
+                       (typically /opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin)
+
+  Install:
+    cp de.user.claude-dreaming.plist.template ~/Library/LaunchAgents/de.user.claude-dreaming.plist
+    # edit the four placeholders
+    launchctl load ~/Library/LaunchAgents/de.user.claude-dreaming.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>de.user.claude-dreaming</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>__DREAMING_DIR__/run-nightly.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__DREAMING_DIR__</string>
+
+    <!-- Run at 03:00 every night -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key><integer>3</integer>
+        <key>Minute</key><integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>__DREAMING_DIR__/scheduler_logs/launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>__DREAMING_DIR__/scheduler_logs/launchd.err.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>__PATH__</string>
+        <key>HOME</key>
+        <string>__HOME__</string>
+        <key>MEMORY_DIR</key>
+        <string>__MEMORY_DIR__</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

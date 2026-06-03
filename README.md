@@ -20,18 +20,27 @@ Dann öffne `CLAUDE.md` und fülle die Lücken (5 Minuten). Spar dir das in Zuku
 
 ---
 
-## 2. Den Council-Skill installieren
-
-Wenn du eine Entscheidung treffen musst (sollte ich Feature X bauen? Plan A oder B?), bekommst du normal vage "es kommt darauf an"-Antworten.
-
-Mit dem Council-Skill spielt Claude 5 Perspektiven durch (Visionär, Kritiker, Kreativer, Skeptiker, Logiker), benennt wo sie sich widersprechen, und gibt dir am Ende eine klare Empfehlung. Kein Rumdrucksen.
+## 2. Die Core-Skills installieren (ein Befehl)
 
 ```bash
-mkdir -p ~/.claude/skills/council
-cp claude-starter-kit/skills/council/SKILL.md ~/.claude/skills/council/
+cd claude-starter-kit
+./install.sh            # interaktiv — zeigt Diffs bevor was überschrieben wird
+# oder komplett ohne Rückfragen:
+./install.sh --yes
 ```
 
+Das installiert vier Skills + (auf Wunsch) die deutschen Recht/Steuer-Agents + ein sicheres `settings.json`-Template. Frische Maschine? Läuft sofort durch, nichts zu überschreiben.
+
+| Skill | Wofür |
+|---|---|
+| `council` | Entscheidung anstehend (Feature X bauen? Plan A oder B?)? Claude spielt 5 Perspektiven durch (Visionär, Kritiker, Kreativer, Skeptiker, Logiker), benennt die Widersprüche, gibt eine klare Empfehlung. Kein Rumdrucksen. |
+| `scrape` | Read-only Daten von einer Webseite als sauberes JSON ziehen. |
+| `skillify` | Einen erfolgreichen `/scrape` als wiederverwendbares Skript ablegen — beim nächsten Mal instant. |
+| `canary` | Nach dem Deploy die Live-URL überwachen und nur bei echten Regressionen alarmieren (relativ zur Baseline, nicht absolut). |
+
 Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?`
+
+> Brauchst du nur einzelne? `cp skills/<name>/SKILL.md ~/.claude/skills/<name>/` reicht.
 
 ---
 
@@ -56,13 +65,33 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | Wann Skills, wann Agents — die häufigste Verwechslung |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
-| [`install.sh`](install.sh) | Interaktiver Installer der alles oben auf einmal macht |
+| [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`) |
+| [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: `autoplan`, `spec` (gebundelt) + 5 obra-Skills (geklont) |
 
-Wenn du die deutschen Agents installieren willst:
+Wenn du die deutschen Agents einzeln installieren willst:
 ```bash
 mkdir -p ~/.claude/agents
 cp agents/legal-de.md agents/tax-de.md ~/.claude/agents/
 ```
+
+---
+
+## Pro-Layer (optional)
+
+Schwerere Workflow-Skills, opt-in:
+
+```bash
+./install.sh --with-pro      # Core + Pro in einem
+# oder nur Pro:
+cd pro/skills && ./install-pro-skills.sh
+```
+
+- **Gebundelt** (gstack, MIT): `autoplan` (Plan durch Multi-Lens-Review jagen), `spec` (vage Idee → ausführbare Spec).
+- **Geklont** (obra/superpowers, MIT): `when-stuck`, `root-cause-tracing`, `inversion-exercise`, `dispatching-parallel-agents`, `subagent-driven-development`.
+
+`autoplan`/`spec` rufen optionale Companion-Skills (Frontend-Design, ein unabhängiger Reviewer) — fehlen die, wird die Phase sauber übersprungen. Details: [`pro/skills/README.md`](pro/skills/README.md).
+
+Außerdem im Pro-Layer: [`pro/dreaming/`](pro/dreaming/) — ein nächtlicher Memory-Curator, der deine Auto-Memory dedupliziert, veraltete Einträge findet und den Index synchron hält (launchd/cron-Template inklusive).
 
 ---
 
