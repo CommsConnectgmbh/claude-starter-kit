@@ -1,0 +1,15 @@
+{
+  "name": "self-heal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Synthetic user + fix-agent loop for self-healing apps (claude-starter-kit pro module).",
+  "scripts": {
+    "test": "node synthetic/run.mjs",
+    "fix": "node agent/fix.mjs",
+    "nightly": "bash nightly.sh"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

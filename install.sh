@@ -114,4 +114,6 @@ say "  → Drop templates/CLAUDE.example.md into your project root as CLAUDE.md.
 say "  → Read docs/04-the-daily-loop.md — how to actually drive Claude through a task."
 say "  → Read docs/02-memory-system.md to understand auto-memory."
 say "  → Optional Pro layer (autoplan, spec + obra skills): ./install.sh --with-pro"
+say "  → Self-healing apps (synthetic user + fix-agent): see pro/self-heal/README.md + docs/05."
+say "  → Let Claude file work in Linear (issue tracker): see docs/06-linear-issues.md."
 say "  → Star the repo if it helped: https://github.com/CommsConnectgmbh/claude-starter-kit"

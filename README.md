@@ -63,10 +63,13 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | [`docs/01-getting-started.md`](docs/01-getting-started.md) | Das mentale Modell hinter Claude Code (Settings vs CLAUDE.md vs Memory vs Skills vs Agents) |
 | [`docs/04-the-daily-loop.md`](docs/04-the-daily-loop.md) | **Wie du Claude durch echte Aufgaben fährst** — explore → plan → code → commit, Kontext-Disziplin, Verifizierung, Session-Übergabe |
 | [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | Wann Skills, wann Agents — die häufigste Verwechslung |
+| [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md) | **Apps, die sich aus ihrer Nutzung selbst reparieren** — synthetischer Nutzer + Fix-Agent, nächtlich, mit harten Sicherheits-Leitplanken |
+| [`docs/06-linear-issues.md`](docs/06-linear-issues.md) | **Claude an einen Issue-Tracker (Linear) hängen** — Funde sicher ablegen statt unbeaufsichtigt fixen; das Gating-Pattern |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
 | [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`) |
 | [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: `autoplan`, `spec` (gebundelt) + 5 obra-Skills (geklont) |
+| [`pro/self-heal/`](pro/self-heal/) | **Lauffähiges Self-Healing**: synthetischer Playwright-Nutzer + Fix-PR-Agent + launchd/cron-Template |
 
 Wenn du die deutschen Agents einzeln installieren willst:
 ```bash
@@ -92,6 +95,41 @@ cd pro/skills && ./install-pro-skills.sh
 `autoplan`/`spec` rufen optionale Companion-Skills (Frontend-Design, ein unabhängiger Reviewer) — fehlen die, wird die Phase sauber übersprungen. Details: [`pro/skills/README.md`](pro/skills/README.md).
 
 Außerdem im Pro-Layer: [`pro/dreaming/`](pro/dreaming/) — ein nächtlicher Memory-Curator, der deine Auto-Memory dedupliziert, veraltete Einträge findet und den Index synchron hält (launchd/cron-Template inklusive).
+
+---
+
+## Self-Healing: Apps, die sich aus ihrer Nutzung reparieren (optional)
+
+Ein nächtlicher Loop, der echte Bugs in deinen Apps findet und Fix-PRs aufmacht — **ohne dass ein einziger echter Nutzer nötig ist**, und mit Leitplanken, die verhindern, dass etwas unbeaufsichtigt live geht.
+
+```
+  synthetischer Nutzer   →   Fehler-Erfassung      →   Fix-Agent
+  (klickt Happy-Paths)       (Monitor + run.mjs)       (Claude Code → PR)
+```
+
+- **Bau keinen schlechteren Sentry.** Für echten Traffic: einen echten Error-Monitor einbinden.
+- **Der eigentliche Hebel ist der synthetische Nutzer** — Playwright klickt jede Nacht die Hauptflows durch, fängt Console-/Page-Errors, fehlgeschlagene Requests, HTTP-5xx.
+- **Der Fix-Agent gehört dir:** Dry-Run per Default, gedeckelt pro Lauf, **öffnet PRs, mergt nie**, sensible Repos (echte Kunden/Billing) sind **issue-only**.
+
+Setup in [`pro/self-heal/README.md`](pro/self-heal/README.md), das Warum in [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md).
+
+```bash
+cd pro/self-heal && npm install && npx playwright install chromium
+node synthetic/run.mjs            # Funde nach synthetic/reports/
+node agent/fix.mjs                # DRY-RUN — zeigt nur, was es fixen würde
+```
+
+---
+
+## Linear: Claude einen Ort zum Ablegen von Arbeit geben (optional)
+
+Skills/Agents lassen Claude Dinge *tun*; ein Issue-Tracker gibt ihm einen Ort, Dinge zu **notieren** — Bugs, die es fand aber nicht unbeaufsichtigt fixen soll, Follow-ups, die es nebenbei sah. Linear hat einen MCP-Server, also kann Claude Code direkt Issues lesen/anlegen:
+
+```bash
+claude mcp add --transport sse linear https://mcp.linear.app/sse
+```
+
+Danach reicht: *"Leg ein Linear-Issue an: Checkout wirft bei leerem Warenkorb. Team Web, Label bug."* Das **Gating-Pattern** macht Autonomie ruhig: vertrauenswürdige Repos bekommen Fix-PRs, sensible Repos nur ein Issue. Details: [`docs/06-linear-issues.md`](docs/06-linear-issues.md).
 
 ---
 

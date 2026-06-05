@@ -28,3 +28,11 @@ sanitize-output.txt
 
 # Internal build report (not part of the public release)
 REPORT.md
+
+# self-heal: machine-specific, not source
+pro/self-heal/synthetic/reports/
+pro/self-heal/agent/repos.json
+pro/self-heal/nightly.log
+pro/self-heal/nightly.err.log
+node_modules/
+package-lock.json

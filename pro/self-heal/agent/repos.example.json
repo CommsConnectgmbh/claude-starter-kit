@@ -1,0 +1,4 @@
+{
+  "example-home": { "repo": "/absolute/path/to/your/repo" },
+  "billing":      { "repo": "/absolute/path/to/sensitive/repo", "issueOnly": true }
+}
