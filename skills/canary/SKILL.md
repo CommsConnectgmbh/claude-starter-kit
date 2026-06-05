@@ -3,7 +3,7 @@ name: canary
 description: "Post-deploy canary monitoring for a web app — capture a baseline before deploy, then watch the live URL for a window after deploy and alert on regressions (page load failures, NEW console errors, performance regressions, new 404s) relative to the baseline, not absolutes. Use right after pushing to production, especially for setups that ship straight to production without a staging environment. Trigger phrases: 'canary', 'überwach den deploy', 'check production nach dem deploy', 'monitor the live site', 'post-deploy check', 'ist der deploy gesund', 'smoke-test prod'. NOT for pre-merge code review (use /code-review) or functional QA (use /verify)."
 argument-hint: "<production-url> [--baseline] [--duration 10m] [--pages /,/dashboard] [--quick]"
 user-invocable: true
-source: "Reimplemented from garrytan/gstack /canary (MIT). Methodology (baseline → monitor-loop → relative-alert → health report) ported; the gstack browse daemon ($B) is replaced by a self-contained Playwright runner via npx."
+source: "Reimplemented from garrytan/gstack /canary (MIT). Methodology (baseline → monitor-loop → relative-alert → health report) ported; the gstack browse daemon ($B) is replaced by a self-contained Playwright probe (throwaway local install + NODE_PATH)."
 ---
 
 # /canary — Post-deploy monitoring
@@ -18,32 +18,44 @@ begin monitoring within ~30s of invocation; don't over-analyze first.
 - `--pages /,/dashboard,/settings` — explicit page list (else auto-discover).
 - `--quick` — single-pass health check, no continuous loop.
 
-## Engine — Playwright via npx (no global install needed)
-All page checks use one throwaway script. Write it once to a temp file, then call it
-per page. It captures screenshot + console errors + load time as JSON.
+## Engine — self-contained Playwright probe (no repo changes)
+All page checks use one throwaway script. Set it up once at the start of a canary run,
+then call it per page. It captures screenshot + console errors + load time as JSON.
+
+The probe is **CommonJS** (`.cjs` + `require`) on purpose: it's run with `NODE_PATH`
+pointing at a throwaway Playwright install, and only CommonJS resolution honors `NODE_PATH`
+(`npx playwright <script>` and ESM `import` do **not** resolve a transient install).
 
 ```bash
+# One-time per run: install Playwright into a throwaway dir, remember NODE_PATH.
 mkdir -p .canary-reports/baselines .canary-reports/screenshots
-cat > .canary-reports/_probe.mjs <<'EOF'
-import { chromium } from 'playwright';
+npm install --prefix .canary-reports/runner playwright >/dev/null 2>&1
+"$PWD/.canary-reports/runner/node_modules/.bin/playwright" install chromium >/dev/null 2>&1
+export NODE_PATH="$PWD/.canary-reports/runner/node_modules"
+
+cat > .canary-reports/_probe.cjs <<'EOF'
+const { chromium } = require('playwright');
 const [url, shot] = [process.argv[2], process.argv[3]];
-const errors = [];
-const b = await chromium.launch();
-const p = await b.newPage();
-p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-p.on('pageerror', e => errors.push(String(e)));
-const t0 = Date.now();
-let status = 0, ok = true;
-try { const r = await p.goto(url, { waitUntil: 'load', timeout: 30000 }); status = r ? r.status() : 0; }
-catch (e) { ok = false; errors.push('GOTO_FAILED: ' + e.message); }
-const load_ms = Date.now() - t0;
-if (shot) await p.screenshot({ path: shot, fullPage: true }).catch(() => {});
-await b.close();
-process.stdout.write(JSON.stringify({ url, ok, status, load_ms, console_errors: errors.length, errors }));
+(async () => {
+  const errors = [];
+  const b = await chromium.launch();
+  const p = await b.newPage();
+  p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  p.on('pageerror', e => errors.push(String(e)));
+  const t0 = Date.now();
+  let status = 0, ok = true;
+  try { const r = await p.goto(url, { waitUntil: 'load', timeout: 30000 }); status = r ? r.status() : 0; }
+  catch (e) { ok = false; errors.push('GOTO_FAILED: ' + e.message); }
+  const load_ms = Date.now() - t0;
+  if (shot) await p.screenshot({ path: shot, fullPage: true }).catch(() => {});
+  await b.close();
+  process.stdout.write(JSON.stringify({ url, ok, status, load_ms, console_errors: errors.length, errors }));
+})();
 EOF
-# Run a probe like:  npx -y playwright@latest .canary-reports/_probe.mjs "<url>" ".canary-reports/screenshots/home-1.png"
+# Run a probe (NODE_PATH must be exported as above):
+#   node .canary-reports/_probe.cjs "<url>" ".canary-reports/screenshots/home-1.png"
 ```
-If `npx playwright` reports a missing browser, run `npx -y playwright@latest install chromium` once.
+`.canary-reports/` is throwaway — add it to `.gitignore`.
 
 ## Phase 1 — Setup
 Parse args. Default duration 10m. Default pages: auto-discover from nav.
