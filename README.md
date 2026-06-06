@@ -1,5 +1,15 @@
 # claude-starter-kit
 
+Claude Code Starter-Kit auf Deutsch — Skills, Agents, CLAUDE.md-Vorlagen und ein 10-Minuten-Setup für alle, die gerade mit Claude Code anfangen.
+Für deutsche Entwickler und Gründer, die [Claude Code](https://docs.claude.com/en/docs/claude-code) frisch installiert haben und ein gutes Setup wollen, ohne sich durch die Doku zu wühlen.
+
+*A German-language starter kit for Claude Code: skills, agents, CLAUDE.md templates, and a 10-minute setup.*
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/CommsConnectgmbh/claude-starter-kit?style=social)](https://github.com/CommsConnectgmbh/claude-starter-kit/stargazers)
+
+---
+
 **Du hast gerade [Claude Code](https://docs.claude.com/en/docs/claude-code) installiert. Was jetzt?**
 
 Mach diese drei Sachen und du hast ein gutes Setup. Zehn Minuten.
@@ -136,3 +146,7 @@ Danach reicht: *"Leg ein Linear-Issue an: Checkout wirft bei leerem Warenkorb. T
 ## Lizenz
 
 MIT. Mach damit was du willst. Bug oder Verbesserung? Issue oder PR.
+
+---
+
+Gebaut von [Rainer Roloff](https://rainerroloff.de) — mehr Projekte rund um Claude Code und ein „Schreib mir" auf [rainerroloff.de](https://rainerroloff.de).

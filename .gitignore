@@ -29,6 +29,9 @@ sanitize-output.txt
 # Internal build report (not part of the public release)
 REPORT.md
 
+# Private launch material — drafts, posts, never public
+.launch/
+
 # self-heal: machine-specific, not source
 pro/self-heal/synthetic/reports/
 pro/self-heal/agent/repos.json
