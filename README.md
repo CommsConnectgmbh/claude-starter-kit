@@ -75,6 +75,7 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | Wann Skills, wann Agents — die häufigste Verwechslung |
 | [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md) | **Apps, die sich aus ihrer Nutzung selbst reparieren** — synthetischer Nutzer + Fix-Agent, nächtlich, mit harten Sicherheits-Leitplanken |
 | [`docs/06-linear-issues.md`](docs/06-linear-issues.md) | **Claude an einen Issue-Tracker (Linear) hängen** — Funde sicher ablegen statt unbeaufsichtigt fixen; das Gating-Pattern |
+| [`docs/07-mcps.md`](docs/07-mcps.md) | **MCP-Übersicht** — die kuratierte Shortlist (Linear, Sentry, Supabase), Setup mit einer Zeile, Pairing mit Self-Heal |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
 | [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`) |
@@ -131,15 +132,17 @@ node agent/fix.mjs                # DRY-RUN — zeigt nur, was es fixen würde
 
 ---
 
-## Linear: Claude einen Ort zum Ablegen von Arbeit geben (optional)
+## MCPs: Claude an deine echten Tools anbinden (optional)
 
-Skills/Agents lassen Claude Dinge *tun*; ein Issue-Tracker gibt ihm einen Ort, Dinge zu **notieren** — Bugs, die es fand aber nicht unbeaufsichtigt fixen soll, Follow-ups, die es nebenbei sah. Linear hat einen MCP-Server, also kann Claude Code direkt Issues lesen/anlegen:
+[MCPs (Model Context Protocol servers)](https://modelcontextprotocol.io) sind, wie Claude Code mit Außenwelt spricht — Issue-Tracker, Error-Monitor, DB, CRM. Die kuratierte Shortlist, die zum Rest des Kits passt:
 
 ```bash
-claude mcp add --transport sse linear https://mcp.linear.app/sse
+claude mcp add --transport sse  linear   https://mcp.linear.app/sse      # safe landing für „found, don't fix yet"
+claude mcp add --transport http sentry   https://mcp.sentry.dev/mcp      # echter Error-Monitor für Self-Heal
+claude mcp add --transport http supabase https://mcp.supabase.com/mcp    # Schema/SQL/Logs, falls dein Stack Supabase ist
 ```
 
-Danach reicht: *"Leg ein Linear-Issue an: Checkout wirft bei leerem Warenkorb. Team Web, Label bug."* Das **Gating-Pattern** macht Autonomie ruhig: vertrauenswürdige Repos bekommen Fix-PRs, sensible Repos nur ein Issue. Details: [`docs/06-linear-issues.md`](docs/06-linear-issues.md).
+OAuth beim ersten Call, kein API-Key in `.env`. Nur die hinzufügen, die zum Stack passen. Details + Gating-Pattern: [`docs/07-mcps.md`](docs/07-mcps.md) + [`docs/06-linear-issues.md`](docs/06-linear-issues.md).
 
 ---
 

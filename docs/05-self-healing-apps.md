@@ -13,8 +13,9 @@ a database table. Resist it. Error monitoring is a solved, commoditised problem:
 Sentry already do grouping, fingerprinting, dedup, PII scrubbing, rate limiting and release
 tracking, across web / React Native / Capacitor, free at small scale.
 
-So for **real** traffic: install a real error monitor and move on. The interesting work is
-everywhere it *can't* help you.
+So for **real** traffic: install a real error monitor and move on. Sentry has an MCP server,
+so the fix-agent can read what real users hit without you scraping a dashboard — see
+[docs/07](07-mcps.md). The interesting work is everywhere a monitor *can't* help you.
 
 ## The real gap: no users, no signal
 
