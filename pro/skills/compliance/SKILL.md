@@ -28,6 +28,16 @@ keeps Claude on a predictable rail so you don't redesign the audit each quarter.
 The consolidated report is a **compliance evidence asset** — keep one per
 quarter, alongside a baseline for trend comparison.
 
+## Third-party accounts you'll need
+
+This skill is the orchestrator — the scanners are run by **your** accounts at:
+
+| Service | Sign up | Free tier |
+|---|---|---|
+| [Aikido](https://www.aikido.dev/) | [aikido.dev/signup](https://app.aikido.dev/login/signup) | Free tier covers small repos + cloud |
+| [Supabase](https://supabase.com/) *(skip if not on it)* | [supabase.com/dashboard](https://supabase.com/dashboard) | Free tier; Advisors API is included |
+| [Prowler](https://prowler.com/) | OSS — `pip install prowler` ([docs](https://docs.prowler.com)) | Free OSS CLI; cloud version optional |
+
 ## What you need to provide (per environment)
 
 Put these in your local env (a `~/.env.compliance` file, or your usual secret

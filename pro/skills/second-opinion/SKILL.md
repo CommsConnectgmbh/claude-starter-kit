@@ -27,10 +27,11 @@ wrote the code.
 ## Prerequisite
 
 Ollama is running locally (`http://localhost:11434`) with a coder model
-installed. Install once:
+installed. **No third-party account required** — this is what makes the skill
+free. Install once:
 
 ```bash
-# install Ollama (https://ollama.com)
+# install Ollama → https://ollama.com/download
 ollama pull qwen2.5-coder:14b-instruct
 ```
 

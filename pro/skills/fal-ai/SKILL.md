@@ -19,9 +19,12 @@ you choose the model per shot instead of being locked to one.
 
 ## Setup
 
-1. Create a fal.ai account, generate an API key.
-2. Put it in your env: `export FAL_KEY=...` (or in `~/.env` / project `.env.local`).
-3. That's it — calls are plain HTTPS, no SDK required (an SDK exists if you prefer).
+1. Create a fal.ai account → [fal.ai/dashboard](https://fal.ai/dashboard) (free tier with $1 starter credit; pay-as-you-go after).
+2. Generate an API key → [fal.ai/dashboard/keys](https://fal.ai/dashboard/keys).
+3. Put it in your env: `export FAL_KEY=...` (or in `~/.env` / project `.env.local`).
+4. That's it — calls are plain HTTPS, no SDK required (an SDK exists if you prefer).
+
+> **Account-only skill** — you bring the account, the skill brings the rail. Nothing in this kit is hosted by us.
 
 ## Model cheat sheet (prices as of writing — verify on fal.ai/models)
 

@@ -18,10 +18,12 @@ brand-looking output.
 
 ## Setup
 
-1. Create an OpenAI account, generate an API key with **Images** scope.
-2. Put it in your env: `export OPENAI_API_KEY=sk-...`.
-3. Check your org has access to `gpt-image-1` (most do by default; some
-   verification may be required for high-volume use).
+1. Create an OpenAI Platform account → [platform.openai.com/signup](https://platform.openai.com/signup) (separate from a ChatGPT subscription — this is the API side).
+2. Load credit and create an API key → [platform.openai.com/api-keys](https://platform.openai.com/api-keys).
+3. Put it in your env: `export OPENAI_API_KEY=sk-...`.
+4. Check your org has access to `gpt-image-1` — most do by default; high-volume use may require ID verification under [platform.openai.com/settings/organization/general](https://platform.openai.com/settings/organization/general).
+
+> **Account-only skill** — you bring the OpenAI account, the skill brings the rail. Nothing here is hosted by us.
 
 ## Pricing (verify on platform.openai.com/docs/pricing)
 

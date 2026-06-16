@@ -117,4 +117,5 @@ say "  → Optional Pro layer (autoplan, spec + obra skills): ./install.sh --wit
 say "  → Self-healing apps (synthetic user + fix-agent): see pro/self-heal/README.md + docs/05."
 say "  → Let Claude file work in Linear (issue tracker): see docs/06-linear-issues.md."
 say "  → Wire up MCPs (Linear / Sentry / Supabase, one line each): see docs/07-mcps.md."
+say "  → Which third-party accounts unlock which skill: see docs/08-third-party-accounts.md."
 say "  → Star the repo if it helped: https://github.com/CommsConnectgmbh/claude-starter-kit"
