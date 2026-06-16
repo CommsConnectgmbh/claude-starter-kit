@@ -79,7 +79,7 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
 | [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`) |
-| [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: `autoplan`, `spec` (gebundelt) + 5 obra-Skills (geklont) |
+| [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: 6 Skills gebundelt (`autoplan`, `spec`, `second-opinion`, `compliance`, `fal-ai`, `openai-image`) + 5 obra-Skills geklont |
 | [`pro/self-heal/`](pro/self-heal/) | **Lauffähiges Self-Healing**: synthetischer Playwright-Nutzer + Fix-PR-Agent + launchd/cron-Template |
 
 Wenn du die deutschen Agents einzeln installieren willst:
@@ -100,10 +100,14 @@ Schwerere Workflow-Skills, opt-in:
 cd pro/skills && ./install-pro-skills.sh
 ```
 
-- **Gebundelt** (gstack, MIT): `autoplan` (Plan durch Multi-Lens-Review jagen), `spec` (vage Idee → ausführbare Spec).
+- **Gebundelt** (in diesem Repo, MIT):
+  - `autoplan`, `spec` (gstack-derived) — Plan durch Multi-Lens-Review; vage Idee → ausführbare Spec
+  - `second-opinion` — kostenloser lokaler Code-Reviewer via Ollama (Codex-Plugin-Ersatz)
+  - `compliance` — Quartals-Audit-Pattern (Aikido + Supabase Advisors + Prowler)
+  - `fal-ai`, `openai-image` — direkter API-Zugriff für Marketing-Creative (BYO Key)
 - **Geklont** (obra/superpowers, MIT): `when-stuck`, `root-cause-tracing`, `inversion-exercise`, `dispatching-parallel-agents`, `subagent-driven-development`.
 
-`autoplan`/`spec` rufen optionale Companion-Skills (Frontend-Design, ein unabhängiger Reviewer) — fehlen die, wird die Phase sauber übersprungen. Details: [`pro/skills/README.md`](pro/skills/README.md).
+`autoplan`/`spec` rufen optionale Companion-Skills (Frontend-Design, ein unabhängiger Reviewer = `second-opinion`) — fehlen die, wird die Phase sauber übersprungen. Details: [`pro/skills/README.md`](pro/skills/README.md).
 
 Außerdem im Pro-Layer: [`pro/dreaming/`](pro/dreaming/) — ein nächtlicher Memory-Curator, der deine Auto-Memory dedupliziert, veraltete Einträge findet und den Index synchron hält (launchd/cron-Template inklusive).
 

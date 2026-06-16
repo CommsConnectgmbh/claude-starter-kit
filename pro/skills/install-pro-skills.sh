@@ -13,8 +13,12 @@ CLAUDE_DIR="${CLAUDE_DIR:-$HOME/.claude}"
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 UPSTREAM="https://github.com/obra/superpowers-skills.git"
 
-# Bundled in this repo (pro/skills/<name>/SKILL.md). gstack-derived, MIT.
-BUNDLED=(autoplan spec)
+# Bundled in this repo (pro/skills/<name>/SKILL.md). gstack-derived where noted, MIT.
+#  autoplan / spec       — gstack-derived
+#  second-opinion        — local Ollama as adversarial reviewer
+#  compliance            — quarterly Aikido+Supabase+Prowler audit pattern
+#  fal-ai / openai-image — direct image/video API skills (BYO key)
+BUNDLED=(autoplan spec second-opinion compliance fal-ai openai-image)
 
 # Cloned from obra/superpowers-skills — universal techniques, not project-specific.
 OBRA=(
