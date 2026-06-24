@@ -79,7 +79,8 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | [`docs/08-third-party-accounts.md`](docs/08-third-party-accounts.md) | **Welche Drittanbieter-Accounts du wofür brauchst** — Sign-up-Links, Free-Tier-Status, was das Kit minimal vs erweitert braucht |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
-| [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`) |
+| [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Doppelklick-Starter** für Mac (`.command`) + Windows (`.bat`) — Claude direkt im Skip-Permissions-Modus |
+| [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`, `--with-launcher`) |
 | [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: 6 Skills gebundelt (`autoplan`, `spec`, `second-opinion`, `compliance`, `fal-ai`, `openai-image`) + 5 obra-Skills geklont |
 | [`pro/self-heal/`](pro/self-heal/) | **Lauffähiges Self-Healing**: synthetischer Playwright-Nutzer + Fix-PR-Agent + launchd/cron-Template |
 
@@ -148,6 +149,25 @@ claude mcp add --transport http supabase https://mcp.supabase.com/mcp    # Schem
 ```
 
 OAuth beim ersten Call, kein API-Key in `.env`. Nur die hinzufügen, die zum Stack passen. Details + Gating-Pattern: [`docs/07-mcps.md`](docs/07-mcps.md) + [`docs/06-linear-issues.md`](docs/06-linear-issues.md).
+
+---
+
+## Desktop-Launcher: Doppelklick statt Terminal (optional)
+
+Kein Lust, jedes Mal ein Terminal aufzumachen? Im Kit liegt für beide Welten ein Doppelklick-Starter, der Claude direkt im Skip-Permissions-Modus startet (kein Nachfragen vor jedem Tool-Call — nur auf eigener, vertrauter Maschine sinnvoll).
+
+**Mac:**
+```bash
+./install.sh --with-launcher
+# legt ~/Desktop/start-claude.command an, ausführbar, fertig.
+```
+
+**Windows:**
+```cmd
+copy templates\desktop-launchers\start-claude.bat "%USERPROFILE%\Desktop\"
+```
+
+Details + Troubleshooting: [`templates/desktop-launchers/README.md`](templates/desktop-launchers/README.md).
 
 ---
 

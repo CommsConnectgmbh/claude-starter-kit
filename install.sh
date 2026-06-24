@@ -10,6 +10,7 @@
 #   ./install.sh --yes           # non-interactive — installs everything, auto-overwrites
 #   ./install.sh --with-pro      # also run pro/skills/install-pro-skills.sh
 #   ./install.sh --no-agents     # skip the German legal/tax agents
+#   ./install.sh --with-launcher # also drop a double-clickable Desktop launcher (Mac)
 #
 # Nothing in your ~/.claude/ is overwritten without a diff (unless --yes).
 
@@ -18,12 +19,13 @@ set -euo pipefail
 CLAUDE_DIR="${CLAUDE_DIR:-$HOME/.claude}"
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-ASSUME_YES=""; WITH_PRO=""; NO_AGENTS=""
+ASSUME_YES=""; WITH_PRO=""; NO_AGENTS=""; WITH_LAUNCHER=""
 for arg in "$@"; do
   case "$arg" in
-    --yes|-y)    ASSUME_YES=1 ;;
-    --with-pro)  WITH_PRO=1 ;;
-    --no-agents) NO_AGENTS=1 ;;
+    --yes|-y)        ASSUME_YES=1 ;;
+    --with-pro)      WITH_PRO=1 ;;
+    --no-agents)     NO_AGENTS=1 ;;
+    --with-launcher) WITH_LAUNCHER=1 ;;
   esac
 done
 
@@ -109,6 +111,34 @@ if [[ -n "$WITH_PRO" ]]; then
   fi
 fi
 
+# Desktop launcher (Mac): double-clickable .command that starts claude in
+# skip-permissions mode. Opt-in: --with-launcher or interactive prompt.
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  desktop="$HOME/Desktop"
+  src_launcher="$SRC_DIR/templates/desktop-launchers/start-claude.command"
+  dst_launcher="$desktop/start-claude.command"
+  if [[ -d "$desktop" && -f "$src_launcher" ]]; then
+    install_it=""
+    if [[ -n "$WITH_LAUNCHER" ]]; then
+      install_it=1
+    elif [[ "$ASSUME_YES" != "1" ]]; then
+      sec "Desktop launcher (Mac)"
+      say "  Drops a double-clickable start-claude.command on your Desktop."
+      say "  Starts Claude Code with --dangerously-skip-permissions (no per-call prompts)."
+      ask "  Install Desktop launcher?" && install_it=1
+    fi
+    if [[ -n "$install_it" ]]; then
+      if [[ -f "$dst_launcher" ]] && ! diff -q "$dst_launcher" "$src_launcher" >/dev/null 2>&1; then
+        warn "Desktop launcher already exists and differs — leaving it alone."
+      else
+        cp "$src_launcher" "$dst_launcher"
+        chmod +x "$dst_launcher"
+        ok "Installed Desktop launcher → $dst_launcher"
+      fi
+    fi
+  fi
+fi
+
 sec "Manual steps"
 say "  → Drop templates/CLAUDE.example.md into your project root as CLAUDE.md."
 say "  → Read docs/04-the-daily-loop.md — how to actually drive Claude through a task."
@@ -118,4 +148,5 @@ say "  → Self-healing apps (synthetic user + fix-agent): see pro/self-heal/REA
 say "  → Let Claude file work in Linear (issue tracker): see docs/06-linear-issues.md."
 say "  → Wire up MCPs (Linear / Sentry / Supabase, one line each): see docs/07-mcps.md."
 say "  → Which third-party accounts unlock which skill: see docs/08-third-party-accounts.md."
+say "  → Desktop launcher (Mac/Windows): see templates/desktop-launchers/README.md."
 say "  → Star the repo if it helped: https://github.com/CommsConnectgmbh/claude-starter-kit"
