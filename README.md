@@ -51,8 +51,12 @@ Das installiert vier Skills + (auf Wunsch) die deutschen Recht/Steuer-Agents + e
 
 Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?`
 
+![/council in Aktion — Claude spielt fünf Perspektiven durch und gibt eine klare Empfehlung](assets/council-demo.gif)
+
+*Echte Aufnahme: `claude -p '/council …'` auf eine typische Gründer-Entscheidung. [Wie das GIF entsteht](assets/council-demo/).*
+
 <details>
-<summary><b>So sieht eine <code>/council</code>-Antwort aus</b> — echtes Beispiel, aufklappen 👇</summary>
+<summary><b>Noch ein Beispiel als Text</b> — andere Frage, aufklappen 👇</summary>
 
 <br>
 

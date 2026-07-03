@@ -1,0 +1,31 @@
+## Entscheidung
+Soll das SaaS-Feature erst fertig gebaut oder im aktuellen Zustand sofort an zehn Nutzer ausgeliefert werden?
+
+## Visionär
+Zehn echte Nutzer am halbfertigen Feature liefern in einer Woche mehr Richtungswissen als drei Wochen Bauen im Alleingang. Was du lernst, verändert womöglich, was „fertig" überhaupt heißt — und macht Features überflüssig, die du sonst umsonst gebaut hättest.
+
+## Kritiker
+Die Frage stellt „fertig bauen" gegen „ausgeben" als Gegensatz — das ist falsch. Die eigentliche Frage ist: Ist der halbfertige Stand schon *nützlich genug*, dass ein Nutzer ihn freiwillig verwendet? Das steht hier nicht drin, und ohne die Antwort ist alles andere Spekulation.
+
+## Kreativer
+Dritter Weg, der übergangen wurde: Gib den *aktuellen* Stand nicht an zehn, sondern an zwei bis drei ausgewählte Nutzer als moderiertes Screenshare-Testing — du siehst zu, statt auszuliefern. Kein Support-Overhead, kein Reputationsrisiko bei zehn, und du bekommst rohes Verhaltensfeedback schneller als jede Fertigversion.
+
+## Skeptiker
+Ein halbfertiges Feature an zehn Nutzer verbrennt Vertrauen, das du nur einmal hast — der erste Eindruck ist teuer und schlecht reversibel. Dazu kommt Support-Last bei zehn parallelen Rückfragen, die dich vom Bauen abhält. Fragst du: „und dann?" — landest du bei genervten Nutzern *und* unfertigem Code.
+
+## Logiker
+Ohne Zahlen ist das nicht entscheidbar: Wie viel Prozent des Features steht (Kern-Flow nutzbar ja/nein)? Wie viel Restaufwand — Stunden, nicht „fast fertig"? Sind die zehn Nutzer Bestandskunden (Vertrauen auf dem Spiel) oder Neu-Tester (nichts zu verlieren)? Ohne diese drei Größen ist jede Empfehlung geraten.
+
+## Konflikt
+Visionär und Skeptiker kollidieren frontal: früher Nutzerkontakt als schnellster Lernhebel gegen einmalig verbrennbares Vertrauen. Der Kritiker sticht beide, weil die entscheidende Variable — „ist der Kern-Flow schon nützlich?" — in der Frage schlicht fehlt.
+
+## Synthese
+Ich folge Kritiker und Kreativem und verwerfe das Entweder-oder von Visionär und Skeptiker. Der Visionär hat recht, dass Nutzerkontakt jetzt wertvoller ist als Bauen im Dunkeln — aber der Skeptiker hat recht, dass zehn Auslieferungen am halbfertigen Stand asymmetrisch teuer sind. Die Auflösung ist nicht „mittelweg", sondern eine andere Handlung: enges, beobachtetes Testing mit wenigen statt breite Auslieferung. Das holt den Lernwert, ohne das Vertrauenskapital zu riskieren.
+
+## Empfehlung
+Gib den aktuellen Stand an drei ausgewählte Nutzer in moderierten Screenshare-Sessions, bevor du weiterbaust.
+
+## Was diese Empfehlung umkippen würde
+- Der Kern-Flow ist noch *gar nicht* durchklickbar → dann erst Kern fertig bauen, sonst testest du Nichts.
+- Die zehn sind zahlende Bestandskunden mit hoher Erwartung → dann fertig bauen, Vertrauensrisiko zu groß.
+- Restaufwand liegt unter ~einem Tag → dann einfach fertig bauen und danach an alle zehn.
