@@ -1,3 +1,5 @@
+**Deutsch** · [English](README.en.md)
+
 # claude-starter-kit
 
 Claude Code Starter-Kit auf Deutsch — Skills, Agents, CLAUDE.md-Vorlagen und ein 10-Minuten-Setup für alle, die gerade mit Claude Code anfangen.

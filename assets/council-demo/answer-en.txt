@@ -1,0 +1,31 @@
+## Decision
+Should I ship the half-built SaaS feature to ten users now, or finish it first?
+
+## Visionary
+Ten real users touching a rough feature teaches you more in a week than a month of solo polishing. If it lands, you get testimonials, a feedback loop, and a reason to talk to users daily — that early signal compounds into a product people actually pull from you.
+
+## Critic
+"Half-built" and "finish it" are doing all the work in this question and both are undefined. Finish to what bar? Which half is missing — the core value or the edges? You're framing this as a timing choice when it's really a "do I know what 'done' means" problem you haven't answered.
+
+## Creative
+It's not ship-all-ten vs. finish. Ship the working slice to two or three hand-picked users behind a flag, sit in the calls, and finish the rest live against their reactions. You keep the learning without spending your whole credibility budget on ten cold users at once.
+
+## Skeptic
+Ten is a lot of first impressions to burn if the missing half is the part that matters — a botched debut with a real user is often unrecoverable, and word travels in small niches. Ask: if it breaks, can they still get value, and can you roll it back quietly? If no, the downside is not symmetric.
+
+## Logician
+The decision hinges on one unmeasured variable: is the unbuilt half load-bearing for the core value, or cosmetic? If core → shipping produces noise, not signal, and you'll misread it. If cosmetic → the "finish first" cost is pure delay with no risk reduction. You have not stated which, so the math is currently undecidable.
+
+## Conflict
+Visionary wants all ten now for maximum signal; Skeptic says ten cold users is an unrecoverable blast radius if the core is missing. Underneath both, Logician's point rules: the answer flips entirely on whether the missing half is core or cosmetic.
+
+## Synthesis
+I side with the Creative and Logician, and reject the Visionary's "all ten now" as reckless with a scarce resource. You don't need ten to learn, and you can't afford ten if the core is unfinished. A guided slice to a handful of engaged users captures 80% of the learning at a fraction of the reputational risk — and forces you to define "done" by watching them.
+
+## Recommendation
+Ship the working slice to two or three hand-picked users this week, watch them use it, and finish the rest against what you see.
+
+## What would flip this recommendation
+- The unbuilt half **is** the core value (not edges) → finish first, don't ship noise.
+- You have no way to sit with users or collect feedback → then shipping early buys you nothing; finish it.
+- These ten are your only reachable users in a tiny niche → protect them, finish first.

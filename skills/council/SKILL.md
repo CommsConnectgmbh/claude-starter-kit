@@ -32,10 +32,10 @@ Each role has a fixed lens. Do NOT let them blur into each other — disagreemen
 
 ## Output format
 
-Strict structure. No prose intro, no filler. Use the user's language (German if they wrote German, English if they wrote English).
+Strict structure. No prose intro, no filler. **Respond entirely in the user's language — including every section heading.** German if they wrote German, English if they wrote English. The template below shows the German headings; in English use their equivalents: Decision · Visionary · Critic · Creative · Skeptic · Logician · Conflict · Synthesis · Recommendation · What would flip this recommendation. Never mix languages within one answer.
 
 ```
-## Entscheidung / Decision
+## Entscheidung
 {{exact restatement of the question/decision in one sentence}}
 
 ## Visionär
@@ -53,16 +53,16 @@ Strict structure. No prose intro, no filler. Use the user's language (German if 
 ## Logiker
 {{2-4 sentences, numbers/mechanism check}}
 
-## Konflikt / Conflict
+## Konflikt
 {{the 1-2 sharpest disagreements between the roles, named explicitly. If everyone agrees, say so and flag groupthink risk.}}
 
-## Synthese / Synthesis
+## Synthese
 {{one paragraph that does NOT average the views — it picks a side, names which roles it sided with and why, and what it rejected from the others}}
 
-## Empfehlung / Recommendation
+## Empfehlung
 {{one sentence, one action. No "it depends". No options A/B/C.}}
 
-## Was diese Empfehlung umkippen würde / What would flip this recommendation
+## Was diese Empfehlung umkippen würde
 {{1-3 bullet points: specific evidence or facts that, if true, would flip the recommendation. This is the user's checklist before acting.}}
 ```
 

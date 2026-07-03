@@ -1,12 +1,12 @@
 # council-demo
 
-`../council-demo.gif` zeigt eine **echte** `/council`-Antwort.
+`../council-demo.gif` (Deutsch) und `../council-demo-en.gif` (English) zeigen
+jeweils eine **echte** `/council`-Antwort.
 
-- `answer.txt` ist die verbatim-Ausgabe eines realen Laufs von
-  `claude -p '/council SaaS-Feature erst fertig bauen oder sofort an zehn Nutzer geben?'`
-  — nichts daran ist erfunden.
-- `record.sh` tippt den echten Befehl und spielt diese reale Antwort in
-  lesbarem Tempo ab (Claude denkt in Wirklichkeit ~1 Min; im GIF gekürzt).
+- `answer.txt` / `answer-en.txt` sind die verbatim-Ausgaben realer Läufe von
+  `claude -p '/council …'` — nichts daran ist erfunden.
+- `record.sh` / `record-en.sh` tippen den echten Befehl und spielen die reale
+  Antwort in lesbarem Tempo ab (Claude denkt real ~1 Min; im GIF gekürzt).
 
 Neu aufnehmen:
 
