@@ -51,6 +51,38 @@ Das installiert vier Skills + (auf Wunsch) die deutschen Recht/Steuer-Agents + e
 
 Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?`
 
+<details>
+<summary><b>So sieht eine <code>/council</code>-Antwort aus</b> — echtes Beispiel, aufklappen 👇</summary>
+
+<br>
+
+> **Frage:** `/council Soll ich als Solo-Gründer meine Zeit diesen Monat ins nächste Feature oder in Marketing stecken?`
+
+**Entscheidung** — Soll ein Solo-Gründer diesen Monat die verfügbare Zeit ins nächste Feature oder in Marketing stecken?
+
+**Visionär** — Marketing jetzt heißt: die ersten echten Nutzer, echtes Feedback, eine Story. Ein Feature mehr in einem Produkt, das keiner sieht, verpufft — Reichweite ist der Hebel, der in zwei Jahren über Leben oder Tod entscheidet.
+
+**Kritiker** — Die Frage tut so, als wären beide Optionen gleich weit. Sind sie nicht: „Feature" ist konkret und in deiner Hand, „Marketing" ist bei den meisten Gründern ein diffuses „irgendwie Reichweite" ohne Kanal, ohne Botschaft. Vages Marketing schlägt kein Feature.
+
+**Kreativer** — Warum entweder/oder in Monatsblöcken? Bau das Feature *als* Marketing: ein einziges sichtbares Feature öffentlich in Build-in-Public-Posts entwickeln — ein Artefakt, das gleichzeitig Produkt und Reichweite ist.
+
+**Skeptiker** — Ein Monat Marketing ohne fertiges Kern-Produkt zieht Nutzer an, die sofort wieder abspringen — und ein verbrannter erster Eindruck kommt teuer zurück. Reversibel ist beides, ein schlechter Launch nicht.
+
+**Logiker** — Nüchtern: Wie viele zahlende Nutzer hast du? Bei 0 ist der Engpass Distribution, nicht Funktionsumfang — dann bringt Feature Nr. n+1 mathematisch 0 × Nutzen. Erst wenn Nutzer da sind und an einer fehlenden Funktion scheitern, dreht sich die Rechnung.
+
+**Konflikt** — Visionär und Kritiker stehen frontal: „Reichweite ist alles" vs. „dein Marketing ist zu vage, um was zu bringen." Der Logiker entscheidet den Streit über eine einzige Zahl — die aktuelle Nutzerzahl.
+
+**Synthese** — Ich gehe mit dem Logiker und dem Kreativen, gegen den reinen Feature-Reflex. Bei fast keinem zahlenden Nutzer ist das Feature Selbstbeschäftigung; die Zeit muss in Distribution. Aber der Kritiker hat recht, dass unspezifisches Marketing wertlos ist — deshalb nicht „Marketing" abstrakt, sondern das eine Feature sichtbar in der Öffentlichkeit bauen, so dass Produktarbeit und Reichweite dasselbe werden.
+
+**Empfehlung** — Steck den Monat in *einen* konkreten Distributionskanal und bau dein nächstes Feature öffentlich darin — nicht ins stille Weiterprogrammieren.
+
+**Was diese Empfehlung umkippen würde**
+- Du hast bereits zahlende Nutzer, die konkret an einer fehlenden Funktion scheitern.
+- Ein verbindlicher Kunde/Deal hängt an genau diesem Feature.
+- Dir fehlt ein funktionierendes Kern-Produkt, das man überhaupt zeigen kann.
+
+</details>
+
 > Brauchst du nur einzelne? `cp skills/<name>/SKILL.md ~/.claude/skills/<name>/` reicht.
 
 ---
