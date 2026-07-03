@@ -22,7 +22,7 @@ Claude Code's auto-memory grows monotonically. Every new project, every correcti
 - Token bloat (~150 memory files at 1 KB each = ~150 KB pulled into every relevant turn)
 - Stale data competing with fresh data for Claude's attention
 
-Curation keeps the index lean and the files accurate. See [`docs/05-memory-hygiene.md`](../../docs/05-memory-hygiene.md) for the full pattern.
+Curation keeps the index lean and the files accurate. See [`docs/02-memory-system.md`](../../docs/02-memory-system.md) for the full pattern.
 
 ## Requirements
 
