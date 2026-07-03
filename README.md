@@ -5,6 +5,7 @@ Für deutsche Entwickler und Gründer, die [Claude Code](https://docs.claude.com
 
 *A German-language starter kit for Claude Code: skills, agents, CLAUDE.md templates, and a 10-minute setup.*
 
+[![CI](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/CommsConnectgmbh/claude-starter-kit?style=social)](https://github.com/CommsConnectgmbh/claude-starter-kit/stargazers)
 
