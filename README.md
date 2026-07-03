@@ -154,7 +154,7 @@ OAuth beim ersten Call, kein API-Key in `.env`. Nur die hinzufügen, die zum Sta
 
 ## Desktop-Launcher: Doppelklick statt Terminal (optional)
 
-Kein Lust, jedes Mal ein Terminal aufzumachen? Im Kit liegt für beide Welten ein Doppelklick-Starter, der Claude direkt im Skip-Permissions-Modus startet (kein Nachfragen vor jedem Tool-Call — nur auf eigener, vertrauter Maschine sinnvoll).
+Keine Lust, jedes Mal ein Terminal aufzumachen? Im Kit liegt für beide Welten ein Doppelklick-Starter, der Claude direkt im Skip-Permissions-Modus startet (kein Nachfragen vor jedem Tool-Call — nur auf eigener, vertrauter Maschine sinnvoll).
 
 **Mac:**
 ```bash
