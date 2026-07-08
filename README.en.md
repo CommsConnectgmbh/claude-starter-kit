@@ -2,12 +2,17 @@
 
 # claude-starter-kit
 
-A German-first starter kit for Claude Code — skills, agents, CLAUDE.md templates and a 10-minute setup for anyone who just started with Claude Code.
-Built for developers and founders who freshly installed [Claude Code](https://docs.claude.com/en/docs/claude-code) and want a good setup without digging through the docs. The kit is bilingual: everything below works in English, and the bundled `council` skill answers in whatever language you ask.
+**Skills, agents, CLAUDE.md templates and a 10-minute setup for Claude Code — German-first, fully bilingual.**
+
+This is the foundation one founder used to ship 12 real apps alongside a day job — packaged as a public starter kit. Built for anyone who freshly installed [Claude Code](https://docs.claude.com/en/docs/claude-code) and wants a good setup without digging through the docs. Everything below works in English, and the bundled `council` skill answers in whatever language you ask.
 
 [![CI](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/CommsConnectgmbh/claude-starter-kit?style=social)](https://github.com/CommsConnectgmbh/claude-starter-kit/stargazers)
+
+![/council in action — Claude runs five perspectives on a decision and gives one clear recommendation](assets/council-demo-en.gif)
+
+*One of the bundled skills: `/council` runs five perspectives on a decision and gives one clear recommendation — real recording.*
 
 ---
 
@@ -49,11 +54,7 @@ This installs four skills + (optionally) the German legal/tax agents + a safe `s
 | `skillify` | Turn a successful `/scrape` into a reusable script — instant next time. |
 | `canary` | After a deploy, watch the live URL and alert only on real regressions (relative to a baseline, not absolute). |
 
-Try it: type `/council Should I ship my half-built feature to ten users now, or finish it first?` in Claude Code.
-
-![/council in action — Claude runs five perspectives and gives one clear recommendation](assets/council-demo-en.gif)
-
-*Real recording: `claude -p '/council …'` on a typical founder decision. [How the GIF is made](assets/council-demo/).*
+Try it: type `/council Should I ship my half-built feature to ten users now, or finish it first?` in Claude Code — this is what it looks like ([GIF above](#claude-starter-kit), [how it's made](assets/council-demo/)).
 
 <details>
 <summary><b>Another example as text</b> — different question, click to expand 👇</summary>
@@ -100,6 +101,8 @@ Skim [`docs/02-memory-system.md`](docs/02-memory-system.md). Then in your next c
 ---
 
 **That's it. You're set up.**
+
+Did this save you an afternoon of digging through docs? A ⭐ helps others find the kit.
 
 ---
 
