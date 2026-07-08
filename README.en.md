@@ -117,6 +117,7 @@ Skim [`docs/02-memory-system.md`](docs/02-memory-system.md). Then in your next c
 | [`docs/07-mcps.md`](docs/07-mcps.md) | **MCP overview** — the curated shortlist (Linear, Sentry, Supabase), one-line setup, pairing with self-heal |
 | [`docs/08-third-party-accounts.md`](docs/08-third-party-accounts.md) | **Which third-party accounts you need for what** — sign-up links, free-tier status, minimal vs extended |
 | [`docs/09-seo.md`](docs/09-seo.md) | **SEO with a measuring engine** — install the `claude-seo` plugin cleanly (`/seo audit <url>`), dodge the macOS Python-deps trap, and which fixes actually move rankings |
+| [`docs/10-token-efficiency.md`](docs/10-token-efficiency.md) | **Token efficiency — what actually helps, what's hype** — why `CLAUDE.md` is the real lever, and how to measure any "70× fewer tokens" tool against your own repo in ten minutes instead of believing the benchmark |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Real German legal & tax research agents** as a worked example of how a domain agent is built (source discipline, disclaimer, workflow) |
 | [`templates/memory/`](templates/memory/) | Example of what memory entries should look like |
 | [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Double-click launchers** for Mac (`.command`) + Windows (`.bat`) — Claude straight in skip-permissions mode |
