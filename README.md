@@ -2,14 +2,19 @@
 
 # claude-starter-kit
 
-Claude Code Starter-Kit auf Deutsch — Skills, Agents, CLAUDE.md-Vorlagen und ein 10-Minuten-Setup für alle, die gerade mit Claude Code anfangen.
-Für deutsche Entwickler und Gründer, die [Claude Code](https://docs.claude.com/en/docs/claude-code) frisch installiert haben und ein gutes Setup wollen, ohne sich durch die Doku zu wühlen.
+**Skills, Agents, CLAUDE.md-Vorlagen und ein 10-Minuten-Setup für Claude Code — auf Deutsch.**
 
-*A German-language starter kit for Claude Code: skills, agents, CLAUDE.md templates, and a 10-minute setup.*
+Das ist das Fundament, mit dem ein einzelner Gründer neben seinem Hauptjob 12 echte Apps gebaut hat — als öffentliches Starter-Kit verpackt. Für alle, die [Claude Code](https://docs.claude.com/en/docs/claude-code) frisch installiert haben und ein gutes Setup wollen, ohne sich durch die Doku zu wühlen.
+
+*A German-language starter kit for Claude Code: skills, agents, CLAUDE.md templates, and a 10-minute setup — the foundation one founder used to ship 12 real apps alongside a day job.*
 
 [![CI](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/CommsConnectgmbh/claude-starter-kit?style=social)](https://github.com/CommsConnectgmbh/claude-starter-kit/stargazers)
+
+![/council in Aktion — Claude spielt fünf Perspektiven auf eine Entscheidung durch und gibt eine klare Empfehlung](assets/council-demo.gif)
+
+*Eins der enthaltenen Skills: `/council` spielt fünf Perspektiven auf eine Entscheidung durch und gibt eine klare Empfehlung — echte Aufnahme.*
 
 ---
 
@@ -51,11 +56,7 @@ Das installiert vier Skills + (auf Wunsch) die deutschen Recht/Steuer-Agents + e
 | `skillify` | Einen erfolgreichen `/scrape` als wiederverwendbares Skript ablegen — beim nächsten Mal instant. |
 | `canary` | Nach dem Deploy die Live-URL überwachen und nur bei echten Regressionen alarmieren (relativ zur Baseline, nicht absolut). |
 
-Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?`
-
-![/council in Aktion — Claude spielt fünf Perspektiven durch und gibt eine klare Empfehlung](assets/council-demo.gif)
-
-*Echte Aufnahme: `claude -p '/council …'` auf eine typische Gründer-Entscheidung. [Wie das GIF entsteht](assets/council-demo/).*
+Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?` — so sieht das aus ([GIF oben](#claude-starter-kit), [wie es entsteht](assets/council-demo/)).
 
 <details>
 <summary><b>Noch ein Beispiel als Text</b> — andere Frage, aufklappen 👇</summary>
@@ -102,6 +103,8 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 ---
 
 **Das war's. Du bist startklar.**
+
+Hat dir das einen Nachmittag Doku-Wühlen gespart? Ein ⭐ hilft anderen im DACH-Raum, das Kit zu finden.
 
 ---
 
