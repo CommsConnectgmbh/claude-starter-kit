@@ -116,6 +116,7 @@ Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner
 | [`docs/06-linear-issues.md`](docs/06-linear-issues.md) | **Claude an einen Issue-Tracker (Linear) hängen** — Funde sicher ablegen statt unbeaufsichtigt fixen; das Gating-Pattern |
 | [`docs/07-mcps.md`](docs/07-mcps.md) | **MCP-Übersicht** — die kuratierte Shortlist (Linear, Sentry, Supabase), Setup mit einer Zeile, Pairing mit Self-Heal |
 | [`docs/08-third-party-accounts.md`](docs/08-third-party-accounts.md) | **Welche Drittanbieter-Accounts du wofür brauchst** — Sign-up-Links, Free-Tier-Status, was das Kit minimal vs erweitert braucht |
+| [`docs/09-seo.md`](docs/09-seo.md) | **SEO mit einer Mess-Engine** — das `claude-seo`-Plugin sauber installieren (`/seo audit <url>`), die Python-Deps-Falle auf macOS umgehen, und welche Fixes wirklich Rankings bewegen |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
 | [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Doppelklick-Starter** für Mac (`.command`) + Windows (`.bat`) — Claude direkt im Skip-Permissions-Modus |
