@@ -1,14 +1,13 @@
 ---
 name: second-opinion
 description: >-
-  Holt eine kostenlose ZWEITE MEINUNG zu Code von einem lokalen Code-Modell
-  (Ollama qwen2.5-coder auf dem Mac mini) — als Gegen-Review zu Claude-generiertem
-  Code, damit Bugs/Security/Edge-Cases gefunden werden, die dem ersten Modell
-  entgangen sind. Nutze dies, wenn der User eine zweite Meinung, einen Gegen-Check,
-  ein adversariales Review will, oder bevor Code committed/gemerged wird. Trigger:
-  "zweite Meinung", "second opinion", "gegen-check", "lass codex/ollama drueberschauen",
-  "review den diff lokal", "ist der code gut", "vor dem merge nochmal pruefen".
-  Nutzt echtes OpenAI-Codex wenn eingeloggt, sonst lokal & gratis via Ollama.
+  Holt eine ZWEITE MEINUNG zu Code von einem anderen Modell — echtes OpenAI-Codex
+  wenn eingeloggt, sonst kostenlos & lokal via Ollama (qwen2.5-coder). Gegen-Review
+  zu Claude-generiertem Code, damit Bugs/Security/Edge-Cases gefunden werden, die dem
+  ersten Modell entgangen sind. Nutze dies, wenn der User eine zweite Meinung, einen
+  Gegen-Check, ein adversariales Review will, oder bevor Code committed/gemerged wird.
+  Trigger: "zweite Meinung", "second opinion", "gegen-check", "lass codex/ollama
+  drueberschauen", "review den diff lokal", "ist der code gut", "vor dem merge pruefen".
 ---
 
 # Second Opinion (Code-Reviewer, zweites Modell)
