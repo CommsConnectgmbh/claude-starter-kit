@@ -148,7 +148,7 @@ cd pro/skills && ./install-pro-skills.sh
 
 - **Gebundelt** (in diesem Repo, MIT):
   - `autoplan`, `spec` (gstack-derived) — Plan durch Multi-Lens-Review; vage Idee → ausführbare Spec
-  - `second-opinion` — kostenloser lokaler Code-Reviewer via Ollama (Codex-Plugin-Ersatz)
+  - `second-opinion` — zweites Modell reviewt deinen Code adversarial: OpenAI Codex wenn eingeloggt, sonst kostenlos & lokal via Ollama
   - `compliance` — Quartals-Audit-Pattern (Aikido + Supabase Advisors + Prowler)
   - `fal-ai`, `openai-image` — direkter API-Zugriff für Marketing-Creative (BYO Key)
 - **Geklont** (obra/superpowers, MIT): `when-stuck`, `root-cause-tracing`, `inversion-exercise`, `dispatching-parallel-agents`, `subagent-driven-development`.
