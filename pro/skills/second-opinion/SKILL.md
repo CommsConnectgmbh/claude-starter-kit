@@ -7,16 +7,22 @@ description: >-
   wants a second opinion, a counter-check, an adversarial review, or before
   code is committed/merged. Trigger phrases: "second opinion", "counter check",
   "review the diff locally", "have ollama look at it", "before I merge",
-  "is this code OK?", "adversarial review". Free local alternative to a paid
-  cloud reviewer plugin — runs entirely on your machine.
+  "is this code OK?", "adversarial review". Uses OpenAI Codex when logged in,
+  otherwise a free local model (Ollama) — a foreign model catches different bugs.
 ---
 
-# Second Opinion (local code reviewer)
+# Second Opinion (code reviewer, different model)
 
-A **free, local** alternative to paid cloud code-review plugins. A second,
-**different** model (Ollama, default `qwen2.5-coder`) reviews the code
-adversarially — a foreign model catches different mistakes than the one that
-wrote the code.
+Get a **second opinion** from a **different** model — a foreign model catches
+different mistakes than the one that wrote the code.
+
+**Two backends, chosen automatically:**
+- **Codex** (OpenAI, paid subscription) — when `codex` is installed *and* logged
+  in (`codex login`). Preferred.
+- **Ollama** `qwen2.5-coder` (local, free) — fallback when there is no Codex login.
+
+Force with `SECOND_OPINION_BACKEND=codex|ollama`.
+Override the Codex model with `SECOND_OPINION_CODEX_MODEL=<name>`.
 
 ## When to use
 
@@ -26,17 +32,15 @@ wrote the code.
 
 ## Prerequisite
 
-Ollama is running locally (`http://localhost:11434`) with a coder model
-installed. **No third-party account required** — this is what makes the skill
-free. Install once:
+Either one is enough:
+- **Codex:** `npm i -g @openai/codex` and a one-time `codex login`
+  (ChatGPT subscription or API key).
+- **Ollama:** running locally (`http://localhost:11434`) with a coder model.
+  Install once: `ollama pull qwen2.5-coder:14b-instruct`.
 
-```bash
-# install Ollama → https://ollama.com/download
-ollama pull qwen2.5-coder:14b-instruct
-```
-
-A smaller model (7b) works too and is much faster on modest hardware — just
-expect more noise to triage.
+A smaller Ollama model (7b) works too and is much faster on modest hardware —
+just expect more noise to triage. Codex is stronger but sends the diff to
+OpenAI; Ollama stays fully local and free.
 
 ## Usage
 
