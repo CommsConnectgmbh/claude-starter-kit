@@ -16,7 +16,7 @@ Erstes Mal: Rechtsklick → **Öffnen** (Gatekeeper-Warnung bestätigen). Danach
 Variante mit fixem Projekt-Ordner:
 
 ```bash
-CLAUDE_LAUNCHER_WORKDIR=/Volumes/Code/MeinProjekt ~/Desktop/start-claude.command
+CLAUDE_LAUNCHER_WORKDIR=~/projekte/mein-projekt ~/Desktop/start-claude.command
 ```
 
 …oder die `WORKDIR`-Zeile direkt im `.command`-Skript anpassen.

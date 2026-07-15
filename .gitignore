@@ -39,3 +39,7 @@ pro/self-heal/nightly.log
 pro/self-heal/nightly.err.log
 node_modules/
 package-lock.json
+
+# Privater Launch-Plan, nie ins public Repo
+docs/LAUNCH.md
+LAUNCH.md
