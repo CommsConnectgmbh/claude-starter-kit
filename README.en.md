@@ -53,6 +53,7 @@ This installs four skills + (optionally) the German legal/tax agents + a safe `s
 | `scrape` | Pull read-only data from a website as clean JSON. |
 | `skillify` | Turn a successful `/scrape` into a reusable script — instant next time. |
 | `canary` | After a deploy, watch the live URL and alert only on real regressions (relative to a baseline, not absolute). |
+| `hygiene` | Strip invisible Unicode from text and metadata from images — before sending, before importing, before uploading. |
 
 Try it: type `/council Should I ship my half-built feature to ten users now, or finish it first?` in Claude Code — this is what it looks like ([GIF above](#claude-starter-kit), [how it's made](assets/council-demo/)).
 
@@ -124,6 +125,7 @@ Did this save you an afternoon of digging through docs? A ⭐ helps others find 
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Real German legal & tax research agents** as a worked example of how a domain agent is built (source discipline, disclaimer, workflow) |
 | [`templates/memory/`](templates/memory/) | Example of what memory entries should look like |
 | [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Double-click launchers** for Mac (`.command`) + Windows (`.bat`) — Claude straight in skip-permissions mode |
+| [`templates/upload-hardening/`](templates/upload-hardening/) | **Harden uploads** — strip EXIF/GPS from images before they reach storage (TypeScript, dependency-free, lossless) |
 | [`install.sh`](install.sh) | One-command installer for everything above (`--yes`, `--with-pro`, `--no-agents`, `--with-launcher`) |
 | [`pro/skills/`](pro/skills/) | **Optional pro layer**: 6 bundled skills (`autoplan`, `spec`, `second-opinion`, `compliance`, `fal-ai`, `openai-image`) + 5 cloned obra skills |
 | [`pro/self-heal/`](pro/self-heal/) | **Runnable self-healing**: synthetic Playwright user + fix-PR agent + launchd/cron template |
