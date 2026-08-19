@@ -58,9 +58,10 @@ install_skill() {
   mkdir -p "$dst_dir"
   cp "$src" "$dst"
   for asset in "$SRC_DIR/skills/$name"/*; do
-    [[ -f "$asset" ]] || continue
+    [[ -e "$asset" ]] || continue
     [[ "$(basename "$asset")" == "SKILL.md" ]] && continue
-    cp "$asset" "$dst_dir/"
+    # Verzeichnisse mitnehmen (z. B. scripts/), sonst fehlen Skills ihre Helfer.
+    cp -R "$asset" "$dst_dir/"
   done
   ok "Installed skill: $name"
 }
@@ -83,7 +84,7 @@ say "  council  — 5-perspective decision helper"
 say "  scrape   — read-only web data → clean JSON"
 say "  skillify — codify a successful scrape into a reusable script"
 say "  canary   — post-deploy monitoring (alerts on what changed vs a baseline)"
-for s in council scrape skillify canary; do install_skill "$s"; done
+for s in council scrape skillify canary hygiene; do install_skill "$s"; done
 
 if [[ -z "$NO_AGENTS" ]]; then
   sec "German legal + tax research agents (--no-agents to skip)"

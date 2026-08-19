@@ -55,6 +55,7 @@ Das installiert vier Skills + (auf Wunsch) die deutschen Recht/Steuer-Agents + e
 | `scrape` | Read-only Daten von einer Webseite als sauberes JSON ziehen. |
 | `skillify` | Einen erfolgreichen `/scrape` als wiederverwendbares Skript ablegen — beim nächsten Mal instant. |
 | `canary` | Nach dem Deploy die Live-URL überwachen und nur bei echten Regressionen alarmieren (relativ zur Baseline, nicht absolut). |
+| `hygiene` | Unsichtbare Unicode-Zeichen aus Text und Metadaten aus Bildern entfernen — vor dem Versand, vor dem Import, vor dem Upload. |
 
 Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?` — so sieht das aus ([GIF oben](#claude-starter-kit), [wie es entsteht](assets/council-demo/)).
 
@@ -124,6 +125,7 @@ Hat dir das einen Nachmittag Doku-Wühlen gespart? Ein ⭐ hilft anderen im DACH
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
 | [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
 | [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Doppelklick-Starter** für Mac (`.command`) + Windows (`.bat`) — Claude direkt im Skip-Permissions-Modus |
+| [`templates/upload-hardening/`](templates/upload-hardening/) | **Uploads absichern** — EXIF/GPS aus Bildern entfernen, bevor sie im Storage landen (TypeScript, ohne Abhängigkeiten, verlustfrei) |
 | [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`, `--with-launcher`) |
 | [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: 6 Skills gebundelt (`autoplan`, `spec`, `second-opinion`, `compliance`, `fal-ai`, `openai-image`) + 5 obra-Skills geklont |
 | [`pro/self-heal/`](pro/self-heal/) | **Lauffähiges Self-Healing**: synthetischer Playwright-Nutzer + Fix-PR-Agent + launchd/cron-Template |

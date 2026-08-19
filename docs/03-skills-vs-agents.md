@@ -68,3 +68,34 @@ Write descriptions like trigger documentation: include example phrases, list non
 ## When you don't need either
 
 Sometimes the right answer is just a CLAUDE.md rule, or a one-time instruction you give per-conversation. Don't create a skill for something you do twice a year — the maintenance cost (broken when you change tools, drifts out of date) exceeds the savings.
+
+## Installing skills from someone else's collection
+
+Large public skill collections exist — some with several hundred entries in a single
+repository, often installable with one command. Resist that command.
+
+Claude picks a skill by reading **every** description before deciding. Descriptions are the
+one part of a skill that is always in context. Install 800 of them and you have not gained
+800 capabilities; you have buried the twelve you actually use under a pile of noise, and
+made every selection worse.
+
+Curate instead. The question for each candidate is narrow: **does this skill point at
+something that actually exists in my stack?** A skill about hardening a service you don't
+run, or about a threat model that doesn't apply to you, costs context on every single turn
+and returns nothing.
+
+A workable routine:
+
+1. Clone the collection to a scratch directory, don't install it.
+2. Grep the skill names for the technologies you really use.
+3. Read two or three candidates in full — that tells you whether the collection is genuine
+   expertise or generated filler.
+4. Copy over the handful that survive, and write down **why** each one earned its place.
+   Future you will not remember, and that note is what makes the set prunable later.
+5. Keep the source, licence and a removal snippet next to them. Third-party skills that
+   cannot be cleanly removed become permanent whether they still help or not.
+
+Attribution is not optional: most of these collections are permissively licensed but still
+require the notice to travel with the code. And check who actually publishes a collection —
+a repository name containing a well-known vendor's name does not mean that vendor wrote it
+or stands behind it.
