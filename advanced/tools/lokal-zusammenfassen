@@ -1,0 +1,259 @@
+#!/usr/bin/env python3
+"""lokal-zusammenfassen: lange Mails, PDFs und Tabellen mit dem lokalen Modell verdichten.
+
+  lokal-zusammenfassen <datei> [<datei> ...]        Standard-Zusammenfassung
+  lokal-zusammenfassen -a "Auftrag" <datei>          eigener Auftrag (z. B. "Liste alle Fristen")
+  lokal-zusammenfassen - < text.txt                  Text von stdin
+  lokal-zusammenfassen --nur-text <datei>            nur Text/Zählung ausgeben, kein Modell
+
+Unterstützt: PDF, DOCX/DOC/RTF/ODT, XLSX/CSV, EML, TXT/MD.
+Läuft komplett auf diesem Mac (Ollama, Standardmodell gemma4:12b ohne Denkmodus).
+Kundendaten verlassen den Rechner nicht, es fallen keine Credits an.
+
+Tabellen werden per Skript exakt gezählt; das Modell formuliert nur und rechnet nicht.
+Fristen, Beträge und Zitate aus dem Ergebnis vor der Verwendung am Original prüfen.
+"""
+import argparse
+import collections
+import csv
+import email
+import email.policy
+import html
+import io
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+OLLAMA = "http://localhost:11434/api/chat"
+MODELL = "gemma4:12b"
+MAX_ZEICHEN = 400_000  # darüber wird abgebrochen statt still gekürzt
+
+SYSTEM = (
+    "Du bist ein sorgfältiger Assistent für ein Beratungsunternehmen. Antworte auf Deutsch, "
+    "sachlich und knapp. Erfinde nichts: Was nicht im Material steht, kennzeichnest du mit "
+    "'nicht im Dokument'. Rechne und zähle nie selbst; exakte Zahlen stehen, falls nötig, im "
+    "Abschnitt EXAKTE ZÄHLUNG und werden unverändert übernommen. Schreibe keine Antworten oder "
+    "Mails an Dritte, außer der Auftrag verlangt es ausdrücklich."
+)
+
+STANDARD_AUFTRAG = (
+    "Fasse das Material zusammen:\n"
+    "1. Kernaussage in 1-2 Sätzen.\n"
+    "2. Wichtige Punkte (höchstens 8 Stichpunkte).\n"
+    "3. Beteiligte (Firmen, Personen, Rollen).\n"
+    "4. Fristen, Termine und Beträge: jeweils mit wörtlichem Kurzzitat und Fundstelle "
+    "(Seite, Abschnitt oder Mail-Datum).\n"
+    "5. Offene Punkte und was als Nächstes zu tun ist.\n"
+    "Fehlt etwas davon, schreibe 'nicht im Dokument'."
+)
+
+
+def fehler(text: str, code: int = 1):
+    print(f"lokal-zusammenfassen: {text}", file=sys.stderr)
+    sys.exit(code)
+
+
+def html_zu_text(s: str) -> str:
+    s = re.sub(r"(?is)<(style|script).*?</\1>", "", s)
+    s = re.sub(r"(?i)<br\s*/?>|</p>|</div>|</tr>", "\n", s)
+    return html.unescape(re.sub(r"<[^>]+>", "", s))
+
+
+def pdf2md_pfad():
+    """pdf2md-Starter auf Mac oder Windows (pdf2md.cmd), sonst None."""
+    import shutil
+    gefunden = shutil.which("pdf2md.cmd" if os.name == "nt" else "pdf2md")
+    if gefunden:
+        return Path(gefunden)
+    # Windows: nur der .cmd-Starter ist ausführbar; "pdf2md" ohne Endung ist der Git-Bash-Starter
+    for name in (("pdf2md.cmd",) if os.name == "nt" else ("pdf2md",)):
+        kandidat = Path.home() / ".local" / "bin" / name
+        if kandidat.exists():
+            return kandidat
+    return None
+
+
+def pdf_text(p: Path) -> str:
+    # Erst pdf2md: erhält Tabellen und liest Scans per Texterkennung; pdftotext ist Rückfall.
+    pdf2md = pdf2md_pfad()
+    if pdf2md:
+        r = subprocess.run([str(pdf2md), "--cat", str(p)], capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        if r.returncode == 0 and r.stdout.strip():
+            return r.stdout
+        print(f"lokal-zusammenfassen: pdf2md fehlgeschlagen, nehme pdftotext: {r.stderr.strip()[-300:]}",
+              file=sys.stderr)
+    try:
+        r = subprocess.run(["pdftotext", "-layout", str(p), "-"], capture_output=True, text=True, check=True)
+    except FileNotFoundError:
+        fehler("pdftotext fehlt (brew install poppler)")
+    except subprocess.CalledProcessError as e:
+        fehler(f"PDF nicht lesbar: {p.name}: {e.stderr.strip()}")
+    seiten = r.stdout.split("\f")
+    teile = [f"[Seite {i}]\n{s.strip()}" for i, s in enumerate(seiten, 1) if s.strip()]
+    if not teile:
+        fehler(f"{p.name} enthält keinen Text (gescanntes PDF?). Bitte vorher OCR ausführen.")
+    return "\n\n".join(teile)
+
+
+def office_text(p: Path) -> str:
+    if sys.platform != "darwin":  # Windows/Linux: DOCX/PPTX über pdf2md (docling)
+        pdf2md = pdf2md_pfad()
+        if not pdf2md:
+            fehler(f"pdf2md fehlt; DOCX/PPTX lassen sich ohne pdf2md nicht lesen: {p.name}")
+        r = subprocess.run([str(pdf2md), "--cat", str(p)], capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        if r.returncode != 0:
+            fehler(f"Dokument nicht lesbar: {p.name}: {r.stderr.strip()[-300:]}")
+        return r.stdout
+    r = subprocess.run(["textutil", "-convert", "txt", "-stdout", str(p)], capture_output=True, text=True)
+    if r.returncode != 0:
+        fehler(f"Dokument nicht lesbar: {p.name}: {r.stderr.strip()}")
+    return r.stdout
+
+
+def eml_text(p: Path) -> str:
+    msg = email.message_from_bytes(p.read_bytes(), policy=email.policy.default)
+    kopf = "\n".join(f"{k}: {msg[k]}" for k in ("From", "To", "Cc", "Date", "Subject") if msg[k])
+    teil = msg.get_body(preferencelist=("plain", "html"))
+    inhalt = ""
+    if teil is not None:
+        inhalt = teil.get_content()
+        if teil.get_content_type() == "text/html":
+            inhalt = html_zu_text(inhalt)
+    anhaenge = [a.get_filename() for a in msg.iter_attachments() if a.get_filename()]
+    if anhaenge:
+        kopf += "\nAnhänge (nicht gelesen): " + ", ".join(anhaenge)
+    return kopf + "\n\n" + inhalt
+
+
+def tabelle_zeilen(p: Path) -> list[tuple[str, list[list[str]]]]:
+    if p.suffix.lower() == ".csv":
+        roh = p.read_bytes()
+        for enc in ("utf-8-sig", "cp1252"):
+            try:
+                txt = roh.decode(enc)
+                break
+            except UnicodeDecodeError:
+                continue
+        dialekt = csv.Sniffer().sniff(txt[:5000], delimiters=",;\t")
+        return [(p.stem, [r for r in csv.reader(io.StringIO(txt), dialekt) if any(c.strip() for c in r)])]
+    try:
+        import openpyxl
+    except ImportError:
+        fehler("openpyxl fehlt (python3 -m pip install openpyxl)")
+    wb = openpyxl.load_workbook(p, data_only=True, read_only=True)
+    blaetter = []
+    for ws in wb.worksheets:
+        zeilen = []
+        for r in ws.iter_rows(values_only=True):
+            if any(c is not None and str(c).strip() for c in r):
+                zeilen.append(["" if c is None else str(c).strip() for c in r])
+        if zeilen:
+            blaetter.append((ws.title, zeilen))
+    return blaetter
+
+
+def tabelle_text(p: Path) -> str:
+    """Exakte Zählung per Skript plus Kopf und Beispielzeilen fürs Modell."""
+    teile = []
+    for blatt, zeilen in tabelle_zeilen(p):
+        kopf = [re.sub(r"\s+", " ", h) or f"Spalte {i + 1}" for i, h in enumerate(zeilen[0])]
+        daten = zeilen[1:]
+        z = [f"EXAKTE ZÄHLUNG (per Skript, Blatt '{blatt}')", f"Datenzeilen: {len(daten)}"]
+        for i, name in enumerate(kopf):
+            werte = [r[i] for r in daten if i < len(r) and r[i]]
+            zaehler = collections.Counter(werte)
+            if not werte:
+                continue
+            if len(zaehler) <= 30:
+                liste = "; ".join(f"{w}: {n}" for w, n in zaehler.most_common())
+                z.append(f"- {name} ({len(zaehler)} verschiedene Werte): {liste}")
+            else:
+                z.append(f"- {name}: {len(zaehler)} verschiedene Werte, z. B. {', '.join(list(zaehler)[:5])}")
+        beispiel = "\n".join(";".join(r) for r in zeilen[:6])
+        teile.append("\n".join(z) + f"\n\nKopfzeile und erste Zeilen:\n{beispiel}")
+    return "\n\n".join(teile)
+
+
+def lies(p: str) -> tuple[str, str]:
+    if p == "-":
+        return "stdin", sys.stdin.read()
+    pfad = Path(p).expanduser()
+    if not pfad.is_file():
+        fehler(f"Datei nicht gefunden: {p}")
+    endung = pfad.suffix.lower()
+    if endung == ".pdf":
+        return pfad.name, pdf_text(pfad)
+    if endung in (".docx", ".doc", ".rtf", ".odt", ".html", ".htm"):
+        return pfad.name, office_text(pfad)
+    if endung == ".eml":
+        return pfad.name, eml_text(pfad)
+    if endung in (".xlsx", ".xlsm", ".csv"):
+        return pfad.name, tabelle_text(pfad)
+    return pfad.name, pfad.read_text(errors="replace")
+
+
+def frage_modell(modell: str, auftrag: str, material: str) -> tuple[str, dict]:
+    ctx = 8192
+    while ctx < len(material) // 3 + 6000 and ctx < 131072:
+        ctx *= 2
+    body = json.dumps({
+        "model": modell,
+        "stream": False,
+        "think": False,
+        "options": {"num_ctx": ctx, "temperature": 0.2},
+        "messages": [
+            {"role": "system", "content": SYSTEM},
+            {"role": "user", "content": f"{auftrag}\n\n=== MATERIAL ===\n{material}"},
+        ],
+    }).encode()
+    req = urllib.request.Request(OLLAMA, body, {"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=1800) as r:
+            antwort = json.load(r)
+    except urllib.error.URLError as e:
+        fehler(f"Ollama nicht erreichbar ({e.reason}). Start: brew services start ollama")
+    if "error" in antwort:
+        fehler(f"Ollama: {antwort['error']} (Modell laden: ollama pull {modell})")
+    return antwort["message"]["content"], antwort
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("dateien", nargs="+", help="Dateien oder - für stdin")
+    ap.add_argument("-a", "--auftrag", help="eigener Auftrag statt Standard-Zusammenfassung")
+    ap.add_argument("-m", "--modell", default=MODELL, help=f"Ollama-Modell (Standard {MODELL})")
+    ap.add_argument("--nur-text", action="store_true", help="nur extrahierten Text/Zählung ausgeben")
+    a = ap.parse_args()
+
+    stuecke, namen = [], []
+    for d in a.dateien:
+        name, text = lies(d)
+        text = re.sub(r"\n\s*\n+", "\n\n", text).strip()
+        namen.append(name)
+        stuecke.append(f"##### Quelle: {name}\n{text}")
+    material = "\n\n".join(stuecke)
+    if len(material) > MAX_ZEICHEN:
+        fehler(f"Material zu groß ({len(material)} Zeichen). Bitte in Teilen zusammenfassen.")
+    if a.nur_text:
+        print(material)
+        return
+
+    start = time.time()
+    text, info = frage_modell(a.modell, a.auftrag or STANDARD_AUFTRAG, material)
+    dauer = time.time() - start
+    print(f"<!-- lokal-zusammenfassen · {', '.join(namen)} · {a.modell} · "
+          f"{info.get('prompt_eval_count', 0)} Token gelesen · {dauer:.0f}s · "
+          f"Fristen/Beträge am Original prüfen -->")
+    print(text.strip())
+
+
+if __name__ == "__main__":
+    main()

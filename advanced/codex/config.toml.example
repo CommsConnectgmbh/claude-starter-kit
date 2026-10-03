@@ -1,0 +1,7 @@
+# ~/.codex/config.toml (Ausschnitt): Codex ist die Basis.
+# Standard: das günstige, starke Modell mit mittlerem Denkaufwand.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "medium"
+
+# Datenschutz-Hook (siehe advanced/hooks/privacy-guard.py) in ~/.codex/hooks.json eintragen,
+# Beispiel in docs/11-advanced-setup.md.

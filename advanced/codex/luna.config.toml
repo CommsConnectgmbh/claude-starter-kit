@@ -1,0 +1,3 @@
+# ~/.codex/luna.config.toml, Aufruf: codex exec -p luna "..."
+# Für Automationen und Massenarbeit: ein Bruchteil der Credits von Sol.
+model = "gpt-6-luna"
