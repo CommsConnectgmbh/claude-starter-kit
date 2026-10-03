@@ -10,7 +10,7 @@ Für alle, die nach dem Starter-Kit weniger zahlen, Token sparen und Kundendaten
 
 | Rolle | Dienst | Kosten (netto/Monat) | Bekommt Kundendaten? |
 |---|---|---|---|
-| **Basis:** Mails, Kunden, Texte, Routine-Code, Gegencheck | Codex über **ChatGPT Business** | 42 € (jährlich) bzw. 52 € (monatlich) für die Mindestzahl von 2 Plätzen, plus Credits nach Bedarf | **Ja** (AVV, kein Training) |
+| **Basis:** Mails, Kunden, Texte, Routine-Code, Gegencheck | Codex über **ChatGPT Business** | ab 42 € (jährlich) bzw. 52 € (monatlich) für die Mindestzahl von 2 Standard-Plätzen; mit einem 100-US-$-Platz in der Praxis rund 130 € (siehe Abschnitt 2) | **Ja** (AVV, kein Training) |
 | **Gehirn:** Planung, Architektur, schwierige Fehler, Prüfen | **Claude Pro**, bei Bedarf **Max 5x** | 18 € (15 € jährlich) bzw. 90 € | **Nein** (Verbraucher-Abo ohne AVV) |
 | **Recherche und Visuelles:** Web, Doku, Video, Screenshots | **Google AI Pro** (Gemini, CLI `agy`) | 18,48 € (21,99 € brutto) | **Nein** (Verbraucher-Abo ohne AVV) |
 | **Lokal:** PDFs umwandeln, lange Inhalte verdichten | **Ollama** + **docling** auf dem eigenen Rechner | 0 € | **Ja** (Daten verlassen den Rechner nicht) |
@@ -19,14 +19,27 @@ Autor ≠ Prüfer: Was Codex schreibt, prüft Claude; was Claude plant oder baut
 
 ## 2. Was kostet das, verglichen mit „alles bei Claude“?
 
-| | Empfohlen: Codex-Basis | Mit größerem Gehirn | Alles bei Claude | Alles mit AVV (kleines Team) |
-|---|---|---|---|---|
-| Zusammensetzung | Business 2 Plätze + Claude Pro + Google AI Pro + Ollama | wie links, aber Claude Max 5x | Claude Max 20x | Claude Team (1 Premium + 1 Standard) + Business + Google AI Pro |
-| Monatlich abgerechnet | **88,48 €** + Codex-Credits | **160,48 €** + Codex-Credits | **180 €** | **196,75 €** |
-| Jährlich abgerechnet | 75,48 € + Credits | 150,48 € + Credits (Max nur monatlich) | 180 € (nur monatlich) | 168,48 € |
-| AVV für Kundendaten | Codex | Codex | **keiner** | Claude **und** Codex |
+**Erst die Codex-Plätze verstehen.** ChatGPT Business braucht mindestens 2 Plätze. Es gibt zwei Arten:
 
-<!-- Rechenweg: Business 2×26 € monatlich / 2×21 € jährlich; Claude Pro 18/15 €; Max 5x 90 €; Max 20x 180 € (200 US-$, Euro-Preis aus dem Verhältnis 100/200 $ zu 90 €); Google AI Pro 21,99 € brutto = 18,48 € netto; Claude Team Premium 105,23/90 €, Standard 21,04/18 €. -->
+| Platz | Preis | Codex-Kontingent pro 5 Stunden (laut OpenAI) |
+|---|---|---|
+| Standard | 21 € jährlich / 26 € monatlich | wie Plus: GPT-6 Astra 5–45, GPT-6 Sol 15–150, GPT-6 Luna 350–3.000 Nachrichten |
+| Business 100 US-$ | 100 US-$ (Euro-Preis auf der Seite nicht angegeben) | GPT-6 Astra voll im Kontingent enthalten, Kontingent wie Pro 5x: Astra 25–225, Sol 70–700, Luna 1.750–14.000 |
+
+Über das Kontingent hinaus kauft man Credits. Wer Codex als echte Basis für den ganzen Arbeitstag nutzt, nimmt einen 100-US-$-Platz plus einen Standard-Platz. Das ergab bei uns rund **130 € im Monat**. Quelle: [chatgpt.com/codex/pricing](https://chatgpt.com/de-DE/codex/pricing/?type=team).
+
+
+| | Einstieg: Codex-Basis klein | Empfohlen: Codex-Basis voll | Mit größerem Gehirn | Alles bei Claude |
+|---|---|---|---|---|
+| Zusammensetzung | 2 Standard-Plätze + Claude Pro + Google AI Pro + Ollama | 100-$-Platz + Standard-Platz + Claude Pro + Google AI Pro + Ollama | wie „voll“, aber Claude Max 5x | Claude Max 20x |
+| Netto pro Monat | **88,48 €** (jährlich 75,48 €) + Credits bei Bedarf | **rund 166 €** (130 € + 18 € + 18,48 €) | **rund 238 €** | **180 €** |
+| Codex-Kontingent | wie Plus | wie Pro 5x, Astra inklusive | wie Pro 5x | keines |
+| Claude-Kontingent | Pro | Pro | Max 5x | Max 20x |
+| AVV für Kundendaten | Codex | Codex | Codex | **keiner** |
+
+Zum Vergleich, wenn auch Claude Kundendaten sehen soll: Claude Team (1 Premium- + 1 Standard-Platz, 126,27 € monatlich bzw. 108 € jährlich) hat einen AVV; zusammen mit 2 Standard-Codex-Plätzen und Google AI Pro sind das 196,75 € monatlich bzw. 168,48 € jährlich.
+
+<!-- Rechenweg: Standard-Platz 26 € monatlich / 21 € jährlich; 130 € = reale Rechnung für 1 Business-100-$-Platz + 1 Standard-Platz; Claude Pro 18/15 €; Max 5x 90 €; Max 20x 180 € (200 US-$, Euro-Preis aus dem Verhältnis 100/200 $ zu 90 €); Google AI Pro 21,99 € brutto = 18,48 € netto; Claude Team Premium 105,23/90 €, Standard 21,04/18 €. 238 € = 130 + 90 + 18,48. -->
 
 Quellen (Stand 03.10.2026): [claude.com/pricing](https://claude.com/pricing), [chatgpt.com/pricing](https://chatgpt.com/pricing), [one.google.com](https://one.google.com). Preise ändern sich: vor dem Abschluss selbst prüfen.
 
@@ -130,7 +143,8 @@ Die gleichen Sätze funktionieren in Claude und in Codex (Tabelle in [`AGENTS.ex
 
 ## 8. Wann lohnt sich was?
 
-- **Solo, Kundendaten im Spiel, knappes Budget:** Codex-Basis mit Claude Pro.
-- **Viel Architektur- und Programmierarbeit:** Claude Max 5x statt Pro.
+- **Solo, Kundendaten im Spiel, knappes Budget:** Codex-Basis klein (2 Standard-Plätze) mit Claude Pro; Astra nur sparsam.
+- **Codex als Arbeitstier für den ganzen Tag:** ein 100-US-$-Platz plus ein Standard-Platz, dazu Claude Pro: günstiger als Claude Max 20x, mit AVV für Kundendaten.
+- **Claude Pro reicht als Gehirn nicht:** Claude Max 5x statt Pro.
 - **Kleines Team, Claude soll auch Kundendaten sehen:** Claude Team statt Pro/Max.
 - **Keine Kundendaten, nur eigene Projekte:** Claude Max 20x allein ist bequem, aber teurer als die Codex-Basis.
