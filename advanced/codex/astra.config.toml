@@ -1,0 +1,4 @@
+# ~/.codex/astra.config.toml, Aufruf: codex exec -p astra "..."
+# Nur für die Endfassung wichtiger Texte und für Freigaben: kostet ein Mehrfaches an Credits.
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"

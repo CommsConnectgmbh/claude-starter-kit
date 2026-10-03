@@ -1,0 +1,182 @@
+#!/usr/bin/env python3
+"""gemini-research: Recherche und Routine-Massenarbeit OHNE Personenbezug an Gemini (Google-AI-Abo).
+
+Claude oder Codex bekommen nur das Kondensat (stdout). Der volle Lauf-Log bleibt lokal.
+
+    gemini-research "Auftrag" [-C <verzeichnis>] [-w <max_woerter>] [-m <modell>]
+
+    -C  Verzeichnis, das Gemini read-only lesen darf. Ohne -C: nur Web.
+        Gemini bekommt eine gefilterte Kopie: ohne .git, node_modules, Secrets,
+        Kunden-Ordner und Codex-Vault; Mailadressen/IBANs in Textdateien maskiert.
+    -w  Wortlimit für das Kondensat. Default: 400
+    -m  Modell (Default gemini-3.8-flash-high; `agy models` zeigt alle,
+        z. B. gemini-3.1-pro-high für schwere Fälle)
+
+Läuft über die Antigravity CLI (`agy`, OAuth am Google-Account, Abo, keine API-Kosten)
+im Plan-Modus (read-only) mit Google-Suche.
+
+Datenschutz (Google-AI-Pro ist ein Verbraucher-Abo ohne Auftragsverarbeitungsvertrag):
+- Auftrag mit persönlichen Mailadressen oder IBANs wird gar nicht erst gesendet.
+- Enthält das Ergebnis trotzdem solche Daten, wird es zurückgehalten (Codex-Vault).
+Kunden-/Personendaten gehören nie hierher.
+Fällt Gemini aus: Recherche direkt in Codex.
+"""
+import argparse, datetime, os, re, shutil, subprocess, sys, tempfile
+
+WINDOWS = os.name == "nt"
+_LOCAL = os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))
+AGY = (os.environ.get("GEMINI_CLI_BIN") or shutil.which("agy")
+       or os.path.expanduser("~/.local/bin/agy" + (".exe" if WINDOWS else "")))
+MODEL = os.environ.get("GEMINI_RESEARCH_MODEL", "gemini-3.8-flash-high")
+TIMEOUT = int(os.environ.get("GEMINI_RESEARCH_TIMEOUT", "900"))
+VAULT = os.environ.get("RESEARCH_VAULT") or (
+    os.path.join(_LOCAL, "research-withheld") if WINDOWS else os.path.expanduser("~/.local/share/research-withheld"))
+LOGROOT = (os.path.join(_LOCAL, "gemini-research", "logs") if WINDOWS
+           else os.path.expanduser("~/Library/Logs/gemini-research"))
+
+EMAIL = re.compile(r"\b([A-Za-z0-9._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,})\b")
+IBAN = re.compile(r"\b[A-Z]{2}[0-9]{2}(?: ?[0-9A-Z]{4}){3,}(?: ?[0-9A-Z]{1,3})?\b")
+ROLE = {"hi", "info", "support", "hello", "kontakt", "contact", "noreply", "no-reply",
+        "datenschutz", "privacy", "security", "admin", "office", "service", "team",
+        "sales", "billing", "abuse", "postmaster", "webmaster", "presse", "press", "jobs"}
+ROLE_DOMAINS = {"example.com", "example.org", "example.net", "users.noreply.github.com"}
+BLOCKED_PATH = re.compile(
+    r"(Vault|/accounts(/|$)|/kunden(/|$)|/\.git(/|$)|/node_modules(/|$)|\.env|\.kdbx$|\.p8$|\.pem$|"
+    r"\.key$|id_rsa|id_ed25519|credentials|secrets?\b|keepass|\.kdbx)",
+    re.I)
+MAX_COPY_BYTES = 300 * 1024 * 1024
+MAX_TEXT_BYTES = 2 * 1024 * 1024
+
+
+def blocked(path):
+    return bool(BLOCKED_PATH.search(path.replace("\\", "/")))
+
+
+def personal_email(m):
+    local, dom = m.group(1).lower(), m.group(2).lower()
+    return not (local in ROLE or dom in ROLE_DOMAINS or dom.endswith(".example"))
+
+
+def has_personal_data(text):
+    return any(personal_email(m) for m in EMAIL.finditer(text)) or bool(IBAN.search(text))
+
+
+def mask(text):
+    text = EMAIL.sub(lambda m: "[mail]" if personal_email(m) else m.group(0), text)
+    return IBAN.sub("[iban]", text)
+
+
+def filtered_copy(src, dst):
+    """Lesekopie ohne gesperrte Pfade, Textdateien maskiert. Bricht ab, wenn zu groß."""
+    total = 0
+    src = os.path.realpath(src)
+    for root, dirs, files in os.walk(src):
+        dirs[:] = [d for d in dirs if not blocked(os.path.join(root, d) + "/")]
+        for name in files:
+            p = os.path.join(root, name)
+            if blocked(p) or os.path.islink(p):
+                continue
+            size = os.path.getsize(p)
+            total += size
+            if total > MAX_COPY_BYTES:
+                raise RuntimeError("Verzeichnis zu groß (über 300 MB nach Filter); bitte engeren Ordner angeben.")
+            target = os.path.join(dst, os.path.relpath(p, src))
+            os.makedirs(os.path.dirname(target), exist_ok=True)
+            if size <= MAX_TEXT_BYTES:
+                try:
+                    with open(p, encoding="utf-8") as fh:
+                        text = fh.read()
+                    with open(target, "w", encoding="utf-8") as fh:
+                        fh.write(mask(text))
+                    continue
+                except (UnicodeDecodeError, ValueError):
+                    pass
+            shutil.copyfile(p, target)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("task")
+    ap.add_argument("-C", dest="dir")
+    ap.add_argument("-w", dest="words", type=int, default=400)
+    ap.add_argument("-m", dest="model", default=MODEL)
+    a = ap.parse_args()
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
+    if has_personal_data(a.task):
+        print("gemini-research: Auftrag enthält persönliche Mailadressen oder IBANs und wird nicht gesendet. "
+              "Personendaten gehören nur zu Diensten mit Auftragsverarbeitungsvertrag (z. B. Codex Business) oder lokal.")
+        return 2
+    if a.dir and (not os.path.isdir(a.dir) or blocked(os.path.realpath(a.dir) + "/")):
+        print("gemini-research: Verzeichnis fehlt oder ist gesperrt (Datenschutz/Secrets).")
+        return 2
+    if not os.path.isfile(AGY):
+        print("gemini-research FEHLER: agy nicht gefunden. Ersatz: Recherche in Codex")
+        return 1
+
+    stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    logdir = os.path.join(LOGROOT, stamp)
+    os.makedirs(logdir, exist_ok=True)
+
+    prompt = (
+        "Du bist ein gründlicher Rechercheur. Antworte auf Deutsch. Nutze die Websuche für alles, was aktuell "
+        "sein muss, und nenne zu jeder Zahl oder Behauptung die Quelle (URL) und das Datum. Keine Schätzungen: "
+        "Was nicht belegt ist, kennzeichnest du mit 'nicht belegt'. Liefere nur ein Kondensat, höchstens "
+        f"{a.words} Wörter, gegliedert in: Kernaussage, Fakten (mit Quellen), offene Punkte. Keine "
+        "personenbezogenen Daten (Namen von Privatpersonen, private Mailadressen, Telefonnummern) ins Kondensat. "
+        "Gib ausschließlich das Kondensat aus: keine Dateien anlegen, keine Walkthroughs, Pläne oder Abschlussmeldungen. "
+        "Quellen-URLs immer auf die konkrete Seite, nicht nur auf die Startseite einer Domain."
+    )
+    prompt += "\n\n--- AUFTRAG ---\n" + a.task
+
+    tmp = None
+    cmd = [AGY, "-p", prompt, "--mode", "plan", "--dangerously-skip-permissions", "--model", a.model]
+    try:
+        if a.dir:
+            tmp = tempfile.mkdtemp(prefix="gemini-research-")
+            filtered_copy(a.dir, tmp)
+            cmd += ["--add-dir", tmp]
+            prompt_note = f"\n\nDu darfst die Dateien unter {tmp} lesen (Kopie von {os.path.basename(a.dir)})."
+            cmd[2] = prompt + prompt_note
+        proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
+                              timeout=TIMEOUT, cwd=tmp or tempfile.gettempdir())
+    except subprocess.TimeoutExpired:
+        print(f"gemini-research FEHLER: Zeitlimit {TIMEOUT}s überschritten. Log: {logdir}")
+        return 1
+    except RuntimeError as e:
+        print(f"gemini-research: {e}")
+        return 2
+    finally:
+        if tmp:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    with open(os.path.join(logdir, "stderr.log"), "w", encoding="utf-8") as fh:
+        fh.write(proc.stderr or "")
+    result = (proc.stdout or "").strip()
+    if proc.returncode != 0 or not result:
+        print(f"gemini-research FEHLER: agy Exit {proc.returncode}, leeres Ergebnis oder Abbruch. "
+              f"Log: {logdir}")
+        return 1
+    with open(os.path.join(logdir, "result.md"), "w", encoding="utf-8") as fh:
+        fh.write(result)
+
+    if has_personal_data(result):
+        target = os.path.join(VAULT, "research-withheld", "gemini-" + stamp)
+        try:
+            os.makedirs(os.path.dirname(target), mode=0o700, exist_ok=True)
+            shutil.move(logdir, target)
+            where = VAULT
+        except OSError:
+            where = logdir
+        print(f"gemini-research: Ergebnis enthält mögliche Personendaten (Mail/IBAN) und wurde zurückgehalten "
+              f"(Lauf gemini-{stamp}, {where}).")
+        return 3
+
+    print(result)
+    print(f"\n[gemini-research {stamp}, {a.model}, voller Log lokal]")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

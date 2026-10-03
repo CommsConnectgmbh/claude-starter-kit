@@ -109,7 +109,7 @@ Did this save you an afternoon of digging through docs? A ⭐ helps others find 
 
 ## What else is in the repo (optional)
 
-> Note: the in-depth guides under `docs/` and the two domain agents are currently **German-only** (they're German legal/tax research agents). The skills, patterns and templates themselves are language-agnostic.
+> Note: most in-depth guides under `docs/` and the two domain agents are currently **German-only** (they're German legal/tax research agents). The skills, patterns and templates themselves are language-agnostic.
 
 | What | For what |
 |---|---|
@@ -122,6 +122,7 @@ Did this save you an afternoon of digging through docs? A ⭐ helps others find 
 | [`docs/08-third-party-accounts.md`](docs/08-third-party-accounts.md) | **Which third-party accounts you need for what** — sign-up links, free-tier status, minimal vs extended |
 | [`docs/09-seo.md`](docs/09-seo.md) | **SEO with a measuring engine** — install the `claude-seo` plugin cleanly (`/seo audit <url>`), dodge the macOS Python-deps trap, and which fixes actually move rankings |
 | [`docs/10-token-efficiency.md`](docs/10-token-efficiency.md) | **Token efficiency — what actually helps, what's hype** — why `CLAUDE.md` is the real lever, and how to measure any "70× fewer tokens" tool against your own repo in ten minutes instead of believing the benchmark |
+| [`docs/11-advanced-setup.en.md`](docs/11-advanced-setup.en.md) | **Advanced setup: Codex as your base, Claude as the brain, handling data privacy**: cost comparison with sourced prices, which plans can receive customer data, step-by-step account setup, privacy hook, token savings backed by measurements |
 | [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Real German legal & tax research agents** as a worked example of how a domain agent is built (source discipline, disclaimer, workflow) |
 | [`templates/memory/`](templates/memory/) | Example of what memory entries should look like |
 | [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Double-click launchers** for Mac (`.command`) + Windows (`.bat`) — Claude straight in skip-permissions mode |
