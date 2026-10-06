@@ -34,7 +34,7 @@ This skill is the orchestrator — the scanners are run by **your** accounts at:
 
 | Service | Sign up | Free tier |
 |---|---|---|
-| [Aikido](https://www.aikido.dev/) | [aikido.dev/signup](https://app.aikido.dev/login/signup) | Free tier covers small repos + cloud |
+| [Aikido](https://www.aikido.dev/) | [aikido.dev/signup](https://app.aikido.dev/login/signup) | Free tier scans repos + cloud, but `/api/public/v1/issues/export` (and `/repositories/code`, `/workspace`) return `402 Payment Required` on the free plan — the API export needs a paid plan. Free-plan users only get findings via the dashboard UI and the (optional) weekly digest mail. |
 | [Supabase](https://supabase.com/) *(skip if not on it)* | [supabase.com/dashboard](https://supabase.com/dashboard) | Free tier; Advisors API is included |
 | [Prowler](https://prowler.com/) | OSS — `pip install prowler` ([docs](https://docs.prowler.com)) | Free OSS CLI; cloud version optional |
 
@@ -75,6 +75,12 @@ compliance/
 ## Flow of a quarterly run
 
 1. **Aikido** — OAuth client-credentials → `/issues/export` → classify by severity + repo.
+   *Requires a paid Aikido plan.* On the free plan this call (and `/repositories/code`,
+   `/workspace`) returns `402`/`403`; there is no API-based enumeration of individual
+   findings. If you're on the free plan, either upgrade before running this skill, or
+   accept that Aikido coverage in the report is dashboard/digest-only (aggregate counts,
+   not enumerable findings) and disclose that limitation in the report instead of
+   silently treating it as "0 findings".
 2. **Supabase Advisors** *(skip if not used)* — enumerate `/v1/projects`, then per project hit `/advisors/security` + `/advisors/performance`.
 3. **Prowler** (sequential, one per provider you use):
    - `prowler github --personal-access-token $GITHUB_PAT`
