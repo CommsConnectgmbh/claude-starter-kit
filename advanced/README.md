@@ -1,12 +1,12 @@
 # advanced/
 
-Werkzeuge und Vorlagen zum Leitfaden [`docs/11-advanced-setup.md`](../docs/11-advanced-setup.md):
-Codex als Basis, Claude als Gehirn, Gemini für Recherche, lokale Modelle für Vorarbeit, Datenschutz technisch erzwungen.
+Tools and templates for [`docs/11-advanced-setup.md`](../docs/11-advanced-setup.md):
+Codex as your base, Claude as the brain, Gemini for research, local models for preparation, and privacy enforced through tooling.
 
-| Datei | Wofür |
+| File | Purpose |
 |---|---|
-| [`tools/gemini-research`](tools/gemini-research) | Recherche ohne Personenbezug über Gemini (Google AI Pro, CLI `agy`), nur Kondensat mit Quellen zurück; blockiert Mailadressen und IBANs |
-| [`tools/lokal-zusammenfassen`](tools/lokal-zusammenfassen) | Lange Mails, PDFs, Tabellen lokal mit Ollama verdichten; Tabellen werden per Skript exakt gezählt |
-| [`hooks/privacy-guard.py`](hooks/privacy-guard.py) | Datenschutz-Hook für Claude Code (`--brain`) und Codex |
-| [`codex/`](codex/) | Codex-Konfiguration, Profile `astra`/`luna`, Vorlage `AGENTS.md` |
-| [`claude/CLAUDE.snippet.md`](claude/CLAUDE.snippet.md) | Regeln für `~/.claude/CLAUDE.md` |
+| [`tools/gemini-research`](tools/gemini-research) | Research without personal data through Gemini (Google AI Pro, `agy` CLI); returns a concise summary with sources and blocks email addresses and IBANs |
+| [`tools/lokal-zusammenfassen`](tools/lokal-zusammenfassen) | Summarize long emails, PDFs, and spreadsheets locally with Ollama; scripts provide exact counts for tables |
+| [`hooks/privacy-guard.py`](hooks/privacy-guard.py) | Privacy hook for Claude Code (`--brain`) and Codex |
+| [`codex/`](codex/) | Codex configuration, `astra`/`luna` profiles, and an `AGENTS.md` template |
+| [`claude/CLAUDE.snippet.md`](claude/CLAUDE.snippet.md) | Rules for `~/.claude/CLAUDE.md` |

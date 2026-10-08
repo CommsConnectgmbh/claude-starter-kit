@@ -1,169 +1,171 @@
-# Advanced Setup: Codex als Basis, Claude als Gehirn, Datenschutz sauber
+[Deutsch](11-advanced-setup.de.md) · **English**
 
-Du nutzt das Starter-Kit und willst als Gründer oder Solo-Selbstständiger deine laufenden Kosten und den Token-Verbrauch im Blick behalten. Dieser Leitfaden zeigt dir, wie du die Arbeit auf Codex, Claude, Gemini und lokale Werkzeuge verteilst und dabei mit Kundendaten umgehst.
+# Advanced setup: Codex as your base, Claude as the brain, handling data privacy
 
-**Die Idee:** Du setzt jedes Modell dort ein, wo es für die Aufgabe und die Kosten passt. Kundendaten gehen nur an Dienste, mit denen ein Auftragsverarbeitungsvertrag (AVV) besteht, oder bleiben auf deinem Rechner.
+You use the starter kit and want to keep track of running costs and token usage as a founder or solo business owner. This guide shows you how to divide work between Codex, Claude, Gemini and local tools, and how to handle customer data in that setup.
 
-Die Preisangaben haben den Stand **03.10.2026** und sind netto, sofern sie nicht ausdrücklich als brutto gekennzeichnet sind. Die Quellen stehen beim Kostenvergleich. Die Fußnote zeigt, welche Werte aus der eigenen Rechnung stammen und wie Beträge abgeleitet wurden.
+**The idea:** Use each model where it fits the task and the cost. Customer data only goes to services covered by a data processing agreement (DPA), or stays on your computer.
 
-## 1. Die Rollen
+Prices are current as of **03.10.2026** and exclude VAT unless explicitly marked as including VAT. Sources are listed with the cost comparison. The footnote shows which figures come from our own bill and how amounts were derived.
 
-Codex ist deine Basis für die tägliche Arbeit. Claude übernimmt Planung und Prüfung, Gemini die Recherche und visuelle Aufgaben. Lange Inhalte kannst du lokal aufbereiten. Die Tabelle zeigt dir auch, welche Dienste in diesem Setup Kundendaten bekommen.
+## 1. The roles
 
-| Rolle | Dienst | Kosten (netto/Monat) | Bekommt Kundendaten? |
+Codex is your base for day-to-day work. Claude handles planning and review, Gemini handles research and visual tasks. You can prepare long documents locally. The table also shows which services receive customer data in this setup.
+
+| Role | Service | Cost (excluding VAT/month) | Receives customer data? |
 |---|---|---|---|
-| **Basis:** Mails, Kunden, Texte, Routine-Code, Gegencheck | Codex über **ChatGPT Business** | ab 42 € (jährlich) bzw. 52 € (monatlich) für die Mindestzahl von 2 Standard-Plätzen; mit einem 100-US-$-Platz in der Praxis rund 130 € (siehe Abschnitt 2) | **Ja** (AVV, kein Training) |
-| **Gehirn:** Planung, Architektur, schwierige Fehler, Prüfen | **Claude Pro**, bei Bedarf **Max 5x** | 18 € (15 € jährlich) bzw. 90 € | **Nein** (Verbraucher-Abo ohne AVV) |
-| **Recherche und Visuelles:** Web, Doku, Video, Screenshots | **Google AI Pro** (Gemini, CLI `agy`) | 18,48 € (21,99 € brutto) | **Nein** (Verbraucher-Abo ohne AVV) |
-| **Lokal:** PDFs umwandeln, lange Inhalte verdichten | **Ollama** + **docling** auf dem eigenen Rechner | 0 € | **Ja** (Daten verlassen den Rechner nicht) |
+| **Base:** email, customers, writing, routine code, cross-checking | Codex through **ChatGPT Business** | from 42 € (annual billing) or 52 € (monthly billing) for the minimum of 2 Standard seats; with a 100-US-$ seat, around 130 € in practice (see section 2) | **Yes** (DPA, no training) |
+| **Brain:** planning, architecture, difficult bugs, review | **Claude Pro**, or **Max 5x** if needed | 18 € (15 € with annual billing) or 90 € | **No** (consumer subscription without a DPA) |
+| **Research and visuals:** web, documentation, video, screenshots | **Google AI Pro** (Gemini, CLI `agy`) | 18,48 € (21,99 € including VAT) | **No** (consumer subscription without a DPA) |
+| **Local:** converting PDFs, condensing long documents | **Ollama** + **docling** on your own computer | 0 € | **Yes** (data stays on your computer) |
 
-Für den Gegencheck gilt: Autor ≠ Prüfer. Was Codex schreibt, lässt du Claude prüfen; was Claude plant oder baut, prüft Codex. Dabei gelten weiterhin die Grenzen für Kundendaten aus der Tabelle.
+For cross-checking, the rule is: author ≠ reviewer. Have Claude review what Codex writes; Codex reviews what Claude plans or builds. The customer data boundaries in the table still apply.
 
-## 2. Was kostet das, verglichen mit „alles bei Claude“?
+## 2. What does it cost compared with doing everything in Claude?
 
-Die Kosten hängen vor allem davon ab, welche Codex-Plätze du wählst und wie viel du mit Claude arbeitest. **Zuerst zu den Codex-Plätzen:** ChatGPT Business braucht mindestens 2 Plätze. Es gibt zwei Arten:
+Costs mainly depend on which Codex seats you choose and how much you work with Claude. **Start with the Codex seats:** ChatGPT Business requires at least 2 seats. There are two types:
 
-| Platz | Preis | Codex-Kontingent pro 5 Stunden (laut OpenAI) |
+| Seat | Price | Codex allowance per 5 hours (according to OpenAI) |
 |---|---|---|
-| Standard | 21 € jährlich / 26 € monatlich | wie Plus: GPT-6 Astra 5–45, GPT-6 Sol 15–150, GPT-6 Luna 350–3.000 Nachrichten |
-| Business 100 US-$ | 100 US-$ (Euro-Preis auf der Seite nicht angegeben) | GPT-6 Astra voll im Kontingent enthalten, Kontingent wie Pro 5x: Astra 25–225, Sol 70–700, Luna 1.750–14.000 |
+| Standard | 21 € with annual billing / 26 € with monthly billing | same as Plus: GPT-6 Astra 5–45, GPT-6 Sol 15–150, GPT-6 Luna 350–3.000 messages |
+| Business 100 US-$ | 100 US-$ (euro price not listed on the page) | GPT-6 Astra fully included in the allowance, same allowance as Pro 5x: Astra 25–225, Sol 70–700, Luna 1.750–14.000 |
 
-Wenn du das Kontingent aufbrauchst, kaufst du zusätzliche Credits. Für Codex als Basis über den ganzen Arbeitstag ist hier ein 100-US-$-Platz plus ein Standard-Platz vorgesehen. Das ergab bei uns rund **130 € im Monat**. Quelle: [chatgpt.com/codex/pricing](https://chatgpt.com/de-DE/codex/pricing/?type=team).
+When you use up the allowance, you buy additional credits. For using Codex as your base throughout the working day, this setup uses a 100-US-$ seat plus a Standard seat. That came to around **130 € per month** for us. Source: [chatgpt.com/codex/pricing](https://chatgpt.com/de-DE/codex/pricing/?type=team).
 
-Damit ergeben sich die folgenden Kombinationen. Den Rechenweg zu den Kosten findest du in der Fußnote.[^rechenweg]
+This gives you the following combinations. The footnote shows how the costs were calculated.[^rechenweg]
 
-| | Einstieg: Codex-Basis klein | Empfohlen: Codex-Basis voll | Mit größerem Gehirn | Alles bei Claude |
+| | Entry level: small Codex base | Recommended: full Codex base | With a bigger brain | Everything in Claude |
 |---|---|---|---|---|
-| Zusammensetzung | 2 Standard-Plätze + Claude Pro + Google AI Pro + Ollama | 100-$-Platz + Standard-Platz + Claude Pro + Google AI Pro + Ollama | wie „voll“, aber Claude Max 5x | Claude Max 20x |
-| Netto pro Monat | **88,48 €** (jährlich 75,48 €) + Credits bei Bedarf | **rund 166 €** (130 € + 18 € + 18,48 €) | **rund 238 €** | **180 €** |
-| Codex-Kontingent | wie Plus | wie Pro 5x, Astra inklusive | wie Pro 5x | keines |
-| Claude-Kontingent | Pro | Pro | Max 5x | Max 20x |
-| AVV für Kundendaten | Codex | Codex | Codex | **keiner** |
+| Components | 2 Standard seats + Claude Pro + Google AI Pro + Ollama | 100-$ seat + Standard seat + Claude Pro + Google AI Pro + Ollama | same as “full”, but with Claude Max 5x | Claude Max 20x |
+| Monthly cost excluding VAT | **88,48 €** (75,48 € with annual billing) + credits as needed | **around 166 €** (130 € + 18 € + 18,48 €) | **around 238 €** | **180 €** |
+| Codex allowance | same as Plus | same as Pro 5x, Astra included | same as Pro 5x | none |
+| Claude allowance | Pro | Pro | Max 5x | Max 20x |
+| DPA for customer data | Codex | Codex | Codex | **none** |
 
-Soll auch Claude Kundendaten sehen, kommt zum Vergleich Claude Team hinzu. Für Claude Team besteht ein AVV. Mit 1 Premium- + 1 Standard-Platz kostet es 126,27 € monatlich bzw. 108 € jährlich. Zusammen mit 2 Standard-Codex-Plätzen und Google AI Pro sind das 196,75 € monatlich bzw. 168,48 € jährlich.
+If Claude also needs to receive customer data, add Claude Team to the comparison. Claude Team has a DPA. With 1 Premium + 1 Standard seat, it costs 126,27 € with monthly billing or 108 € with annual billing. Together with 2 Standard Codex seats and Google AI Pro, that comes to 196,75 € with monthly billing or 168,48 € with annual billing.
 
-[^rechenweg]: Rechenweg: Ein Standard-Platz kostet 26 € monatlich / 21 € jährlich. Die 130 € stammen aus der realen Rechnung für 1 Business-100-$-Platz + 1 Standard-Platz. Claude Pro: 18/15 €; Max 5x: 90 €; Max 20x: 180 € (200 US-$, Euro-Preis aus dem Verhältnis 100/200 $ zu 90 €). Google AI Pro: 21,99 € brutto = 18,48 € netto. Claude Team Premium: 105,23/90 €, Standard: 21,04/18 €. Die Rechnung für die größere Kombination lautet: 238 € = 130 + 90 + 18,48.
+[^rechenweg]: Calculation: A Standard seat costs 26 € with monthly billing / 21 € with annual billing. The 130 € comes from the actual bill for 1 Business-100-$ seat + 1 Standard seat. Claude Pro: 18/15 €; Max 5x: 90 €; Max 20x: 180 € (200 US-$, euro price derived from the ratio of 100/200 $ to 90 €). Google AI Pro: 21,99 € including VAT = 18,48 € excluding VAT. Claude Team Premium: 105,23/90 €, Standard: 21,04/18 €. The calculation for the larger combination is: 238 € = 130 + 90 + 18,48.
 
-Quellen (Stand 03.10.2026): [claude.com/pricing](https://claude.com/pricing), [chatgpt.com/pricing](https://chatgpt.com/pricing), [one.google.com](https://one.google.com). Preise ändern sich. Prüfe sie vor dem Abschluss selbst.
+Sources (as of 03.10.2026): [claude.com/pricing](https://claude.com/pricing), [chatgpt.com/pricing](https://chatgpt.com/pricing), [one.google.com](https://one.google.com). Prices change. Check them yourself before subscribing.
 
-## 3. Datenschutz: welcher Tarif darf Kundendaten sehen?
+## 3. Data privacy: which plan can receive customer data?
 
-Neben dem Preis zählt, welche Daten du mit einem Dienst verarbeiten willst. Die Tabelle stellt dafür die Trainingseinstellungen und den AVV der einzelnen Tarife gegenüber.
+Besides price, consider which data you want to process with a service. The table compares the training settings and DPAs of the individual plans.
 
-| Tarif | Training mit deinen Daten | AVV (Art. 28 DSGVO) | Für Kundendaten |
+| Plan | Training on your data | DPA (Art. 28 GDPR) | For customer data |
 |---|---|---|---|
-| ChatGPT Business | nein (Standard) | ja, online abschließen: [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) | **ja** |
-| ChatGPT Plus / Pro | ja, abschaltbar | nein | nein |
-| Claude Pro / Max | ja, abschaltbar | nein | nein |
-| Claude Team | nein (Standard) | ja (kommerzielle Bedingungen) | ja |
-| Google AI Pro | ja („Gemini-Apps-Aktivität“), abschaltbar | nein | nein |
-| Ollama lokal | entfällt | entfällt | ja |
+| ChatGPT Business | no (default) | yes, complete online: [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) | **yes** |
+| ChatGPT Plus / Pro | yes, can be disabled | no | no |
+| Claude Pro / Max | yes, can be disabled | no | no |
+| Claude Team | no (default) | yes (commercial terms) | yes |
+| Google AI Pro | yes (“Gemini-Apps-Aktivität”), can be disabled | no | no |
+| Ollama locally | not applicable | not applicable | yes |
 
-Für das Setup mit Claude Pro/Max und Google AI Pro heißt das: Du verarbeitest Kunden- und Personendaten nur mit Codex Business oder lokal. Claude Pro/Max und Gemini gibst du Aufgaben, die sich ohne Kundendaten vollständig beschreiben lassen. Schalte das Training trotzdem überall ab. Die Einstellungen dafür folgen in Abschnitt 4.
+For the setup with Claude Pro/Max and Google AI Pro, this means you only process customer and personal data with Codex Business or locally. Give Claude Pro/Max and Gemini tasks that can be fully described without customer data. Disable training everywhere regardless. The settings are covered in section 4.
 
-## 4. Konten einrichten (Schritt für Schritt)
+## 4. Setting up accounts (step by step)
 
-Wenn du deine Tarife gewählt hast, richtest du die Dienste nacheinander ein. Zu jedem Dienst findest du die Anmeldung, die benötigten Werkzeuge und die passenden Vorlagen aus dem Kit.
+Once you have chosen your plans, set up the services one by one. For each service, you will find the sign-in steps, the tools you need and the matching templates from the kit.
 
-### 4.1 ChatGPT Business und Codex (die Basis)
+### 4.1 ChatGPT Business and Codex (the base)
 
-Beginne mit deinem Business-Konto und dem AVV. Danach installierst du Codex, übernimmst die Profile und prüfst mit den Testbefehlen, welches Modell startet.
+Start with your Business account and the DPA. Then install Codex, copy the profiles and use the test commands to check which model starts.
 
-1. [chatgpt.com/pricing](https://chatgpt.com/pricing) → „Business und Enterprise“ → „Loslegen“. Mindestens 2 Plätze; Zahlung per Kredit- oder Debitkarte; monatlich oder jährlich.
-2. Zweite Person einladen (oder zweiten eigenen Zugang für Automationen).
-3. AVV abschließen: [openai.com/policies/data-processing-addendum](https://openai.com/policies/data-processing-addendum/) (braucht die Organization ID aus den Workspace-Einstellungen).
-4. Codex installieren:
+1. [chatgpt.com/pricing](https://chatgpt.com/pricing) → “Business und Enterprise” → “Loslegen”. At least 2 seats; payment by credit or debit card; monthly or annual billing.
+2. Invite a second person (or use a second account of your own for automations).
+3. Complete the DPA: [openai.com/policies/data-processing-addendum](https://openai.com/policies/data-processing-addendum/) (requires the Organization ID from the Workspace-Einstellungen).
+4. Install Codex:
    - macOS/Linux: `curl -fsSL https://chatgpt.com/codex/install.sh | sh`
    - Windows (PowerShell): `powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"`
-5. Anmelden: `codex login` → „Sign in with ChatGPT“ mit dem Business-Konto.
-6. Modelle und Profile: [`advanced/codex/config.toml.example`](../advanced/codex/config.toml.example), [`astra.config.toml`](../advanced/codex/astra.config.toml), [`luna.config.toml`](../advanced/codex/luna.config.toml) nach `~/.codex/` kopieren.
-7. Arbeitsanweisung: [`advanced/codex/AGENTS.example.md`](../advanced/codex/AGENTS.example.md) als `~/.codex/AGENTS.md`.
-8. Test: `codex exec "Antworte nur mit ok"` und `codex exec -p astra "Antworte nur mit ok"`; im Kopf der Ausgabe steht das Modell.
+5. Sign in: `codex login` → “Sign in with ChatGPT” using the Business account.
+6. Models and profiles: copy [`advanced/codex/config.toml.example`](../advanced/codex/config.toml.example), [`astra.config.toml`](../advanced/codex/astra.config.toml), [`luna.config.toml`](../advanced/codex/luna.config.toml) to `~/.codex/`.
+7. Working instructions: use [`advanced/codex/AGENTS.example.md`](../advanced/codex/AGENTS.example.md) as `~/.codex/AGENTS.md`.
+8. Test: `codex exec "Antworte nur mit ok"` and `codex exec -p astra "Antworte nur mit ok"`; the model is shown at the top of the output.
 
-### 4.2 Claude Pro und Claude Code (das Gehirn)
+### 4.2 Claude Pro and Claude Code (the brain)
 
-Als Nächstes richtest du Claude für Planung und Prüfung ein. Schalte das Training ab und übernimm die Regeln für die Arbeit ohne Kundendaten. Die Hook-Einstellungen folgen nach der Kontoeinrichtung.
+Next, set up Claude for planning and review. Disable training and copy the rules for working without customer data. The hook settings follow after the account setup.
 
-1. [claude.ai](https://claude.ai) → Konto anlegen → Upgrade auf **Pro** (später bei Bedarf **Max 5x**).
-2. Training abschalten: Profil unten links → Settings → Privacy → „Help improve our AI models“ aus.
-3. Claude Code installieren:
+1. [claude.ai](https://claude.ai) → create an account → upgrade to **Pro** (later to **Max 5x** if needed).
+2. Disable training: Profil unten links → Settings → Privacy → turn off “Help improve our AI models”.
+3. Install Claude Code:
    - macOS/Linux: `curl -fsSL https://claude.ai/install.sh | bash`
    - Windows (PowerShell): `irm https://claude.ai/install.ps1 | iex`
-4. Anmelden: `claude` starten (oder `/login`) und mit dem Pro-Konto bestätigen.
-5. Regeln: [`advanced/claude/CLAUDE.snippet.md`](../advanced/claude/CLAUDE.snippet.md) in `~/.claude/CLAUDE.md` übernehmen.
-6. Datenschutz-Hook im Modus „Gehirn“ einrichten (Abschnitt 5).
+4. Sign in: start `claude` (or `/login`) and confirm with the Pro account.
+5. Rules: add [`advanced/claude/CLAUDE.snippet.md`](../advanced/claude/CLAUDE.snippet.md) to `~/.claude/CLAUDE.md`.
+6. Set up the privacy hook in “brain” mode (section 5).
 
-### 4.3 Google AI Pro und Antigravity-CLI (Recherche)
+### 4.3 Google AI Pro and Antigravity-CLI (research)
 
-Für Recherche und visuelle Aufgaben richtest du Google AI Pro und die Antigravity-CLI ein. Mit dem abschließenden Test rufst du das Recherche-Werkzeug auf.
+For research and visual tasks, set up Google AI Pro and the Antigravity-CLI. The final test runs the research tool.
 
-1. [one.google.com](https://one.google.com) → Google AI Pro abschließen.
-2. Training abschalten: [myactivity.google.com/product/gemini](https://myactivity.google.com/product/gemini) → „Aktiviert“ → „Deaktivieren“.
-3. CLI installieren:
+1. [one.google.com](https://one.google.com) → subscribe to Google AI Pro.
+2. Disable training: [myactivity.google.com/product/gemini](https://myactivity.google.com/product/gemini) → “Aktiviert” → “Deaktivieren”.
+3. Install the CLI:
    - macOS/Linux: `curl -fsSL https://antigravity.google/cli/install.sh | bash`
    - Windows (PowerShell): `irm https://antigravity.google/cli/install.ps1 | iex`
-4. Anmelden: `agy` einmal starten, Browser-Anmeldung mit dem Google-Konto.
-5. Recherche-Werkzeug: [`advanced/tools/gemini-research`](../advanced/tools/gemini-research) nach `~/.local/bin/` kopieren, ausführbar machen. Test: `gemini-research "Aktuelle stabile Python-Version mit Quelle" -w 40`.
+4. Sign in: start `agy` once, sign in through the browser with your Google account.
+5. Research tool: copy [`advanced/tools/gemini-research`](../advanced/tools/gemini-research) to `~/.local/bin/` and make it executable. Test: `gemini-research "Aktuelle stabile Python-Version mit Quelle" -w 40`.
 
-### 4.4 Ollama und docling (lokal, kostenlos)
+### 4.4 Ollama and docling (local, free)
 
-Zum Schluss kommen die lokalen Werkzeuge dazu. Mit docling wandelst du Dokumente in Markdown um; Ollama und der Verdichter bereiten lange Inhalte auf deinem Rechner auf.
+Finally, add the local tools. Use docling to convert documents to Markdown; Ollama and the summarizer prepare long documents on your computer.
 
-1. Ollama installieren: macOS `curl -fsSL https://ollama.com/install.sh | sh`, Windows `irm https://ollama.com/install.ps1 | iex` (oder Installer von [ollama.com](https://ollama.com)).
-2. Modell laden: `ollama pull gemma4:12b` (braucht rund 8 GB Arbeitsspeicher frei).
-3. docling für PDFs/DOCX/PPTX → Markdown: `uv tool install docling` (oder `pip install docling`), Aufruf `docling datei.pdf --to md`.
-4. Verdichter: [`advanced/tools/lokal-zusammenfassen`](../advanced/tools/lokal-zusammenfassen) nach `~/.local/bin/`, braucht `pip install openpyxl` für Excel. Test mit einer CSV: `lokal-zusammenfassen --nur-text test.csv`.
+1. Install Ollama: macOS `curl -fsSL https://ollama.com/install.sh | sh`, Windows `irm https://ollama.com/install.ps1 | iex` (or use the installer from [ollama.com](https://ollama.com)).
+2. Download the model: `ollama pull gemma4:12b` (needs around 8 GB of free memory).
+3. docling for PDFs/DOCX/PPTX → Markdown: `uv tool install docling` (or `pip install docling`), run `docling datei.pdf --to md`.
+4. Summarizer: copy [`advanced/tools/lokal-zusammenfassen`](../advanced/tools/lokal-zusammenfassen) to `~/.local/bin/`; requires `pip install openpyxl` for Excel. Test with a CSV: `lokal-zusammenfassen --nur-text test.csv`.
 
-## 5. Datenschutz technisch erzwingen
+## 5. Enforcing data privacy with technical checks
 
-Die Regeln aus den Anweisungsdateien ergänzt du durch einen technischen Check: [`advanced/hooks/privacy-guard.py`](../advanced/hooks/privacy-guard.py) prüft jeden Werkzeug-Aufruf, bevor er ausgeführt wird. Für Claude und Codex trägst du den Hook mit unterschiedlichen Einstellungen ein.
+Add a technical check to the rules in your instruction files: [`advanced/hooks/privacy-guard.py`](../advanced/hooks/privacy-guard.py) checks every tool call before it runs. Configure the hook with different settings for Claude and Codex.
 
-- In **Claude Code** mit `--brain`: sperrt Mail-, CRM- und Kalender-Werkzeuge und Kunden-Ordner, blockiert Mailadressen und IBANs in Übergaben an Gemini. Eintrag in `~/.claude/settings.json`:
+- In **Claude Code** with `--brain`: blocks email, CRM and calendar tools and customer folders, and blocks email addresses and IBANs in requests sent to Gemini. Entry in `~/.claude/settings.json`:
 
 ```json
 { "hooks": { "PreToolUse": [ { "matcher": "*", "hooks": [
   { "type": "command", "timeout": 15, "command": "python3 ~/.claude/hooks/privacy-guard.py --brain" } ] } ] } }
 ```
 
-- In **Codex** ohne `--brain` (Codex darf Kundendaten): blockiert nur Übergaben mit Personendaten an Gemini. Eintrag in `~/.codex/hooks.json`:
+- In **Codex** without `--brain` (Codex may receive customer data): only blocks requests containing personal data sent to Gemini. Entry in `~/.codex/hooks.json`:
 
 ```json
 { "hooks": { "PreToolUse": [ { "matcher": "*", "hooks": [
   { "type": "command", "timeout": 15, "command": "python3 ~/.codex/hooks/privacy-guard.py" } ] } ] } }
 ```
 
-Der Hook hat eine Grenze: Namen und Konditionen im Fließtext erkennt er nicht. Dafür gelten die Regeln in `CLAUDE.md` und `AGENTS.md`.
+The hook has a limit: it does not detect names or commercial terms in running text. Those are covered by the rules in `CLAUDE.md` and `AGENTS.md`.
 
-## 6. Token sparen: was wir gemessen haben
+## 6. Saving tokens: what we measured
 
-Wenn das Setup läuft, kannst du den Verbrauch an zwei Stellen beeinflussen: bei der Modellwahl und bei den Inhalten, die du dem Modell mitgibst. Die folgenden Punkte beruhen auf unseren Messungen und Tests.
+Once the setup is running, you can influence usage in two places: the model you choose and the content you send it. The following points come from our measurements and tests.
 
-- **Günstiges Standardmodell, teures nur gezielt:** In Codex kostet Astra ein Mehrfaches an Credits von Sol. Sol als Standard, Astra nur für Endfassungen.
-- **Denkaufwand „medium“** statt „high“ als Standard.
-- **Kurze Anweisungsdateien:** Jeder Modellaufruf schickt sie mit. Bei uns startete jeder Codex-Schritt mit rund 32.000 Token, bevor gearbeitet wurde.
-- **Jeder Schritt schickt den ganzen Verlauf erneut:** Erst Liste, dann gezielt öffnen; ein Thema pro Sitzung.
-- **PDFs nie als Bild einlesen:** erst `docling … --to md`, dann lesen oder lokal verdichten.
-- **Lokal verdichten:** Gemma 4 12B (ohne Denkmodus) fasste in unserem Test einen Vertrag und einen Mailverlauf fehlerfrei zusammen, in unter einer Minute pro Aufgabe auf einem Mac mini M4 Pro mit 24 GB.
-- **Zählen nie per Sprachmodell:** Drei lokale Modelle haben 84 Tabellenzeilen auf 64 bis 89 verzählt. `lokal-zusammenfassen` zählt Tabellen per Skript und gibt dem Modell nur die exakten Zahlen.
+- **An inexpensive default model, the expensive one only when needed:** In Codex, Astra costs several times as many credits as Sol. Use Sol as the default and Astra only for final drafts.
+- **Reasoning effort “medium”** instead of “high” as the default.
+- **Short instruction files:** Every model call includes them. In our setup, every Codex step started with around 32.000 tokens before any work was done.
+- **Every step sends the entire history again:** List first, then open selectively; one topic per session.
+- **Never read PDFs as images:** First `docling … --to md`, then read or summarize locally.
+- **Summarize locally:** In our test, Gemma 4 12B (without thinking mode) summarized a contract and an email thread without errors, in under a minute per task on a Mac mini M4 Pro with 24 GB.
+- **Never count with a language model:** Three local models miscounted 84 table rows as 64 to 89. `lokal-zusammenfassen` counts tables with a script and gives the model only the exact numbers.
 
-## 7. So steuerst du das Setup
+## 7. How to direct the setup
 
-Du kannst deine Aufgaben in Claude oder in Codex eingeben. Mit den gleichen Sätzen steuerst du, welches Werkzeug übernimmt. Die Zuordnung findest du auch in [`AGENTS.example.md`](../advanced/codex/AGENTS.example.md):
+You can enter your tasks in Claude or Codex. Use the same phrases to direct which tool takes over. You will also find the assignments in [`AGENTS.example.md`](../advanced/codex/AGENTS.example.md):
 
-| Du sagst | Wer übernimmt |
+| You say | Who takes over |
 |---|---|
-| „Recherchier …“ | Gemini über `gemini-research` |
-| „Fass das PDF zusammen“ | lokal: docling + `lokal-zusammenfassen` |
-| „Schreib dem Kunden …“ | Codex (Endfassung `-p astra`) |
-| „Plan das“, „Prüf meinen Code“ | Claude |
-| „Zähl …“ | Skript |
+| “Research …” | Gemini through `gemini-research` |
+| “Summarize this PDF” | locally: docling + `lokal-zusammenfassen` |
+| “Write to the customer …” | Codex (final draft `-p astra`) |
+| “Plan this”, “Review my code” | Claude |
+| “Count …” | Script |
 
-## 8. Wann lohnt sich was?
+## 8. Which option is worth it for you?
 
-Für deine Auswahl sind vor allem drei Fragen entscheidend: Arbeitest du mit Kundendaten, nutzt du Codex den ganzen Tag und reicht dir das Claude-Kontingent? Daraus ergeben sich die folgenden Varianten.
+Your choice mainly depends on three questions: Do you work with customer data, do you use Codex all day, and is your Claude allowance sufficient? These lead to the following options.
 
-- **Solo, Kundendaten im Spiel, knappes Budget:** Codex-Basis klein (2 Standard-Plätze) mit Claude Pro; Astra nur sparsam.
-- **Codex als Arbeitstier für den ganzen Tag:** ein 100-US-$-Platz plus ein Standard-Platz, dazu Claude Pro: günstiger als Claude Max 20x, mit AVV für Kundendaten.
-- **Claude Pro reicht als Gehirn nicht:** Claude Max 5x statt Pro.
-- **Kleines Team, Claude soll auch Kundendaten sehen:** Claude Team statt Pro/Max.
-- **Keine Kundendaten, nur eigene Projekte:** Claude Max 20x allein ist bequem, aber teurer als die Codex-Basis.
+- **Solo, working with customer data, tight budget:** Small Codex base (2 Standard seats) with Claude Pro; use Astra sparingly.
+- **Codex as your workhorse throughout the day:** A 100-US-$ seat plus a Standard seat, alongside Claude Pro: less expensive than Claude Max 20x, with a DPA for customer data.
+- **Claude Pro is not enough as the brain:** Claude Max 5x instead of Pro.
+- **Small team, Claude also needs to receive customer data:** Claude Team instead of Pro/Max.
+- **No customer data, only your own projects:** Claude Max 20x on its own is convenient, but more expensive than the Codex base.

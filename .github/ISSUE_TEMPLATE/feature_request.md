@@ -1,15 +1,15 @@
 ---
-name: Idee / Verbesserung
-about: Ein Skill, Agent, Doc oder Workflow, der im Kit fehlt
-title: "[Idee] "
+name: Feature request
+about: A skill, agent, doc, or workflow you would like to see in the kit
+title: "[Idea] "
 labels: enhancement
 ---
 
-**Was fehlt dir?**
-Welcher Skill / Agent / welches Doc oder Pattern würde das Kit besser machen?
+**What is missing?**
+Which skill, agent, doc, or pattern would improve the kit?
 
-**Wofür brauchst du das?**
-Der konkrete Fall, in dem dir das geholfen hätte.
+**What would you use it for?**
+Describe a specific situation where it would have helped.
 
-**Hast du schon was?**
-Wenn du eine eigene Lösung hast: gern als PR — MIT, mach damit was du willst.
+**Have you already built something?**
+If you have your own solution, feel free to submit a PR. The kit uses MIT; you are welcome to build on it.

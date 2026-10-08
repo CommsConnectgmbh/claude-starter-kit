@@ -1,53 +1,56 @@
-# Das mentale Modell
+[Deutsch](01-getting-started.de.md) · **English**
 
-Bevor du tiefer einsteigst, lerne diese 4 Begriffe. Anfänger verwechseln sie ständig.
+# The mental model
 
-| Begriff | Wo es lebt | Was es macht | Wann es greift |
+Before you go further, learn these 4 terms. Beginners often mix them up.
+
+| Term | Where it lives | What it does | When it applies |
 |---|---|---|---|
-| **CLAUDE.md** | Im Wurzelverzeichnis deines Projekts | Projekt-spezifische Regeln (Stack, Konventionen, "mach nicht X") | Jeder Turn — Claude liest die Datei automatisch |
-| **Auto-Memory** | `~/.claude/projects/.../memory/` | Sachen die zwischen Conversations bestehen sollen (wer du bist, deine Präferenzen) | Claude schreibt + liest automatisch |
-| **Skills** | `~/.claude/skills/<name>/SKILL.md` | Wiederverwendbare Workflows (`/council`, `/verify`, etc.) | Wenn du den Slash-Command tippst oder wenn die Description matched |
-| **Agents** | `~/.claude/agents/<name>.md` | Spezialisierte Sub-Claudes mit eigenem System-Prompt und eigener Tool-Auswahl | Wenn die Description zur Frage passt — Claude delegiert |
+| **CLAUDE.md** | Your project's root directory | Project-specific rules (stack, conventions, "don't do X") | Every turn: Claude reads the file automatically |
+| **Auto-Memory** | `~/.claude/projects/.../memory/` | Information that should persist between conversations (who you are, your preferences) | Claude writes and reads it automatically |
+| **Skills** | `~/.claude/skills/<name>/SKILL.md` | Reusable workflows (`/council`, `/verify`, etc.) | When you type the slash command or the description matches |
+| **Agents** | `~/.claude/agents/<name>.md` | Specialized Claude subagents with their own system prompt and tool selection | When the description matches the question, Claude delegates |
 
-Plus eine fünfte Sache:
+There is also a fifth piece:
 
-| Begriff | Wo es lebt | Was es macht |
+| Term | Where it lives | What it does |
 |---|---|---|
-| **settings.json** | `~/.claude/settings.json` | Konfiguriert die Runtime (Theme, Permission-Mode, Plugins) — nicht das Verhalten |
+| **settings.json** | `~/.claude/settings.json` | Configures the runtime (theme, permission mode, plugins), rather than behavior |
 
-## Was wann benutzen
+## Which one to use
 
-**Du arbeitest neu an einem Projekt** → schreib eine `CLAUDE.md`. Schon nach 5 Minuten Pflege spart sie dir später Stunden.
+**Starting work on a new project?** Write a `CLAUDE.md`. Even 5 minutes spent maintaining it can save you hours later.
 
-**Du erklärst Claude was über dich** → das landet automatisch in Memory. Du musst nichts manuell tun. Wenn du was korrigieren willst: einfach sagen "vergiss X", "X war falsch, richtig ist Y".
+**Telling Claude something about yourself?** It goes into memory automatically. You do not need to do anything manually. To correct something, just say "forget X" or "X was wrong; the correct answer is Y."
 
-**Du machst regelmäßig dieselbe Art Aufgabe** → das ist ein Skill-Kandidat. Beispiel: jedes Mal wenn du eine PR review willst, machst du dieselben 4 Schritte. Schreib ein `code-review` Skill.
+**Doing the same kind of task regularly?** That is a candidate for a skill. For example, if every PR review follows the same 4 steps, write a `code-review` skill.
 
-**Du brauchst einen Experten für ein Fachgebiet** → das ist ein Agent. Beispiel: Steuerrecht-Recherche braucht andere Tools (WebFetch ja, Bash nein) und einen ganz anderen System-Prompt (Quellenpflicht, Disclaimer). Das gehört nicht in den Haupt-Claude rein.
+**Need an expert in a particular field?** Use an agent. Tax law research, for example, needs different tools (WebFetch yes, Bash no) and a different system prompt (source requirements, disclaimer). Keep that separate from your main Claude session.
 
-## Was NICHT memory ist
+## What does not belong in memory
 
-Memory ist nicht für:
-- Code-Konventionen — die gehören in `CLAUDE.md`
-- Bug-Fix-Rezepte — der Fix ist im Code, der Commit-Message hat den Kontext
-- Aktuelle Aufgaben — die sind ephemer
-- Sachen die aus `git log` ablesbar sind
+Memory is not for:
 
-Wenn dein Memory-Ordner mit Müll volläuft, hast du wahrscheinlich Sachen drin die in `CLAUDE.md` gehören.
+- Code conventions: put those in `CLAUDE.md`.
+- Bug fix recipes: the fix is in the code, and the commit message provides context.
+- Current tasks: they are temporary.
+- Information you can get from `git log`.
 
-## Permission-Modi (settings.json)
+If your memory folder fills up with clutter, it probably contains things that belong in `CLAUDE.md`.
 
-| Mode | Was es macht | Wann benutzen |
+## Permission modes (settings.json)
+
+| Mode | What it does | When to use it |
 |---|---|---|
-| `default` | Fragt bei jedem Shell-Befehl | Anfang — bis du Claude vertraust |
-| `acceptEdits` | Auto-allow für Datei-Edits, fragt bei Shell | Wenn du in einem Repo arbeitest und schnell iterieren willst |
-| `plan` | Read-only, keine Änderungen | Wenn du nur planen oder lesen willst |
-| `bypassPermissions` | Alles auto-allow | Nur in einem Wegwerf-Env oder wenn du wirklich weißt was du tust |
+| `default` | Asks before every shell command | At the start, until you trust Claude |
+| `acceptEdits` | Allows file edits automatically; asks before shell commands | When working in a repo and iterating quickly |
+| `plan` | Read-only, no changes | When you only want to plan or read |
+| `bypassPermissions` | Allows everything automatically | Only in a disposable environment or when you know what you are doing |
 
-Standard im `settings.example.json` dieses Repos ist `default`. Sicher für den Start.
+This repo's `settings.example.json` uses `default`. A safe starting point.
 
-## Was als nächstes lesen
+## Read next
 
-- [`02-memory-system.md`](02-memory-system.md) — Wie Memory wirklich funktioniert, was reinkommen soll und was nicht
-- [`03-skills-vs-agents.md`](03-skills-vs-agents.md) — Die 2-Minuten-Faustregel wann was
-- [`04-the-daily-loop.md`](04-the-daily-loop.md) — Der tägliche Arbeits-Loop: explore → plan → code → commit, Kontext-Disziplin, Verifizierung
+- [`02-memory-system.md`](02-memory-system.md): how memory works and what belongs in it.
+- [`03-skills-vs-agents.md`](03-skills-vs-agents.md): the 2-minute rule of thumb for choosing between them.
+- [`04-the-daily-loop.md`](04-the-daily-loop.md): the daily workflow, explore → plan → code → commit, context discipline, and verification.

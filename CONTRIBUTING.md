@@ -1,22 +1,22 @@
-# Mitmachen
+# Contributing
 
-Danke, dass du reinschaust. Das Kit lebt von echten Praxis-Ergänzungen.
+Thanks for taking a look. This kit grows through additions drawn from real work.
 
-**Bug gefunden?** Mach ein [Issue](../../issues/new/choose) auf — mit Befehl, Fehlermeldung und OS.
+**Found a bug?** Open an [issue](../../issues/new/choose) with the command, error message, and operating system.
 
-**Idee oder eigener Skill?** Auch ein Issue, oder direkt ein PR. Klein und fokussiert ist besser als groß und ungeprüft.
+**Have an idea or a skill to share?** Open an issue or submit a PR. Small, focused contributions are better than large, untested ones.
 
-## Ein Skill/Agent beitragen
+## Contribute a skill or agent
 
-- Ein Skill ist ein Ordner unter `skills/<name>/` mit einer `SKILL.md` (siehe die vorhandenen als Vorlage).
-- Ein Agent ist eine einzelne `.md` unter `agents/` mit Frontmatter (`name`, `description`, `tools`).
-- Deutsch als Default, Klartext, keine erfundenen Fakten. Domain-Agents (Recht/Steuer) immer mit Quellenpflicht + Disclaimer.
-- Additiv halten: nichts Bestehendes umbauen, ohne dass es nötig ist.
+- A skill is a folder under `skills/<name>/` containing a `SKILL.md`. Use the existing skills as examples.
+- An agent is a single `.md` file under `agents/` with frontmatter (`name`, `description`, `tools`).
+- Use English by default, write plainly, and do not invent facts. Domain agents for law or tax must require sources and include a disclaimer.
+- Keep changes additive: only rework existing material when necessary.
 
-## Bevor du einen PR aufmachst
+## Before opening a PR
 
-- `bash -n install.sh` (und geänderte `.sh`) — keine Syntaxfehler.
-- Referenzierst du eine neue Datei im README? Dann muss sie auch existieren.
-- Keine Secrets, keine echten Keys, keine Personendaten — alles über `.env`/Platzhalter.
+- Run `bash -n install.sh` and check any changed `.sh` files for syntax errors.
+- If you reference a new file in the README, make sure it exists.
+- No secrets, real keys, or personal data. Use `.env` or placeholders.
 
-Lizenz ist MIT. Was du beiträgst, steht unter derselben Lizenz.
+The license is MIT. Your contributions use the same license.

@@ -1,137 +1,137 @@
-**Deutsch** · [English](README.en.md)
+[Deutsch](README.de.md) · **English**
 
 # claude-starter-kit
 
-**Skills, Agents, CLAUDE.md-Vorlagen und ein 10-Minuten-Setup für Claude Code — auf Deutsch.**
+**Skills, agents, CLAUDE.md templates and a 10-minute setup for Claude Code. English first, with German versions of the README and setup guides.**
 
-Das ist das Fundament, mit dem ein einzelner Gründer neben seinem Hauptjob 12 echte Apps gebaut hat — als öffentliches Starter-Kit verpackt. Für alle, die [Claude Code](https://docs.claude.com/en/docs/claude-code) frisch installiert haben und ein gutes Setup wollen, ohne sich durch die Doku zu wühlen.
-
-*A German-language starter kit for Claude Code: skills, agents, CLAUDE.md templates, and a 10-minute setup — the foundation one founder used to ship 12 real apps alongside a day job.*
+This is the foundation one founder used to ship 12 real apps alongside a day job — packaged as a public starter kit. Built for anyone who freshly installed [Claude Code](https://docs.claude.com/en/docs/claude-code) and wants a good setup without digging through the docs. Everything below works in English, and the bundled `council` skill answers in whatever language you ask.
 
 [![CI](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/CommsConnectgmbh/claude-starter-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/CommsConnectgmbh/claude-starter-kit?style=social)](https://github.com/CommsConnectgmbh/claude-starter-kit/stargazers)
 
-![/council in Aktion — Claude spielt fünf Perspektiven auf eine Entscheidung durch und gibt eine klare Empfehlung](assets/council-demo.gif)
+![/council in action — Claude runs five perspectives on a decision and gives one clear recommendation](assets/council-demo-en.gif)
 
-*Eins der enthaltenen Skills: `/council` spielt fünf Perspektiven auf eine Entscheidung durch und gibt eine klare Empfehlung — echte Aufnahme.*
-
----
-
-**Du hast gerade [Claude Code](https://docs.claude.com/en/docs/claude-code) installiert. Was jetzt?**
-
-Mach diese drei Sachen und du hast ein gutes Setup. Zehn Minuten.
+*One of the bundled skills: `/council` runs five perspectives on a decision and gives one clear recommendation — real recording.*
 
 ---
 
-## 1. Eine CLAUDE.md in dein Projekt legen
+**You just installed [Claude Code](https://docs.claude.com/en/docs/claude-code). Now what?**
 
-`CLAUDE.md` ist eine kleine Datei im Wurzelverzeichnis deines Projekts. Claude liest sie bei jeder Anfrage automatisch. Da rein gehört: was das Projekt ist, welche Befehle es gibt (`npm run dev`, `pytest`, etc.), und was Claude NICHT tun soll.
+Do these three things and you have a solid setup. Ten minutes.
+
+---
+
+## 1. Put a CLAUDE.md into your project
+
+`CLAUDE.md` is a small file in your project's root. Claude reads it automatically on every request. It holds: what the project is, which commands exist (`npm run dev`, `pytest`, etc.), and what Claude must NOT do.
 
 ```bash
 git clone https://github.com/CommsConnectgmbh/claude-starter-kit.git
-cd dein-projekt
+cd your-project
 cp ../claude-starter-kit/templates/CLAUDE.example.md CLAUDE.md
 ```
 
-Dann öffne `CLAUDE.md` und fülle die Lücken (5 Minuten). Spar dir das in Zukunft, in jeder Conversation zu wiederholen.
+Then open `CLAUDE.md` and fill in the blanks (5 minutes). Saves you from repeating it in every conversation.
 
 ---
 
-## 2. Die Core-Skills installieren (ein Befehl)
+## 2. Install the core skills (one command)
 
 ```bash
 cd claude-starter-kit
-./install.sh            # interaktiv — zeigt Diffs bevor was überschrieben wird
-# oder komplett ohne Rückfragen:
+./install.sh            # interactive — shows diffs before anything is overwritten
+# or fully non-interactive:
 ./install.sh --yes
 ```
 
-Das installiert vier Skills + (auf Wunsch) die deutschen Recht/Steuer-Agents + ein sicheres `settings.json`-Template. Frische Maschine? Läuft sofort durch, nichts zu überschreiben.
+This installs four skills + (optionally) the German legal/tax agents + a safe `settings.json` template. Fresh machine? Runs straight through, nothing to overwrite.
 
-| Skill | Wofür |
+| Skill | For what |
 |---|---|
-| `council` | Entscheidung anstehend (Feature X bauen? Plan A oder B?)? Claude spielt 5 Perspektiven durch (Visionär, Kritiker, Kreativer, Skeptiker, Logiker), benennt die Widersprüche, gibt eine klare Empfehlung. Kein Rumdrucksen. |
-| `scrape` | Read-only Daten von einer Webseite als sauberes JSON ziehen. |
-| `skillify` | Einen erfolgreichen `/scrape` als wiederverwendbares Skript ablegen — beim nächsten Mal instant. |
-| `canary` | Nach dem Deploy die Live-URL überwachen und nur bei echten Regressionen alarmieren (relativ zur Baseline, nicht absolut). |
-| `hygiene` | Unsichtbare Unicode-Zeichen aus Text und Metadaten aus Bildern entfernen — vor dem Versand, vor dem Import, vor dem Upload. |
+| `council` | A decision on the table (build feature X? plan A or B?)? Claude runs 5 perspectives (Visionary, Critic, Creative, Skeptic, Logician), names the contradictions, and gives one clear recommendation. No hedging. |
+| `scrape` | Pull read-only data from a website as clean JSON. |
+| `skillify` | Turn a successful `/scrape` into a reusable script — instant next time. |
+| `canary` | After a deploy, watch the live URL and alert only on real regressions (relative to a baseline, not absolute). |
+| `hygiene` | Strip invisible Unicode from text and metadata from images — before sending, before importing, before uploading. |
 
-Probier's: tippe in Claude Code `/council Soll ich heute Sport machen?` — so sieht das aus ([GIF oben](#claude-starter-kit), [wie es entsteht](assets/council-demo/)).
+Try it: type `/council Should I ship my half-built feature to ten users now, or finish it first?` in Claude Code — this is what it looks like ([GIF above](#claude-starter-kit), [how it's made](assets/council-demo/)).
 
 <details>
-<summary><b>Noch ein Beispiel als Text</b> — andere Frage, aufklappen 👇</summary>
+<summary><b>Another example as text</b> — different question, click to expand 👇</summary>
 
 <br>
 
-> **Frage:** `/council Soll ich als Solo-Gründer meine Zeit diesen Monat ins nächste Feature oder in Marketing stecken?`
+> **Question:** `/council Should I spend this month building the next feature, or on marketing to get my first users?`
 
-**Entscheidung** — Soll ein Solo-Gründer diesen Monat die verfügbare Zeit ins nächste Feature oder in Marketing stecken?
+**Decision** — Spend this month building the next feature, or spend it on marketing to acquire the first users?
 
-**Visionär** — Marketing jetzt heißt: die ersten echten Nutzer, echtes Feedback, eine Story. Ein Feature mehr in einem Produkt, das keiner sieht, verpufft — Reichweite ist der Hebel, der in zwei Jahren über Leben oder Tod entscheidet.
+**Visionary** — Marketing now means your first ten users start feeding you real signal — every future feature gets built against reality instead of guesswork, compounding for years. First users also become case studies, referrals, and the story you tell the next hundred. The feature can wait; a live feedback loop can't.
 
-**Kritiker** — Die Frage tut so, als wären beide Optionen gleich weit. Sind sie nicht: „Feature" ist konkret und in deiner Hand, „Marketing" ist bei den meisten Gründern ein diffuses „irgendwie Reichweite" ohne Kanal, ohne Botschaft. Vages Marketing schlägt kein Feature.
+**Critic** — The framing assumes the product is already good enough to market — that's the unexamined claim. It also treats "a feature" and "marketing" as month-sized blocks, when both are really weeks of work plus indefinite iteration. And "first users" hides the real question: paying users, or just signups?
 
-**Kreativer** — Warum entweder/oder in Monatsblöcken? Bau das Feature *als* Marketing: ein einziges sichtbares Feature öffentlich in Build-in-Public-Posts entwickeln — ein Artefakt, das gleichzeitig Produkt und Reichweite ist.
+**Creative** — Why one whole month on either? A third path: spend one week shipping the feature *as* the marketing — build the smallest thing that gives you something worth talking about, then spend the rest reaching out to 30 hand-picked prospects. Or skip both and do 15 customer interviews first to learn whether the missing feature is even the blocker to adoption.
 
-**Skeptiker** — Ein Monat Marketing ohne fertiges Kern-Produkt zieht Nutzer an, die sofort wieder abspringen — und ein verbrannter erster Eindruck kommt teuer zurück. Reversibel ist beides, ein schlechter Launch nicht.
+**Skeptic** — Building a feature nobody has asked for is the most reversible-looking but most expensive mistake: a month gone, zero validation, and you still don't know if anyone wants it. Marketing's downside is smaller — worst case you get rejection, which is itself data. The asymmetry favors marketing.
 
-**Logiker** — Nüchtern: Wie viele zahlende Nutzer hast du? Bei 0 ist der Engpass Distribution, nicht Funktionsumfang — dann bringt Feature Nr. n+1 mathematisch 0 × Nutzen. Erst wenn Nutzer da sind und an einer fehlenden Funktion scheitern, dreht sich die Rechnung.
+**Logician** — With zero users, feature-value is unmeasurable — you have no denominator. Marketing produces a countable output (conversations, signups, conversion rate) within the month; building does not. One number you can compute beats one you can't.
 
-**Konflikt** — Visionär und Kritiker stehen frontal: „Reichweite ist alles" vs. „dein Marketing ist zu vage, um was zu bringen." Der Logiker entscheidet den Streit über eine einzige Zahl — die aktuelle Nutzerzahl.
+**Conflict** — Visionary/Skeptic/Logician say ship-to-market now; Critic says the product may not be ready to market at all. That's the real fault line: is lack of a feature the reason nobody's signed up, or have you just never asked anyone?
 
-**Synthese** — Ich gehe mit dem Logiker und dem Kreativen, gegen den reinen Feature-Reflex. Bei fast keinem zahlenden Nutzer ist das Feature Selbstbeschäftigung; die Zeit muss in Distribution. Aber der Kritiker hat recht, dass unspezifisches Marketing wertlos ist — deshalb nicht „Marketing" abstrakt, sondern das eine Feature sichtbar in der Öffentlichkeit bauen, so dass Produktarbeit und Reichweite dasselbe werden.
+**Synthesis** — I side with the Skeptic and Logician over the Visionary's romance and the Critic's caution: with zero users, the binding constraint is *information*, and marketing is the only one of the two that produces measurable information this month. I reject building — it spends your scarcest asset (time before validation) on an unfalsifiable bet. I fold in the Creative's discipline: aim outreach at a specific, narrow prospect list, not broad noise.
 
-**Empfehlung** — Steck den Monat in *einen* konkreten Distributionskanal und bau dein nächstes Feature öffentlich darin — nicht ins stille Weiterprogrammieren.
+**Recommendation** — Spend this month on direct outreach to get your first users, and let their reactions decide the next feature.
 
-**Was diese Empfehlung umkippen würde**
-- Du hast bereits zahlende Nutzer, die konkret an einer fehlenden Funktion scheitern.
-- Ein verbindlicher Kunde/Deal hängt an genau diesem Feature.
-- Dir fehlt ein funktionierendes Kern-Produkt, das man überhaupt zeigen kann.
+**What would flip this recommendation**
+- You already have engaged users who are churning or blocked specifically by the missing feature.
+- The product genuinely cannot be demoed or onboarded without that feature (it's table-stakes, not enhancement).
+- You have prior evidence that marketing converts poorly *because* of that specific gap.
 
 </details>
 
-> Brauchst du nur einzelne? `cp skills/<name>/SKILL.md ~/.claude/skills/<name>/` reicht.
+> Only need individual ones? `cp skills/<name>/SKILL.md ~/.claude/skills/<name>/` is enough.
 
 ---
 
-## 3. Auto-Memory verstehen (5 Min lesen, kein Install)
+## 3. Understand auto-memory (5 min read, no install)
 
-Claude Code merkt sich automatisch Sachen über dich zwischen Conversations — wer du bist, wie du arbeitest, was deine Projekte sind. Das ist die unterschätzte Killer-Funktion.
+Claude Code automatically remembers things about you across conversations — who you are, how you work, what your projects are. It's the underrated killer feature.
 
-Lies kurz [`docs/02-memory-system.md`](docs/02-memory-system.md). Dann in deiner nächsten Conversation einfach Claude sagen: "Ich bin <Rolle>, arbeite hauptsächlich an <Projekt>, bevorzuge <Stil>." Es legt das automatisch ab und benutzt es ab dann immer.
-
----
-
-**Das war's. Du bist startklar.**
-
-Hat dir das einen Nachmittag Doku-Wühlen gespart? Ein ⭐ hilft anderen im DACH-Raum, das Kit zu finden.
+Skim [`docs/02-memory-system.md`](docs/02-memory-system.md). Then in your next conversation just tell Claude: "I'm a <role>, mostly work on <project>, prefer <style>." It stores that automatically and uses it from then on.
 
 ---
 
-## Was noch im Repo liegt (optional)
+**That's it. You're set up.**
 
-| Was | Wofür |
+Did this save you an afternoon of digging through docs? A ⭐ helps others find the kit.
+
+---
+
+## What else is in the repo (optional)
+
+> Note: most in-depth guides under `docs/` and the two domain agents are currently **German-only** (they're German legal/tax research agents). The skills, patterns and templates themselves are language-agnostic.
+
+| What | For what |
 |---|---|
-| [`docs/01-getting-started.md`](docs/01-getting-started.md) | Das mentale Modell hinter Claude Code (Settings vs CLAUDE.md vs Memory vs Skills vs Agents) |
-| [`docs/04-the-daily-loop.md`](docs/04-the-daily-loop.md) | **Wie du Claude durch echte Aufgaben fährst** — explore → plan → code → commit, Kontext-Disziplin, Verifizierung, Session-Übergabe |
-| [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | Wann Skills, wann Agents — die häufigste Verwechslung |
-| [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md) | **Apps, die sich aus ihrer Nutzung selbst reparieren** — synthetischer Nutzer + Fix-Agent, nächtlich, mit harten Sicherheits-Leitplanken |
-| [`docs/06-linear-issues.md`](docs/06-linear-issues.md) | **Claude an einen Issue-Tracker (Linear) hängen** — Funde sicher ablegen statt unbeaufsichtigt fixen; das Gating-Pattern |
-| [`docs/07-mcps.md`](docs/07-mcps.md) | **MCP-Übersicht** — die kuratierte Shortlist (Linear, Sentry, Supabase), Setup mit einer Zeile, Pairing mit Self-Heal |
-| [`docs/08-third-party-accounts.md`](docs/08-third-party-accounts.md) | **Welche Drittanbieter-Accounts du wofür brauchst** — Sign-up-Links, Free-Tier-Status, was das Kit minimal vs erweitert braucht |
-| [`docs/09-seo.md`](docs/09-seo.md) | **SEO mit einer Mess-Engine** — das `claude-seo`-Plugin sauber installieren (`/seo audit <url>`), die Python-Deps-Falle auf macOS umgehen, und welche Fixes wirklich Rankings bewegen |
-| [`docs/10-token-efficiency.md`](docs/10-token-efficiency.md) | **Token-Effizienz — was wirklich hilft, was Hype ist** — warum `CLAUDE.md` der echte Hebel ist, und wie du jedes „70× weniger Tokens"-Tool in 10 Minuten am eigenen Repo misst statt es zu glauben |
-| [`docs/11-advanced-setup.md`](docs/11-advanced-setup.md) | **Advanced Setup: Codex als Basis, Claude als Gehirn, Datenschutz sauber**: Kostenvergleich mit belegten Preisen, welcher Tarif Kundendaten sehen darf, Konten Schritt für Schritt einrichten, Datenschutz-Hook, Token sparen mit Messwerten |
-| [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Echte deutsche Recht- und Steuer-Recherche-Agenten** als Praxis-Beispiel wie ein Domain-Agent aufgebaut wird (Quellenpflicht, Disclaimer, Workflow) |
-| [`templates/memory/`](templates/memory/) | Beispiel wie Memory-Einträge aussehen sollten |
-| [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Doppelklick-Starter** für Mac (`.command`) + Windows (`.bat`) — Claude direkt im Skip-Permissions-Modus |
-| [`templates/upload-hardening/`](templates/upload-hardening/) | **Uploads absichern** — EXIF/GPS aus Bildern entfernen, bevor sie im Storage landen (TypeScript, ohne Abhängigkeiten, verlustfrei) |
-| [`install.sh`](install.sh) | One-Command-Installer für alles oben (`--yes`, `--with-pro`, `--no-agents`, `--with-launcher`) |
-| [`pro/skills/`](pro/skills/) | **Optionaler Pro-Layer**: 6 Skills gebundelt (`autoplan`, `spec`, `second-opinion`, `compliance`, `fal-ai`, `openai-image`) + 5 obra-Skills geklont |
-| [`pro/self-heal/`](pro/self-heal/) | **Lauffähiges Self-Healing**: synthetischer Playwright-Nutzer + Fix-PR-Agent + launchd/cron-Template |
+| [`docs/01-getting-started.md`](docs/01-getting-started.md) | The mental model behind Claude Code (Settings vs CLAUDE.md vs Memory vs Skills vs Agents) |
+| [`docs/04-the-daily-loop.md`](docs/04-the-daily-loop.md) | **How to drive Claude through real tasks** — explore → plan → code → commit, context discipline, verification, session handover |
+| [`docs/03-skills-vs-agents.md`](docs/03-skills-vs-agents.md) | When skills, when agents — the most common mix-up |
+| [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md) | **Apps that repair themselves from their own usage** — synthetic user + fix agent, nightly, with hard safety guardrails |
+| [`docs/06-linear-issues.md`](docs/06-linear-issues.md) | **Wire Claude to an issue tracker (Linear)** — file findings safely instead of fixing unattended; the gating pattern |
+| [`docs/07-mcps.md`](docs/07-mcps.md) | **MCP overview** — the curated shortlist (Linear, Sentry, Supabase), one-line setup, pairing with self-heal |
+| [`docs/08-third-party-accounts.md`](docs/08-third-party-accounts.md) | **Which third-party accounts you need for what** — sign-up links, free-tier status, minimal vs extended |
+| [`docs/09-seo.md`](docs/09-seo.md) | **SEO with a measuring engine** — install the `claude-seo` plugin cleanly (`/seo audit <url>`), dodge the macOS Python-deps trap, and which fixes actually move rankings |
+| [`docs/10-token-efficiency.md`](docs/10-token-efficiency.md) | **Token efficiency — what actually helps, what's hype** — why `CLAUDE.md` is the real lever, and how to measure any "70× fewer tokens" tool against your own repo in ten minutes instead of believing the benchmark |
+| [`docs/11-advanced-setup.md`](docs/11-advanced-setup.md) | **Advanced setup: Codex as your base, Claude as the brain, handling data privacy**: cost comparison with sourced prices, which plans can receive customer data, step-by-step account setup, privacy hook, token savings backed by measurements |
+| [`agents/legal-de.md`](agents/legal-de.md) + [`agents/tax-de.md`](agents/tax-de.md) | **Real German legal & tax research agents** as a worked example of how a domain agent is built (source discipline, disclaimer, workflow) |
+| [`templates/memory/`](templates/memory/) | Example of what memory entries should look like |
+| [`templates/desktop-launchers/`](templates/desktop-launchers/) | **Double-click launchers** for Mac (`.command`) + Windows (`.bat`) — Claude straight in skip-permissions mode |
+| [`templates/upload-hardening/`](templates/upload-hardening/) | **Harden uploads** — strip EXIF/GPS from images before they reach storage (TypeScript, dependency-free, lossless) |
+| [`install.sh`](install.sh) | One-command installer for everything above (`--yes`, `--with-pro`, `--no-agents`, `--with-launcher`) |
+| [`pro/skills/`](pro/skills/) | **Optional pro layer**: 6 bundled skills (`autoplan`, `spec`, `second-opinion`, `compliance`, `fal-ai`, `openai-image`) + 5 cloned obra skills |
+| [`pro/self-heal/`](pro/self-heal/) | **Runnable self-healing**: synthetic Playwright user + fix-PR agent + launchd/cron template |
 
-Wenn du die deutschen Agents einzeln installieren willst:
+To install the German agents individually:
 ```bash
 mkdir -p ~/.claude/agents
 cp agents/legal-de.md agents/tax-de.md ~/.claude/agents/
@@ -139,74 +139,74 @@ cp agents/legal-de.md agents/tax-de.md ~/.claude/agents/
 
 ---
 
-## Pro-Layer (optional)
+## Pro layer (optional)
 
-Schwerere Workflow-Skills, opt-in:
+Heavier workflow skills, opt-in:
 
 ```bash
-./install.sh --with-pro      # Core + Pro in einem
-# oder nur Pro:
+./install.sh --with-pro      # core + pro in one
+# or pro only:
 cd pro/skills && ./install-pro-skills.sh
 ```
 
-- **Gebundelt** (in diesem Repo, MIT):
-  - `autoplan`, `spec` (gstack-derived) — Plan durch Multi-Lens-Review; vage Idee → ausführbare Spec
-  - `second-opinion` — zweites Modell reviewt deinen Code adversarial: OpenAI Codex wenn eingeloggt, sonst kostenlos & lokal via Ollama
-  - `compliance` — Quartals-Audit-Pattern (Aikido + Supabase Advisors + Prowler)
-  - `fal-ai`, `openai-image` — direkter API-Zugriff für Marketing-Creative (BYO Key)
-- **Geklont** (obra/superpowers, MIT): `when-stuck`, `root-cause-tracing`, `inversion-exercise`, `dispatching-parallel-agents`, `subagent-driven-development`.
+- **Bundled** (in this repo, MIT):
+  - `autoplan`, `spec` (gstack-derived) — planning through multi-lens review; vague idea → executable spec
+  - `second-opinion` — second model adversarially reviews your code: OpenAI Codex when logged in, otherwise free & local via Ollama
+  - `compliance` — quarterly audit pattern (Aikido + Supabase Advisors + Prowler)
+  - `fal-ai`, `openai-image` — direct API access for marketing creative (BYO key)
+- **Cloned** (obra/superpowers, MIT): `when-stuck`, `root-cause-tracing`, `inversion-exercise`, `dispatching-parallel-agents`, `subagent-driven-development`.
 
-`autoplan`/`spec` rufen optionale Companion-Skills (Frontend-Design, ein unabhängiger Reviewer = `second-opinion`) — fehlen die, wird die Phase sauber übersprungen. Details: [`pro/skills/README.md`](pro/skills/README.md).
+`autoplan`/`spec` call optional companion skills (frontend design, an independent reviewer = `second-opinion`) — if they're missing, that phase is cleanly skipped. Details: [`pro/skills/README.md`](pro/skills/README.md).
 
-Außerdem im Pro-Layer: [`pro/dreaming/`](pro/dreaming/) — ein nächtlicher Memory-Curator, der deine Auto-Memory dedupliziert, veraltete Einträge findet und den Index synchron hält (launchd/cron-Template inklusive).
+Also in the pro layer: [`pro/dreaming/`](pro/dreaming/) — a nightly memory curator that dedupes your auto-memory, finds stale entries and keeps the index in sync (launchd/cron template included).
 
 ---
 
-## Self-Healing: Apps, die sich aus ihrer Nutzung reparieren (optional)
+## Self-Healing: apps that repair themselves from their usage (optional)
 
-Ein nächtlicher Loop, der echte Bugs in deinen Apps findet und Fix-PRs aufmacht — **ohne dass ein einziger echter Nutzer nötig ist**, und mit Leitplanken, die verhindern, dass etwas unbeaufsichtigt live geht.
+A nightly loop that finds real bugs in your apps and opens fix PRs — **without a single real user needed**, and with guardrails that stop anything from going live unattended.
 
 ```
-  synthetischer Nutzer   →   Fehler-Erfassung      →   Fix-Agent
-  (klickt Happy-Paths)       (Monitor + run.mjs)       (Claude Code → PR)
+  synthetic user       →   error capture         →   fix agent
+  (clicks happy paths)     (monitor + run.mjs)       (Claude Code → PR)
 ```
 
-- **Bau keinen schlechteren Sentry.** Für echten Traffic: einen echten Error-Monitor einbinden.
-- **Der eigentliche Hebel ist der synthetische Nutzer** — Playwright klickt jede Nacht die Hauptflows durch, fängt Console-/Page-Errors, fehlgeschlagene Requests, HTTP-5xx.
-- **Der Fix-Agent gehört dir:** Dry-Run per Default, gedeckelt pro Lauf, **öffnet PRs, mergt nie**, sensible Repos (echte Kunden/Billing) sind **issue-only**.
+- **Don't build a worse Sentry.** For real traffic: wire in a real error monitor.
+- **The real lever is the synthetic user** — Playwright clicks the main flows every night, catches console/page errors, failed requests, HTTP 5xx.
+- **The fix agent is yours:** dry-run by default, capped per run, **opens PRs, never merges**, sensitive repos (real customers/billing) are **issue-only**.
 
-Setup in [`pro/self-heal/README.md`](pro/self-heal/README.md), das Warum in [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md).
+Setup in [`pro/self-heal/README.md`](pro/self-heal/README.md), the why in [`docs/05-self-healing-apps.md`](docs/05-self-healing-apps.md).
 
 ```bash
 cd pro/self-heal && npm install && npx playwright install chromium
-node synthetic/run.mjs            # Funde nach synthetic/reports/
-node agent/fix.mjs                # DRY-RUN — zeigt nur, was es fixen würde
+node synthetic/run.mjs            # findings to synthetic/reports/
+node agent/fix.mjs                # DRY-RUN — only shows what it would fix
 ```
 
 ---
 
-## MCPs: Claude an deine echten Tools anbinden (optional)
+## MCPs: connect Claude to your real tools (optional)
 
-[MCPs (Model Context Protocol servers)](https://modelcontextprotocol.io) sind, wie Claude Code mit Außenwelt spricht — Issue-Tracker, Error-Monitor, DB, CRM. Die kuratierte Shortlist, die zum Rest des Kits passt:
+[MCPs (Model Context Protocol servers)](https://modelcontextprotocol.io) are how Claude Code talks to the outside world — issue tracker, error monitor, DB, CRM. The curated shortlist that fits the rest of the kit:
 
 ```bash
-claude mcp add --transport sse  linear   https://mcp.linear.app/sse      # safe landing für „found, don't fix yet"
-claude mcp add --transport http sentry   https://mcp.sentry.dev/mcp      # echter Error-Monitor für Self-Heal
-claude mcp add --transport http supabase https://mcp.supabase.com/mcp    # Schema/SQL/Logs, falls dein Stack Supabase ist
+claude mcp add --transport sse  linear   https://mcp.linear.app/sse      # safe landing for "found, don't fix yet"
+claude mcp add --transport http sentry   https://mcp.sentry.dev/mcp      # real error monitor for self-heal
+claude mcp add --transport http supabase https://mcp.supabase.com/mcp    # schema/SQL/logs, if your stack is Supabase
 ```
 
-OAuth beim ersten Call, kein API-Key in `.env`. Nur die hinzufügen, die zum Stack passen. Details + Gating-Pattern: [`docs/07-mcps.md`](docs/07-mcps.md) + [`docs/06-linear-issues.md`](docs/06-linear-issues.md).
+OAuth on first call, no API key in `.env`. Only add the ones that fit your stack. Details + gating pattern: [`docs/07-mcps.md`](docs/07-mcps.md) + [`docs/06-linear-issues.md`](docs/06-linear-issues.md).
 
 ---
 
-## Desktop-Launcher: Doppelklick statt Terminal (optional)
+## Desktop launcher: double-click instead of terminal (optional)
 
-Keine Lust, jedes Mal ein Terminal aufzumachen? Im Kit liegt für beide Welten ein Doppelklick-Starter, der Claude direkt im Skip-Permissions-Modus startet (kein Nachfragen vor jedem Tool-Call — nur auf eigener, vertrauter Maschine sinnvoll).
+Don't feel like opening a terminal every time? The kit ships a double-click launcher for both worlds that starts Claude straight in skip-permissions mode (no prompt before each tool call — only sensible on your own, trusted machine).
 
 **Mac:**
 ```bash
 ./install.sh --with-launcher
-# legt ~/Desktop/start-claude.command an, ausführbar, fertig.
+# creates ~/Desktop/start-claude.command, executable, done.
 ```
 
 **Windows:**
@@ -214,14 +214,28 @@ Keine Lust, jedes Mal ein Terminal aufzumachen? Im Kit liegt für beide Welten e
 copy templates\desktop-launchers\start-claude.bat "%USERPROFILE%\Desktop\"
 ```
 
-Details + Troubleshooting: [`templates/desktop-launchers/README.md`](templates/desktop-launchers/README.md).
+Details + troubleshooting: [`templates/desktop-launchers/README.md`](templates/desktop-launchers/README.md).
 
 ---
 
-## Lizenz
+## Fact-checking (optional)
 
-MIT. Mach damit was du willst. Bug oder Verbesserung? Issue oder PR.
+[claude-faktencheck](https://github.com/CommsConnectgmbh/claude-faktencheck) is a separate, free sister repo under the MIT license that only requires `python3`: the `/faktencheck` skill requires sources for claims and quotes them before evaluating them, while the `faktenpruefer` agent provides an independent review with fresh context.
+The `paket-check` hook checks npm, PyPI, and crates.io before npm/pip/cargo installations to confirm that a package exists and is at least 30 days old; `beleg-stopp` stops when code has changed without being checked, or when success is claimed without verification.
+This does not guarantee protection against hallucinations.
+
+```bash
+git clone https://github.com/CommsConnectgmbh/claude-faktencheck && cd claude-faktencheck && ./install.sh
+```
+
+Details: [claude-faktencheck](https://github.com/CommsConnectgmbh/claude-faktencheck).
 
 ---
 
-Gebaut von [Rainer Roloff](https://rainerroloff.de) — mehr Projekte rund um Claude Code und ein „Schreib mir" auf [rainerroloff.de](https://rainerroloff.de).
+## License
+
+MIT. Do whatever you want with it. Bug or improvement? Issue or PR.
+
+---
+
+Built by [Rainer Roloff](https://rainerroloff.de) — more projects around Claude Code and a "get in touch" at [rainerroloff.de](https://rainerroloff.de).

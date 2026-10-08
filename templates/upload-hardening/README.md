@@ -1,79 +1,75 @@
-# Upload-Hardening
+# Upload hardening
 
-Ein Baustein, ein Problem: **Metadaten aus hochgeladenen Bildern entfernen, bevor sie im
-Storage landen.**
+One component for one problem: **remove metadata from uploaded images before they reach
+storage.**
 
-`strip-image-metadata.ts` ist abhängigkeitsfrei und läuft in Browser, Node und Deno.
-Damit deckt dieselbe Datei Server Actions, API-Routen, Edge Functions und Client-Uploads
-ab — kopieren, importieren, an jeder Upload-Stelle einhängen.
+`strip-image-metadata.ts` has no dependencies and runs in browsers, Node, and Deno.
+The same file covers Server Actions, API routes, Edge Functions, and client uploads.
+Copy it, import it, and call it at each upload point.
 
-## Warum das nicht optional ist
+## Why this matters
 
-Fotos aus Handykameras tragen GPS-Koordinaten, Kameramodell, Aufnahmezeit und oft ein
-eingebettetes Vorschaubild. Bei nutzergenerierten Inhalten ist das regelmäßig eine Wohn-
-oder Arbeitsadresse. Drei Konstellationen, in denen es konkret weh tut:
+Phone photos carry GPS coordinates, camera model, capture time, and often an embedded
+thumbnail. For user-generated content, the location is often a home or workplace.
+Three situations where this causes problems:
 
-- **Öffentliche Buckets.** Wird die Datei über eine öffentliche URL ausgeliefert, sind die
-  Koordinaten für jeden lesbar, der den Link hat.
-- **Weitergabe.** Belege an die Buchhaltung, Nachweise an Dritte — der Aufnahmeort reist mit.
-- **Zugeschnittene Bilder.** Das eingebettete EXIF-Thumbnail wird beim Zuschneiden von vielen
-  Werkzeugen nicht aktualisiert und zeigt weiterhin das ungeschnittene Original.
+- **Public buckets.** If a file is served through a public URL, anyone with the link can read
+  its coordinates.
+- **Sharing.** Receipts sent to accounting or evidence shared with third parties carry the
+  capture location with them.
+- **Cropped images.** Many tools do not update the embedded EXIF thumbnail when cropping,
+  so it still shows the uncropped original.
 
-Dazu kommt: EXIF- und XMP-Felder sind Freitext und werden von multimodalen Modellen
-mitgelesen. Läuft der Upload durch eine OCR- oder Vision-Kette, sind sie ein bekannter
-Träger für indirekte Prompt-Injection (OWASP LLM01, MITRE ATLAS AML.T0051.001).
+EXIF and XMP fields also contain free text that multimodal models read.
+If an upload passes through an OCR or vision pipeline, these fields are a known carrier
+for indirect prompt injection (OWASP LLM01, MITRE ATLAS AML.T0051.001).
 
-## Einbau
+## Integration
 
 ```ts
 import { stripImageMetadataForUpload } from '@/lib/strip-image-metadata';
 
 const bytes = stripImageMetadataForUpload(
   new Uint8Array(await file.arrayBuffer()),
-  'profilfoto',            // erscheint im Log, wenn etwas entfernt wurde
+  'profilfoto',            // appears in the log when metadata is removed
 );
 
 await storage.from('avatars').upload(pfad, bytes, { contentType: file.type });
 ```
 
-Das war es. `stripImageMetadata()` gibt zusätzlich zurück, *was* entfernt wurde, falls
-das protokolliert werden soll.
+That is all. `stripImageMetadata()` also returns *what* was removed if you want to log it.
 
-## Drei Eigenschaften, auf die es ankommt
+## Three properties that matter
 
-**Verlustfrei.** Es werden ausschließlich Metadaten-Segmente ausgeschnitten, die Pixeldaten
-bleiben Byte für Byte identisch. Kein Re-Encoding, kein Qualitätsverlust.
+**Lossless.** Only metadata segments are removed. Pixel data stays identical, byte for byte.
+No re-encoding or loss of quality.
 
-**Wirft nie.** Bei unerwartetem Byte-Layout kommt das Original unverändert zurück. Ein
-Upload darf nicht daran scheitern, dass eine Datei anders aufgebaut ist als erwartet —
-gerade wenn die Datei das einzige Exemplar eines Nachweises ist.
+**Never throws.** If the byte layout is unexpected, the original is returned unchanged.
+An upload must not fail because a file has an unexpected structure, especially when it
+is the only copy of a piece of evidence.
 
-**Die Orientation überlebt.** Das ist die Falle, in die man bei diesem Thema als Erstes
-tappt: Phone-Kameras speichern das Bild häufig liegend und legen die Drehung nur in
-EXIF-Tag `0x0112` ab. Wer das EXIF komplett entfernt, dreht jedes Hochformat-Foto quer.
-Diese Datei schreibt stattdessen ein minimales EXIF-Segment zurück, das nur dieses eine
-Tag trägt — 36 Byte statt oft mehrerer hundert. GPS, Make, Model, DateTime und MakerNote
-fallen trotzdem weg.
+**Preserves orientation.** This is an easy trap: phone cameras often store an image
+sideways and record its rotation only in EXIF tag `0x0112`. Removing EXIF entirely turns
+portrait photos sideways. This file writes back a minimal EXIF segment containing only
+that tag: 36 bytes rather than the usual several hundred. GPS, Make, Model, DateTime,
+and MakerNote are still removed.
 
-## Grenzen
+## Limits
 
-Nur JPEG und PNG werden bearbeitet. PDF, HEIC und WebP gehen unverändert durch, weil über
-dieselben Upload-Pfade in der Praxis auch Dokumente laufen und die auf keinen Fall
-angefasst werden dürfen. Wer HEIC absichern muss, konvertiert ohnehin vorher.
+Only JPEG and PNG are processed. PDF, HEIC, and WebP pass through unchanged because
+these upload paths also handle documents that must not be altered. If you need to
+sanitize HEIC, convert it first.
 
-Das ICC-Farbprofil bleibt erhalten, sonst verschieben sich die Farben. Es lässt sich per
-Option mitentfernen.
+The ICC color profile is preserved to avoid color shifts. An option lets you remove it too.
 
-## Bestandsdaten
+## Existing files
 
-Der Baustein wirkt ab Einbau. Was schon im Storage liegt, bleibt unberührt — dafür braucht
-es einen einmaligen Durchlauf über die vorhandenen Dateien. Sinnvoll ist dabei die
-Reihenfolge: erst nur analysieren und zählen, dann mit Sicherung schreiben, danach den
-Analyselauf wiederholen. Wenn der zweite Lauf nichts mehr findet, ist die Funktion
-nachweislich idempotent und der Bestand sauber.
+The component takes effect once integrated. Files already in storage remain untouched;
+those need a one-time pass over the existing collection. A useful sequence: analyze and
+count first, then write changes with a backup, then repeat the analysis. If the second
+pass finds nothing, you have verified idempotence and a clean collection.
 
-## Verwandt
+## Related
 
-Der Skill `hygiene` aus diesem Kit macht dasselbe für Text (unsichtbare Unicode-Zeichen)
-und bringt für Bilder eine Kommandozeilen-Fassung mit — praktisch für einmalige Läufe und
-für Dateien außerhalb der Anwendung.
+The kit's `hygiene` skill does the same for text (invisible Unicode characters) and includes
+a command-line version for images, useful for one-time passes and files outside the app.

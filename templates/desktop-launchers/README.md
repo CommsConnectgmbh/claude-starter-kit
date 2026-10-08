@@ -1,8 +1,8 @@
 # Desktop launchers
 
-Doppelklick-Starter für Claude Code — auf Mac und Windows.
+Double-click launchers for Claude Code on Mac and Windows.
 
-Idee: kein Terminal aufmachen, kein Befehl tippen. Icon auf dem Desktop, einmal klicken, Claude läuft im **Skip-Permissions-Modus** (fragt nicht vor jedem Tool-Call). Nur auf eigener, vertrauter Maschine sinnvoll — auf fremder Hardware niemals.
+The idea: no terminal to open, no command to type. Put the icon on your desktop, double-click it, and Claude starts in **skip-permissions mode** (without asking before every tool call). Use this only on a machine you own and trust, never on someone else's hardware.
 
 ## Mac (`start-claude.command`)
 
@@ -11,15 +11,15 @@ cp templates/desktop-launchers/start-claude.command ~/Desktop/
 chmod +x ~/Desktop/start-claude.command
 ```
 
-Erstes Mal: Rechtsklick → **Öffnen** (Gatekeeper-Warnung bestätigen). Danach reicht Doppelklick.
+The first time, right-click → **Open** and confirm the Gatekeeper warning. After that, double-clicking is enough.
 
-Variante mit fixem Projekt-Ordner:
+To use a fixed project folder:
 
 ```bash
 CLAUDE_LAUNCHER_WORKDIR=~/projekte/mein-projekt ~/Desktop/start-claude.command
 ```
 
-…oder die `WORKDIR`-Zeile direkt im `.command`-Skript anpassen.
+Or edit the `WORKDIR` line directly in the `.command` script.
 
 ## Windows (`start-claude.bat`)
 
@@ -27,22 +27,22 @@ CLAUDE_LAUNCHER_WORKDIR=~/projekte/mein-projekt ~/Desktop/start-claude.command
 copy templates\desktop-launchers\start-claude.bat "%USERPROFILE%\Desktop\"
 ```
 
-Doppelklick öffnet ein neues Command-Prompt-Fenster und startet Claude direkt.
+Double-clicking opens a new Command Prompt window and starts Claude directly.
 
-Variante mit fixem Projekt-Ordner: setze `CLAUDE_LAUNCHER_WORKDIR` vorher oder editiere die `WORKDIR`-Zuweisung im `.bat`.
+To use a fixed project folder, set `CLAUDE_LAUNCHER_WORKDIR` beforehand or edit the `WORKDIR` assignment in the `.bat` file.
 
-## Warum `--dangerously-skip-permissions`?
+## Why `--dangerously-skip-permissions`?
 
-Standardmäßig fragt Claude Code vor jedem nicht-allowlisteten Bash- oder MCP-Call nach. Beim aktiven Arbeiten an eigenen Projekten frisst das Tempo. Skip-Permissions = Claude darf alles, was du selbst dürftest. Auf fremder oder geteilter Hardware: weglassen. Im CI/CD: weglassen.
+By default, Claude Code asks before every Bash or MCP call that is not on the allowlist. That slows down active work on your own projects. Skip-permissions mode lets Claude do anything you could do yourself. Leave it off on someone else's hardware, shared machines, and in CI/CD.
 
-Wenn du gar nicht skippen, sondern nur weniger Prompts willst, gibt es im Kit `/fewer-permission-prompts` — analysiert deine Transcripts und schreibt eine gezielte Allowlist in `~/.claude/settings.json`.
+If you want fewer prompts without skipping permissions entirely, the kit includes `/fewer-permission-prompts`. It analyzes your transcripts and writes a targeted allowlist to `~/.claude/settings.json`.
 
 ## Troubleshooting
 
-**Mac: „Öffnen nicht möglich, weil unbekannter Entwickler".** Rechtsklick → Öffnen → Bestätigen. Einmalig.
+**Mac: cannot open the app because the developer is unidentified.** Right-click → Open → confirm. You only need to do this once.
 
-**Mac: Fenster öffnet, aber kein Input möglich.** Veraltete Claude-Version, die beim Init hängt. Update: `claude update` im Terminal.
+**Mac: the window opens, but you cannot type.** An outdated Claude version may hang during initialization. Run `claude update` in a terminal.
 
-**Windows: Fenster blitzt auf und schließt sofort.** `claude` ist nicht auf PATH. Prüfen mit `where claude` im Command-Prompt. Falls leer: Claude Code neu installieren / PATH-Eintrag setzen.
+**Windows: the window flashes and closes immediately.** `claude` is not on PATH. Run `where claude` in Command Prompt. If it returns nothing, reinstall Claude Code or add it to PATH.
 
-**Beide: `command not found: claude`.** Wie oben — PATH-Problem. Auf Mac liegt `claude` meist unter `~/.local/bin/` oder `/opt/homebrew/bin/`; sicherstellen, dass das in PATH ist.
+**Both: `command not found: claude`.** This is also a PATH issue. On Mac, `claude` is usually under `~/.local/bin/` or `/opt/homebrew/bin/`; make sure that directory is on PATH.

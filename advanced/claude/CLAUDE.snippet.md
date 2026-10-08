@@ -1,13 +1,13 @@
-# Modell-Setup (Vorlage für ~/.claude/CLAUDE.md)
+# Model setup (template for ~/.claude/CLAUDE.md)
 
-- Claude ist das Gehirn: Planung, Architektur, schwierige Fehlersuche, Prüfen von Codex-Arbeit.
-  Abo: Claude Pro; reicht das Kontingent nicht, Claude Max 5x.
-- Codex (ChatGPT Business) ist die Basis: Mails, Kundendaten, Texte, Routine-Code, Gegencheck
-  (`codex exec "Prüfe den Diff …"`). Autor und Prüfer sind nie dasselbe Modell.
-- Kunden- und Personendaten bekommt Claude nicht: Pro/Max ist ein Verbraucher-Abo ohne
-  Auftragsverarbeitungsvertrag. Der Hook `privacy-guard.py --brain` sperrt Mail-, CRM- und
-  Kalender-Werkzeuge sowie Kunden-Ordner. Aufgaben mit Kundenbezug gibst du an Codex.
-- Recherche ohne Personenbezug: `gemini-research "Auftrag"` (Google AI Pro, mit Quellen).
-- Lange Dokumente: `docling <datei> --to md`, dann `lokal-zusammenfassen` (Ollama, 0 Kosten, Daten bleiben lokal).
-- Zählen und Rechnen per Skript, nie per Sprachmodell.
-- Ein Thema, eine Sitzung; Subagents liefern nur Kondensate.
+- Claude is the brain: planning, architecture, difficult debugging, and reviewing Codex's work.
+  Subscription: Claude Pro; switch to Claude Max 5x if the allowance is insufficient.
+- Codex (ChatGPT Business) is the base: emails, customer data, writing, routine code, and independent review
+  (`codex exec "Review the diff …"`). The author and reviewer are never the same model.
+- Do not give Claude customer or personal data: Pro/Max is a consumer subscription without
+  a data processing agreement. The `privacy-guard.py --brain` hook blocks email, CRM, and
+  calendar tools as well as customer folders. Delegate customer-related tasks to Codex.
+- Research without personal data: `gemini-research "Task"` (Google AI Pro, with sources).
+- Long documents: `docling <file> --to md`, then `lokal-zusammenfassen` (Ollama, no cost, data stays local).
+- Count and calculate with scripts, never with a language model.
+- One topic per session; subagents return concise summaries only.

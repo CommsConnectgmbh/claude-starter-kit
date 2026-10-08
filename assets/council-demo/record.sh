@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Der Befehl ist echt, die Antwort ist verbatim die reale Ausgabe eines
-# vorherigen `claude -p '/council …'`-Laufs — nur in lesbarem Tempo abgespielt.
+# The command is real. The response is the verbatim output of an earlier
+# `claude -p '/council …'` run, replayed at a readable pace.
 export PS1=
 clear
 sleep 0.6
-printf '\033[1;36m~/mein-saas\033[0m $ '
+printf '\033[1;36m~/my-saas\033[0m $ '
 sleep 0.5
-cmd="claude -p '/council SaaS-Feature erst fertig bauen oder sofort an zehn Nutzer geben?'"
+cmd="claude -p '/council Should I finish the SaaS feature first or give it to ten users now?'"
 for ((i=0; i<${#cmd}; i++)); do printf '%s' "${cmd:$i:1}"; sleep 0.03; done
 sleep 0.5
 printf '\n'

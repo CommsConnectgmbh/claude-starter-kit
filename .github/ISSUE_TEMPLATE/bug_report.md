@@ -1,19 +1,19 @@
 ---
-name: Bug / etwas funktioniert nicht
-about: install.sh, ein Skill oder ein Doc läuft bei dir nicht wie beschrieben
+name: Bug report
+about: An installer, skill, or doc does not work as described
 title: "[Bug] "
 labels: bug
 ---
 
-**Was hast du gemacht?**
-Welchen Befehl / welchen Schritt aus dem README? (z. B. `./install.sh --with-pro`)
+**What did you do?**
+Which command did you run or which README step did you follow? (For example, `./install.sh --with-pro`.)
 
-**Was ist passiert?**
-Fehlermeldung oder unerwartetes Verhalten — gern die Terminal-Ausgabe.
+**What happened?**
+Include the error message or unexpected behavior, ideally with the terminal output.
 
-**Was hattest du erwartet?**
+**What did you expect?**
 
-**Umgebung**
+**Environment**
 - OS: (macOS / Linux / Windows)
-- Claude Code Version: (`claude --version`)
+- Claude Code version: (`claude --version`)
 - Shell: (zsh / bash / …)
